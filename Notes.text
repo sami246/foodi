@@ -1,0 +1,7 @@
+Initial Steps:
+    - Create a new project with expo init
+    - npm install @react-navigation/native
+    - npx expo install react-native-screens react-native-safe-area-context
+    - npm install @react-navigation/native-stack
+
+    - expo install firebase
