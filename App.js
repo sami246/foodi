@@ -13,9 +13,11 @@ export default function App() {
   return (
       <NavigationContainer>
           <Stack.Navigator>
+            {/* Authentification */}
               <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
               <Stack.Screen name="Register" component={RegisterScreen} />
-              <Stack.Screen options={{headerShown: false}} name="Home" component={MainContainer} />
+            {/* Main App */}
+              <Stack.Screen options={{headerShown: false}} name="MainContainer" component={MainContainer} />
           </Stack.Navigator>
       </NavigationContainer>
 

@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const NavBar = ({ navigation }) => {
     function handleSignOut(){
         signOut(auth).then(() => {
-          navigation.navigate('Login')
+          navigation.replace('Login')
         }).catch((error) => {
           alert(error.message)
         });

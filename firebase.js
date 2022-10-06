@@ -1,19 +1,20 @@
 import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 
 
 const firebaseConfig = {
-    name: "fire_base_auth_test",
-    apiKey: "AIzaSyARRcgerLjLUzQOz7l7mG0SJExGnAF4mp8",
-    authDomain: "fire-base-auth-276cc.firebaseapp.com",
-    projectId: "fire-base-auth-276cc",
-    storageBucket: "fire-base-auth-276cc.appspot.com",
-    messagingSenderId: "325079120900",
-    appId: "1:325079120900:web:376146e10166d9c2d0c951",
-}
+    apiKey: "AIzaSyAOarU5uFOgpRtJsPBk6qsHC3AEgaYYOLc",
+    authDomain: "foodi-562d0.firebaseapp.com",
+    projectId: "foodi-562d0",
+    storageBucket: "foodi-562d0.appspot.com",
+    messagingSenderId: "473160056235",
+    appId: "1:473160056235:web:b926d3fc732ec2471226ee",
+    measurementId: "G-FGFCB9TEGT"
+  };
 
 const app = initializeApp(firebaseConfig);
-
+const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 export { auth };

@@ -10,6 +10,9 @@ const RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     function handleRegister() {
+        console.log("auth", auth)
+        console.log("email", email)
+        console.log("password", password)
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 

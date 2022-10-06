@@ -14,7 +14,7 @@ const LoginScreen = ({ navigation }) => {
         // Use unsubscribe to leave from listener to save power
         const unsubscribe = auth.onAuthStateChanged(user => {
             if(user){
-                navigation.replace('Home')
+                navigation.replace('MainContainer')
             }
             })
             return unsubscribe;
@@ -22,6 +22,9 @@ const LoginScreen = ({ navigation }) => {
     
    
     function handleSignIn () {
+        console.log("auth", auth)
+        console.log("email", email)
+        console.log("password", password)
             signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
@@ -33,6 +36,7 @@ const LoginScreen = ({ navigation }) => {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
+                console.log(error)
                 alert(errorMessage)
             });
     }
