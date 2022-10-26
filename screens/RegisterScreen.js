@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
 import React, { useState } from 'react'
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
@@ -31,7 +31,7 @@ const RegisterScreen = ({ navigation }) => {
     }
 
   return (
-    <View style={styles.container} behavior='padding'>
+    <SafeAreaView style={styles.container} behavior='padding'>
         <View style = {styles.inputContainer}>
             {/* <TextInput 
                 placeholder='Name'
@@ -61,7 +61,7 @@ const RegisterScreen = ({ navigation }) => {
                 </TouchableOpacity>
 
         </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

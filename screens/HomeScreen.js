@@ -1,23 +1,35 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView,StatusBar } from 'react-native'
 import React from 'react'
 // import { getAuth, signOut, GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import { auth } from '../firebase';
 import NavBar from '../components/NavBar';
 import Posts from '../components/Posts';
-
+import TopPlacesCarousel from '../components/TopPlacesCarousel';
+import {colors, shadow, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/theme';
+import { TOP_PLACES, PLACES } from '../data';
+import List from '../components/List';
+import SectionHeader from '../components/SectionHeader';
 
 
 const HomeScreen = ({ navigation }) => {
-
+  
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
         <NavBar />
-        <View style={{flex: 10, backgroundColor: 'gray'}}>
-            <Text>THIS IS WHERE ALL THE CONTENT GOES </Text>
-
+        <View style={styles.contentContainer}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <Text style={styles.heading1}>Your Top Dishes</Text>
+              <TopPlacesCarousel list={TOP_PLACES}/>
+              <SectionHeader
+                title="Popular Trips"
+                buttonTitle="See All"
+                onPress={() => {}}
+              />
+              <List list={PLACES} />
+          </ScrollView>
         </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -28,7 +40,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    top: 30,
+    top: STATUS_BAR_HEIGHT,
   },
+  contentContainer : {
+    flex: 10
+  },
+  heading1 : {
+    fontSize: sizes.title,
+    fontWeight: 'bold',
+    marginLeft: spacing.l,
+    color: colors.primary
+  }
 
 })

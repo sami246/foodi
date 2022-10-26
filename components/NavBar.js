@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { signOut} from "firebase/auth";
 import { auth } from '../firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import {colors, shadow, sizes, spacing} from '../constants/theme';
 
 
-const NavBar = ({ navigation }) => {
+const NavBar = () => {
     function handleSignOut(){
         signOut(auth).then(() => {
           navigation.replace('Login')
@@ -13,13 +15,15 @@ const NavBar = ({ navigation }) => {
           alert(error.message)
         });
     }
+
+    const navigation = useNavigation();
     
     return (
         <View style={styles.navContainer}>
 
-            <Text style={styles.title}>Foodi</Text>
+            <Text style={styles.title} onPress={() => navigation.navigate('Home')}>Foodi</Text>
             <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-                <Ionicons name='log-out-outline' size={30} color='white' />
+                <Ionicons name='log-out-outline' size={25} color='white' />
             </TouchableOpacity>
         </View>
     )
@@ -30,36 +34,29 @@ export default NavBar
 const styles = StyleSheet.create({
     navContainer: {
       flexDirection: 'row',
-      flex: 1,
+      justifyContent: 'space-between',
+      height: '7%',
       width: '100%',
-      paddingLeft: 10,
-      paddingRight: 10,
-      margin: 5,
-      alignSelf: 'center',
+      paddingHorizontal: 10,
+      marginHorizontal: 5,
       alignItems: 'center',
-      alignContent: 'center',
+      backgroundColor: colors.lightGray,
     },
     title: {
-      flex: 4,
       justifyContent: 'flex-start',
-      color: 'blue',
-      fontSize: 30,
+      color: colors.primary,
+      fontSize: sizes.h1,
       fontWeight: 'bold'
     },
     button: {
-        backgroundColor: 'blue',
-        width: '10%',
-        padding: 5,
-        borderRadius: 8,
+        backgroundColor: colors.primary,
+        padding: spacing.xs,
+        borderRadius: 6,
         alignItems: 'center',
         justifyContent: 'center',
-        flex: 1,
-        height: '70%'
       },
       buttonText: {
-          color: 'white',
-          fontWeight: '600',
-          fontSize: 16,
+          color: colors.light,
           alignItems: 'center' 
       },
   

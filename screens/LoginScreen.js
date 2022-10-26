@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, SafeAreaView } from 'react-native'
 import React from 'react'
 import { useState, useEffect} from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -43,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
 
   
   return (
-        <View style={styles.container} behavior='padding'>
+        <SafeAreaView style={styles.container} behavior='padding'>
             <View style = {styles.titleContainer}>
                 <Text style={styles.title}>FOODI</Text>
             </View>
@@ -77,7 +77,7 @@ const LoginScreen = ({ navigation }) => {
                 </TouchableOpacity>
 
             </View>
-        </View>
+        </SafeAreaView>
 
   )
 }

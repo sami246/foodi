@@ -1,16 +1,14 @@
-import { View, Text } from 'react-native'
 import React from 'react'
-
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {colors, shadow, sizes, spacing} from '../constants/theme';
 // Screens
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import PostsScreen from '../screens/PostsScreen';
+import AddPostScreen from '../screens/AddPostScreen';
 
 const Tab = createBottomTabNavigator()
 
@@ -25,15 +23,15 @@ export default function MainContainer({navigation}) {
         <Tab.Navigator 
         initialRouteName={homeName}
         screenOptions ={({route}) => ({
-            tabBarActiveTintColor: "green",
-            tabBarInactiveTintColor: "gray",
+            tabBarActiveTintColor: colors.primary,
+            tabBarInactiveTintColor: colors.gray,
             tabBarLabelStyle: {
-                fontSize: 12,
+                fontSize: 10,
             },
             tabBarStyle: [
                 {
                 display: "flex",
-                padding: 3,
+                padding: 5,
                 }, null ],
             tabBarIcon: ({focused, color, size}) => {
                 let iconName;
@@ -59,10 +57,10 @@ export default function MainContainer({navigation}) {
         
         >
 
-            <Tab.Screen options={{headerShown: false}} name={homeName} component={HomeScreen}/>
-            <Tab.Screen options={{headerShown: false}} name={postsName} component={PostsScreen}/>
-            <Tab.Screen options={{headerShown: false}} name={profileName} component={ProfileScreen}/>
-            <Tab.Screen options={{headerShown: false}} name={settingsName} component={SettingsScreen}/>
+            <Tab.Screen options={{headerShown: false}} name={homeName} component={HomeScreen} navigation={navigation}/>
+            <Tab.Screen options={{headerShown: false}} name={postsName} component={PostsScreen} navigation={navigation}/>
+            <Tab.Screen options={{headerShown: false}} name={profileName} component={ProfileScreen} navigation={navigation}/>
+            <Tab.Screen options={{headerShown: false}} name={settingsName} component={SettingsScreen} navigation={navigation}/>
 
         </Tab.Navigator>
   )
