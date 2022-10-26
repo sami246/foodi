@@ -41,6 +41,7 @@ const TopPlacesCarousel = ({list}) => {
               <View style={styles.titleBox}>
                 <Text style={[styles.title, styles.textShadow]}>{item.title}</Text>
                 <Text style={[styles.location, styles.textShadow]}>{item.location}</Text>
+                <Text style={[styles.rating, styles.textShadow]}>{item?.rating}/10</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -94,6 +95,12 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: -2, height: 1},
     textShadowRadius: 10
   },
+  rating : {
+    color: colors.light,
+    fontSize: sizes.body,
+    fontStyle: 'italic',
+    fontWeight: 'bold'
+  }
 });
 
 export default TopPlacesCarousel;

@@ -18,8 +18,8 @@ const List = ({list}) => {
               </View>
               <View style={styles.footer}>
                 <View style={styles.titleBox}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.location}>{item.location}</Text>
+                  <Text numberOfLines={1} style={styles.title}>{item.title}</Text>
+                  <Text numberOfLines={1} style={styles.location}>{item.location}</Text>
                 </View>
                 {/* <FavoriteButton /> */}
               </View>
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     height: CARD_HEIGHT,
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
+    
   },
   imageBox: {
     width: CARD_WIDTH,
@@ -74,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: sizes.body,
     fontWeight: 'bold',
     color: colors.primary,
+    
   },
   location: {
     fontSize: sizes.body,
