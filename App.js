@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import MainContainer from './navigation/MainContainer';
+import DishDetailsScreen from './screens/DishDetailsScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 
@@ -57,7 +58,7 @@ export default function App() {
               <Stack.Screen name="Register" component={RegisterScreen} />
             {/* Main App */}
               <Stack.Screen options={{headerShown: false}} name="MainContainer" component={MainContainer} />
-
+              <Stack.Screen options={{headerShown: true, animation:'slide_from_bottom'}} name='PostDetail' component={DishDetailsScreen} />
           </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

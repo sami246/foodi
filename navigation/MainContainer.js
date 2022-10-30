@@ -9,6 +9,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import PostsScreen from '../screens/PostsScreen';
 import AddPostScreen from '../screens/AddPostScreen';
+import DishDetailsScreen from '../screens/DishDetailsScreen';
 
 const Tab = createBottomTabNavigator()
 
@@ -60,7 +61,8 @@ export default function MainContainer({navigation}) {
             <Tab.Screen options={{headerShown: false}} name={homeName} component={HomeScreen} navigation={navigation}/>
             <Tab.Screen options={{headerShown: false}} name={postsName} component={PostsScreen} navigation={navigation}/>
             <Tab.Screen options={{headerShown: false}} name={profileName} component={ProfileScreen} navigation={navigation}/>
-            <Tab.Screen options={{headerShown: false}} name={settingsName} component={SettingsScreen} navigation={navigation}/>
+            <Tab.Screen options={{headerShown: false}} name={settingsName} component={AddPostScreen} navigation={navigation}/>
+            
 
         </Tab.Navigator>
   )

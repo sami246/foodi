@@ -6,7 +6,11 @@ const SettingsScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <Text> Settings </Text>
+        <NavBar />
+        <View style={styles.contentContainer}>
+            <Text> Settings </Text>
+            <Posts restaurant="Wendy's" />
+        </View>
     </SafeAreaView>
   )
 }
@@ -19,5 +23,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     top: STATUS_BAR_HEIGHT,
+  },
+  contentContainer : {
+    flex: 10
   },
 })

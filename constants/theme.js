@@ -35,7 +35,7 @@ export const shadow = {
 export const sizes = {
   width,
   height,
-  title: 32,
+  title: 36,
   h1: 28,
   h2: 24,
   h3: 18,
