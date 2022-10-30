@@ -1,17 +1,32 @@
 import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, Button, Keyboard, TouchableOpacity  } from 'react-native'
 import React from 'react'
 import { useState, useEffect} from 'react';
-import DatePicker from '@react-native-community/datetimepicker'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import SelectList from 'react-native-dropdown-select-list'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 
 const AddPostScreen = ({ navigation }) => {
+
     const [WHA, setWHA] = useState('');
-    const [password, setPassword] = useState('');
+
+    // For Date
     const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('');
+    const [show, setShow] = useState('');
     const [selected, setSelected] = useState("");
+
+    const onChangeDate = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate)
+    }
+
+    const showMode = (currentMode) => {
+        setShow(true)
+        setMode(currentMode)
+    }
 
     const testDataCusine = [
         {key:'1',value:'Burger'},
@@ -46,6 +61,16 @@ const AddPostScreen = ({ navigation }) => {
                     style={styles.input} 
                     onChangeText = { text => setEmail(text)}
                 />
+                <Button title='Add Date' onPress={() => showMode('date')}/>
+                {show && (
+                    <DateTimePicker 
+                    testID='DatePicker'
+                    value={date}
+                    mode={mode}
+                    display='default'
+                    onChange={onChangeDate}
+                    />
+                )}
                 {/* <DatePicker
                         value={date}
                         mode="date"
