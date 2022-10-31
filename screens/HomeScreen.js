@@ -3,11 +3,10 @@ import React from 'react'
 // import { getAuth, signOut, GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import { auth } from '../firebase';
 import NavBar from '../components/NavBar';
-import Posts from '../components/Posts';
 import TopPlacesCarousel from '../components/TopPlacesCarousel';
 import {colors, shadow, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/theme';
 import { TOP_PLACES, PLACES } from '../data';
-import List from '../components/List';
+import RecentList from '../components/RecentList';
 import SectionHeader from '../components/SectionHeader';
 
 
@@ -22,11 +21,11 @@ const HomeScreen = ({ navigation }) => {
               <Text style={styles.heading1}>Your Top Dishes</Text>
               <TopPlacesCarousel list={TOP_PLACES}/>
               <SectionHeader
-                title="Popular Trips"
+                title="Recent Additions"
                 buttonTitle="See All"
                 onPress={() => {}}
               />
-              <List list={PLACES} />
+              <RecentList list={PLACES} />
           </ScrollView>
         </View>
     </SafeAreaView>
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: sizes.title,
     fontWeight: 'bold',
     marginLeft: spacing.l,
-    color: colors.primary
+    color: colors.black
   }
 
 })

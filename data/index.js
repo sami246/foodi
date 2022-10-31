@@ -7,6 +7,7 @@ export const TOP_PLACES = [
       rating: 9,
       description:
         'The ultimate Amalfi Coast travel guide, where to stay, where to eat, and what areas to visit in the Amalfi Coast of Italy. Positano, Ravello, Amalfi and more',
+      category: ['dessert']
     },
     {
       id: 2,
@@ -16,6 +17,7 @@ export const TOP_PLACES = [
       rating: 9,
       description:
         'Granada is the capital city of the province of Granada, in the autonomous community of Andalusia, Spain',
+      category: ['chicken', 'american']
     },
     {
       id: 3,
@@ -34,6 +36,7 @@ export const TOP_PLACES = [
       image: {uri: 'https://steakandteeth.files.wordpress.com/2016/05/2016-05-18-07-25-05-1-2-jpg.jpeg?w=1140'},
       title: 'Caramel Popcorn Freak Shake',
       location: 'Sweet Stepney Green',
+      rating: 3,
       description:
         "Cappadocia's landscape includes dramatic expanses of soft volcanic rock, shaped by erosion into towers, cones, valleys, and caves. Rock-cut churches and underground tunnel complexes from the Byzantine and Islamic eras are scattered throughout the countryside.",
     },
@@ -50,14 +53,16 @@ export const TOP_PLACES = [
       image: {uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ4QU9gM25u_hoEmw_E_HO9Xf-3ZBkjnWa_s_b2kWa9rDzMnXrY6pEGUukqjgQvgatyIs&usqp=CAU'},
       title: 'Steak',
       location: 'Steakout',
+      rating: 1,
       description:
         'Learn how you can travel Bora Bora on a budget and how overwater bungalows are possible for cheap plus tips on keeping Bora Bora trip costs low.',
     },
     {
       id: 7,
       image: {uri: 'https://i.pinimg.com/736x/51/40/c5/5140c501e7d035d64e896bbce9e3f4c5--wagamama-teppanyaki.jpg'},
-      title: 'Chicken * Prawn Pad-Thai',
+      title: 'Chicken * Prawn Pad-Thai testtttt',
       location: 'Wagamama Stratford',
+      rating: 5,
       description:
         'Phuket is the largest island in Thailand. It is located in the Andaman Sea in southern Thailand',
     },

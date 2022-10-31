@@ -58,7 +58,7 @@ export default function App() {
               <Stack.Screen name="Register" component={RegisterScreen} />
             {/* Main App */}
               <Stack.Screen options={{headerShown: false}} name="MainContainer" component={MainContainer} />
-              <Stack.Screen options={{headerShown: true, animation:'slide_from_bottom'}} name='PostDetail' component={DishDetailsScreen} />
+              <Stack.Screen options={{headerShown: true, animation:'slide_from_bottom'}} name='Post Detail' component={DishDetailsScreen} />
           </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

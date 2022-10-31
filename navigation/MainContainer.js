@@ -1,5 +1,5 @@
 import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {colors, shadow, sizes, spacing} from '../constants/theme';
@@ -8,10 +8,10 @@ import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import PostsScreen from '../screens/PostsScreen';
-import AddPostScreen from '../screens/AddPostScreen';
-import DishDetailsScreen from '../screens/DishDetailsScreen';
+import AddDishScreen from '../screens/AddDishScreen';
 
-const Tab = createBottomTabNavigator()
+
+const Tab = createMaterialBottomTabNavigator()
 
 const homeName = 'Home';
 const postsName = 'Posts'
@@ -23,17 +23,27 @@ export default function MainContainer({navigation}) {
         
         <Tab.Navigator 
         initialRouteName={homeName}
+        activeColor = {colors.white}
+        inactiveColor = {colors.black}
+        barStyle = {{
+            backgroundColor: colors.lightOrange,
+            fontSize: 20
+        }}
+        
         screenOptions ={({route}) => ({
-            tabBarActiveTintColor: colors.primary,
-            tabBarInactiveTintColor: colors.gray,
-            tabBarLabelStyle: {
-                fontSize: 10,
-            },
-            tabBarStyle: [
-                {
-                display: "flex",
-                padding: 5,
-                }, null ],
+            
+            // activeColor: colors.primary,
+            // tabBarInactiveTintColor: colors.gray,
+            // tabBarLabelStyle: {
+            //     fontSize: 10,
+            // },
+            // tabBarStyle: [
+            //     {
+            //     display: "flex",
+            //     padding: 5,
+                
+            
+            //     }, null ],
             tabBarIcon: ({focused, color, size}) => {
                 let iconName;
                 let routeName = route.name;
@@ -52,7 +62,7 @@ export default function MainContainer({navigation}) {
                 }
                 
 
-                return <Ionicons name={iconName} size={size} color={color} />
+                return <Ionicons name={iconName} size={22} color={color} />
             }
         })}
         
@@ -61,7 +71,7 @@ export default function MainContainer({navigation}) {
             <Tab.Screen options={{headerShown: false}} name={homeName} component={HomeScreen} navigation={navigation}/>
             <Tab.Screen options={{headerShown: false}} name={postsName} component={PostsScreen} navigation={navigation}/>
             <Tab.Screen options={{headerShown: false}} name={profileName} component={ProfileScreen} navigation={navigation}/>
-            <Tab.Screen options={{headerShown: false}} name={settingsName} component={AddPostScreen} navigation={navigation}/>
+            <Tab.Screen options={{headerShown: false}} name={settingsName} component={AddDishScreen} navigation={navigation}/>
             
 
         </Tab.Navigator>

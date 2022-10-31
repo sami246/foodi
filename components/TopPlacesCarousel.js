@@ -29,7 +29,7 @@ const TopPlacesCarousel = ({list}) => {
       renderItem={({item, index}) => {
         return (
           <TouchableOpacity
-            onPress={() => {navigation.navigate('PostDetail', {dish: item})}}
+            onPress={() => {navigation.navigate('Post Detail', {dish: item})}}
             style={{
               marginLeft: spacing.l,
               marginRight: index === list.length - 1 ? spacing.l : 0,

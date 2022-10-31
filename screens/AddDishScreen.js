@@ -1,18 +1,24 @@
-import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, Button, Keyboard, TouchableOpacity  } from 'react-native'
+import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, Button, Keyboard, TouchableOpacity, TouchableHighlight  } from 'react-native'
 import React from 'react'
 import { useState, useEffect} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import SelectList from 'react-native-dropdown-select-list'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import * as ImagePicker from 'expo-image-picker'
+import { ref, uploadBytes } from 'firebase/storage'; //access the storage database
+import { db } from '../firebase';
+import ImageUpload from '../components/ImageUpload';
+import { sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
-const AddPostScreen = ({ navigation }) => {
+const AddDishScreen = ({ navigation }) => {
 
     const [WHA, setWHA] = useState('');
 
     // For Date
     const [date, setDate] = useState(new Date());
+    const [image, setImage] = useState(null);
     const [mode, setMode] = useState('');
     const [show, setShow] = useState('');
     const [selected, setSelected] = useState("");
@@ -35,13 +41,46 @@ const AddPostScreen = ({ navigation }) => {
         {key:'4',value:'Dessert'},
       ];
 
+    useEffect(() => {
+    (async () => {
+        if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+        }
+        }
+    })();
+    }, []);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          quality: 1,
+        });
+    
+        if (!result.cancelled) {
+            console.log({result})
+          const ref = ref(db, string(result.uri)); //how the image will be addressed inside the storage
+            
+          //convert image to array of bytes
+          const img = await fetch(result.uri);
+          const bytes = await img.blob();
+    
+          await uploadBytes(ref, bytes); //upload images
+          setImage(result.uri)
+        }
+      };
+
   
   return (
+        <ScrollView showsVerticalScrollIndicator={false}>
         <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
         >
             <View style = {styles.inputContainer}>
+                <ImageUpload />
                 <TextInput 
                     placeholder='Dish Name'
                     value={{}}
@@ -124,11 +163,11 @@ const AddPostScreen = ({ navigation }) => {
 
             </View>
         </KeyboardAvoidingView>
-
+        </ScrollView>
   )
 }
 
-export default AddPostScreen
+export default AddDishScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -136,20 +175,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         flex: 1,
-        top: 80,
+        top: STATUS_BAR_HEIGHT,
         bottom: 20,
     },
     inputContainer: {
-        flex: 7,
+        flex: 10,
         width: '80%',
-        justifyContent: "space-around"
+        justifyContent: "space-around",
+        alignItems: 'center'
     },
     input: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
-        marginTop: 5
+        marginTop: 5,
+        width: '100%'
     },
     buttonContainer: {
         flex: 1,

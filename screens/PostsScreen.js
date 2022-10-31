@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native'
 import React from 'react'
-import Posts from '../components/Posts'
 import NavBar from '../components/NavBar';
 import { STATUS_BAR_HEIGHT } from '../constants/theme';
+import PostList from '../components/PostList';
+import { TOP_PLACES, PLACES } from '../data';
 
 const PostsScreen = ({ navigation }) => {
 
@@ -10,8 +11,8 @@ const PostsScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
         <NavBar />
         <View style={styles.contentContainer}>
-            <Text> PostsScreen </Text>
-            <Posts restaurant="Wendy's" />
+            <Text> All Your Posts </Text>
+            <PostList list={PLACES} />
         </View>
     </SafeAreaView>
   )

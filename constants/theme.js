@@ -4,11 +4,20 @@ const {width, height} = Dimensions.get('window');
 
 export const colors = {
   primary: '#070f18',
-  gray: '#8b8989',
+  gray: '#787878',
+  darkGray: '#4E4E4E',
   lightGray: '#b2b2b2',
-  light: '#fbfbfb',
+  light: '#ECE0C1',
   white: '#fff',
   black: '#000',
+  blue: '#11A8E4',
+  yellow: '#F8E639',
+  gold: '#F5C229',
+  red: '#CA2C1E',
+  brown: '#AE7218',
+  lightOrange: '#E9974A',
+  orange: '#EE8A2C'
+
 };
 
 export const shadow = {
@@ -27,7 +36,7 @@ export const shadow = {
     shadowOpacity: 0.3,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
   },
 };
