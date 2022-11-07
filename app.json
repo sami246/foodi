@@ -2,6 +2,8 @@
   "expo": {
     "name": "foodi",
     "slug": "foodi",
+    "privacy": "unlisted",
+    "description": "Food Diary App",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

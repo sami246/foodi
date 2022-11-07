@@ -1,37 +1,54 @@
-import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, Button, Keyboard, TouchableOpacity, TouchableHighlight  } from 'react-native'
+import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, Button, Keyboard, TouchableOpacity, TouchableHighlight, Image, Switch  } from 'react-native'
 import React from 'react'
 import { useState, useEffect} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import SelectList from 'react-native-dropdown-select-list'
-import * as ImagePicker from 'expo-image-picker'
-import { ref, uploadBytes } from 'firebase/storage'; //access the storage database
-import { db } from '../firebase';
+import { db, auth, firestoreDB } from '../firebase';
 import ImageUpload from '../components/ImageUpload';
-import { sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme';
+import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import uuid from "uuid";
+import { getStorage, ref, uploadBytes, getDownloadURL, connectStorageEmulator } from "firebase/storage";
+import AppButton from '../components/AppButton';
+import { addDoc, collection } from 'firebase/firestore';
 
 
 const AddDishScreen = ({ navigation }) => {
+    const [user, setUser] = useState(auth.currentUser)
 
-    const [WHA, setWHA] = useState('');
+    const [image, setImage] = useState(null);
+    const [dishName, setDishName] = useState('');
+    const [uploading, setUploading] = useState(false);
+
+    const [WHA, setWHA] = useState(false);
 
     // For Date
+    // ---------------
     const [date, setDate] = useState(new Date());
-    const [image, setImage] = useState(null);
+    const [dateText, setDateText] = useState('');
+    
     const [mode, setMode] = useState('');
     const [show, setShow] = useState('');
     const [selected, setSelected] = useState("");
+    // ---------------
+    
 
     const onChangeDate = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
         setDate(currentDate)
+        var dateT = currentDate.getDate() + "/" + currentDate.getMonth() + "/" + currentDate.getFullYear()
+        console.log("T", dateT)
+        setDateText(dateT)
     }
 
     const showMode = (currentMode) => {
         setShow(true)
         setMode(currentMode)
+    }
+
+    const toggleSwitch = () => {
+        setWHA(previousState => !previousState)
     }
 
     const testDataCusine = [
@@ -41,128 +58,144 @@ const AddDishScreen = ({ navigation }) => {
         {key:'4',value:'Dessert'},
       ];
 
-    useEffect(() => {
-    (async () => {
-        if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-            alert('Sorry, we need camera roll permissions to make this work!');
+    const handleSubmit = async () => {
+        try {
+            setUploading(true)
+            var uploadUrl = null
+            if(image != null){
+                console.log("uploading Image")
+                uploadUrl = await uploadImageAsync(image);
+            }
+            const docRef = await addDoc(collection(firestoreDB, 'dishs'), {
+                userId: user.uid,
+                dishName: dishName,
+                rating: 0,
+                image: uploadUrl,
+                updatedTime: new Date(),
+                date: date,
+                categories: [],
+                wouldHaveAgain: WHA
+            })
+            console.log("Dish Added")
+        } catch (e) {
+            console.log(e);
+            alert("Upload failed, sorry :(");
+        } finally {
+            setUploading(false)
         }
-        }
-    })();
-    }, []);
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          quality: 1,
+    }
+
+    async function uploadImageAsync(uri) {
+        // Why are we using XMLHttpRequest? See:
+        // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+        const blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = function () {
+            resolve(xhr.response);
+          };
+          xhr.onerror = function (e) {
+            console.log(e);
+            reject(new TypeError("Network request failed"));
+          };
+          xhr.responseType = "blob";
+          xhr.open("GET", uri, true);
+          xhr.send(null);
         });
-    
-        if (!result.cancelled) {
-            console.log({result})
-          const ref = ref(db, string(result.uri)); //how the image will be addressed inside the storage
-            
-          //convert image to array of bytes
-          const img = await fetch(result.uri);
-          const bytes = await img.blob();
-    
-          await uploadBytes(ref, bytes); //upload images
-          setImage(result.uri)
-        }
-      };
+
+        const fileRef = ref(db, "dish_pictures/" + uuid.v4());
+        const result = await uploadBytes(fileRef, blob);
+        // We're done with the blob, close and release it
+        blob.close();
+      
+        return await getDownloadURL(fileRef);
+      }
+
 
   
   return (
         <ScrollView showsVerticalScrollIndicator={false}>
-        <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-        >
-            <View style = {styles.inputContainer}>
-                <ImageUpload />
-                <TextInput 
-                    placeholder='Dish Name'
-                    value={{}}
-                    style={styles.input} 
-                    maxLength = {25}
-                    onChangeText = { text => setEmail(text)}
-                />
-                <TextInput 
-                    placeholder='Rating'
-                    value={{}}
-                    style={styles.input} 
-                    onChangeText = { text => setEmail(text)}
-                />
-                <TextInput 
-                    placeholder='Comment'
-                    value={{}}
-                    style={styles.input} 
-                    onChangeText = { text => setEmail(text)}
-                />
-                <Button title='Add Date' onPress={() => showMode('date')}/>
-                {show && (
-                    <DateTimePicker 
-                    testID='DatePicker'
-                    value={date}
-                    mode={mode}
-                    display='default'
-                    onChange={onChangeDate}
+            <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+            >
+                <View style = {styles.inputContainer}>
+                    <ImageUpload image={image} setImage={setImage} uploading={uploading} setUploading={setUploading}/>
+                    <TextInput 
+                        placeholder='Dish Name'
+                        value={{}}
+                        style={styles.input} 
+                        maxLength = {25}
+                        onChangeText = { text => setEmail(text)}
                     />
-                )}
-                {/* <DatePicker
-                        value={date}
-                        mode="date"
-                        placeholder="Date"
-                        format="DD-MM-YYYY"
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        onChange={(event, date) => {setDate(date)}}
-                    /> */}
-                <Text>Hmm {date.toString()}</Text>
-                <SelectList 
-                    onSelect={() => alert(selected)}
-                    setSelected={setSelected} 
-                    data={testDataCusine}  
-                    searchPlaceholder = "Cuisine"
-                    // arrowicon={<FontAwesomeIcon icon="fa-solid fa-chevron-down" size={12} color={'black'} />} 
-                    // searchicon={<FontAwesomeIcon icon="search" size={12} color={'black'} />} 
-                    search={true} 
-                    boxStyles={{borderRadius:0}} //override default styles
+                    <Image source={image} />
+                    <TextInput 
+                        placeholder='Rating'
+                        value={{}}
+                        style={styles.input} 
+                        onChangeText = { text => setEmail(text)}
                     />
-                <View style={styles.radioButtonContainer}>
-                    <Text>Would Have Again? </Text>
-                    <View style={styles.wrapper}>
-                        {['Yes', 'No'].map(option => (
-                            <View key={option} style={styles.radioButton}>
-                                <Text >{option}</Text>
-                                <TouchableOpacity 
-                                    style={styles.outter}
-                                    onPress={() => setWHA(option)}
-                                    >
-                                    {WHA === option && <View style={styles.selected}/>}
-                                </TouchableOpacity>
-                            </View>
-                        ))}
+                    <TextInput 
+                        placeholder='Comments'
+                        value={{}}
+                        style={styles.input} 
+                        onChangeText = { text => setEmail(text)}
+                    />
+                    <View style={{flexDirection: 'row', width: '100%'}}>
+                        <AppButton title='Add Date You Had Dish' onPress={() => showMode('date')}/>
+                        {show && (
+                            <DateTimePicker 
+                            testID='DatePicker'
+                            value={date}
+                            mode={mode}
+                            display='default'
+                            onChange={onChangeDate}
+                            />
+                        )}
+                        <Text 
+                            value={dateText}
+                            style={styles.date} 
+                        >{dateText}</Text>
+                    </View>
+                    <SelectList 
+                        onSelect={() => alert(selected)}
+                        setSelected={setSelected} 
+                        data={testDataCusine}  
+                        searchPlaceholder = "Cuisine"
+                        // arrowicon={<FontAwesomeIcon icon="fa-solid fa-chevron-down" size={12} color={'black'} />} 
+                        // searchicon={<FontAwesomeIcon icon="search" size={12} color={'black'} />} 
+                        search={true} 
+                        boxStyles={{borderRadius:0}} //override default styles
+                        />
+                    <View style={styles.switchContainer}>
+                        <Text style={styles.switchText}>Would have again?</Text>
+                        <Switch 
+                        trackColor={{false: colors.lightGray, true: colors.gold}}
+                        thumbColor={WHA ? colors.orange : colors.gray}
+                        ios_backgroundColor='gray'
+                        onValueChange={toggleSwitch}
+                        value={WHA}
+                        />
                     </View>
                 </View>
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity 
-                    onPress={{}}
-                    style = {styles.button}>
-                    <Text style = {styles.buttonText}>Add</Text>   
-                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity 
+                        onPress={handleSubmit}
+                        style = {styles.button}>
+                        <Text style = {styles.buttonText}>Add</Text>   
+                    </TouchableOpacity>
 
-                <TouchableOpacity 
-                    onPress={() => navigation.navigate('Posts')}
-                    style = {[styles.button, styles.buttonOutline]}>
-                    <Text style = {styles.buttonOutlineText}>Cancel</Text>   
+                    <TouchableOpacity 
+                        onPress={() => {
+                            setImage(null)
+                            navigation.navigate('Posts')}}
+                        style = {[styles.button, styles.buttonOutline]}>
+                        <Text style = {styles.buttonOutlineText}>Cancel</Text>   
 
-                </TouchableOpacity>
+                    </TouchableOpacity>
 
-            </View>
-        </KeyboardAvoidingView>
+                </View>
+            </KeyboardAvoidingView>
         </ScrollView>
   )
 }
@@ -171,12 +204,10 @@ export default AddDishScreen
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
-        alignContent: 'center',
-        flex: 1,
         top: STATUS_BAR_HEIGHT,
-        bottom: 20,
+        bottom: 10,
     },
     inputContainer: {
         flex: 10,
@@ -186,11 +217,19 @@ const styles = StyleSheet.create({
     },
     input: {
         backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
         borderRadius: 10,
-        marginTop: 5,
-        width: '100%'
+        margin: 5,
+        width: '100%',
+    },
+    date: {
+        backgroundColor: 'white',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        borderRadius: 10,
+        margin: 5,
+        alignSelf: 'center'
     },
     buttonContainer: {
         flex: 1,
@@ -198,7 +237,16 @@ const styles = StyleSheet.create({
         width: '60%',
         justifyContent: 'center',
         alignContent: 'center',
-        marginBottom: 80
+        margin: 10
+    },
+    switchContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+    },
+    switchText: {
+        fontSize: sizes.h3,
+        fontWeight: '600'
     },
     button: {
         backgroundColor: '#CC9767',
