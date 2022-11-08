@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native'
 import React from 'react'
 import { STATUS_BAR_HEIGHT } from '../constants/theme'
+import NavBar from '../components/NavBar'
 
 const SettingsScreen = ({ navigation }) => {
 
@@ -9,7 +10,6 @@ const SettingsScreen = ({ navigation }) => {
         <NavBar />
         <View style={styles.contentContainer}>
             <Text> Settings </Text>
-            <Posts restaurant="Wendy's" />
         </View>
     </SafeAreaView>
   )

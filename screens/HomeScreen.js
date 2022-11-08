@@ -8,6 +8,8 @@ import {colors, shadow, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/th
 import { TOP_PLACES, PLACES } from '../data';
 import RecentList from '../components/RecentList';
 import SectionHeader from '../components/SectionHeader';
+import AddButton from '../components/AddButton';
+
 
 
 const HomeScreen = ({ navigation }) => {
@@ -15,6 +17,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+        {/* <AddButton /> */}
         <NavBar />
         <View style={styles.contentContainer}>
             <ScrollView showsVerticalScrollIndicator={false}>

@@ -1,14 +1,17 @@
 import React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
-import { colors, sizes } from '../constants/theme';
+import { colors, sizes, spacing } from '../constants/theme';
 
-const AppButton = ({ onPress, title }) => (
+
+
+const AppButton = ({ onPress, title, height, width, fontSize, icon, backgroundColor, color, buttonStyle }) => (
     <TouchableOpacity
-      activeOpacity={0.8}
+      activeOpacity={0.7}
       onPress={onPress}
-      style={styles.appButtonContainer}
+      style={[styles.appButtonContainer,{height: height, width: width, backgroundColor: backgroundColor}, buttonStyle]}
     >
-      <Text style={styles.appButtonText}>{title}</Text>
+      {icon}
+      <Text style={[styles.appButtonText, {fontSize: fontSize, color: color}]} >{title}</Text>
     </TouchableOpacity>
   );
 
@@ -17,19 +20,22 @@ const AppButton = ({ onPress, title }) => (
   const styles = StyleSheet.create({
     appButtonContainer: {
         flex: 1,
-        elevation: 8,
+        elevation: 5,
         backgroundColor: colors.blue,
-        borderRadius: 5,
+        borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,
-        margin: 10
+        margin: 5,
+        maxHeight: 50,
+        flexDirection: 'row',
       },
       appButtonText: {
-        fontSize: 13,
-        color: "#fff",
+        flex: 1,
+        color: colors.white,
         fontWeight: "bold",
         alignSelf: "center",
-        textTransform: "uppercase"
+        textAlign: 'center',
+        textAlignVertical: 'center'
       }
 
   })

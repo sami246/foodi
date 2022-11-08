@@ -4,6 +4,7 @@ import { sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme'
 import { auth } from '../firebase';
 import { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import NavBar from '../components/NavBar';
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -21,6 +22,7 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+        <NavBar />
         <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>PROFILE SCREEN</Text>
         <Text>{user.displayName} </Text>
         <Text>{user.email} </Text>
@@ -30,7 +32,6 @@ const ProfileScreen = ({ navigation }) => {
         <Text>Created at: {user.metadata.creationTime} </Text>
         <Text>Last Sign in Time: {user.metadata.lastSignInTime} </Text>
         <Pressable>
-                    <MaterialCommunityIcons name='image-edit-outline' size={60} color='gray' style={{position: 'absolute'}}/>
                     <Image 
                     source={{ uri: 'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg' }}
                     style={{ width: sizes.width - spacing.xl - spacing.s, height: 230, overflow: 'hidden', resizeMode: 'center' }} 

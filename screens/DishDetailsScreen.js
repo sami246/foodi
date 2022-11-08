@@ -5,11 +5,12 @@ import ImagePreviewer from 'rc-image-previewer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Rating from '../components/Rating';
+import { useNavigation } from '@react-navigation/native';
 
 
 const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
-    console.log({dish})
+    const navigation = useNavigation();
     
   return (
     <SafeAreaView style={styles.container}>
@@ -20,7 +21,7 @@ const DishDetailsScreen = ({ route }) => {
               <View style={styles.detailsBox}>
                 <View style={styles.titleBox}>
                     <Text style={styles.title} adjustsFontSizeToFit={true} numberOfLines={1} minimumFontScale={0.7}>{dish.title}</Text>
-                    <TouchableOpacity style={styles.editIcon} onPress={() => alert("Edit")}>
+                    <TouchableOpacity style={styles.editIcon} onPress={() => navigation.navigate('Settings', {dish: dish})}>
                         <FontAwesome5 name='edit' size={30} color='black' />
                     </TouchableOpacity>
                 </View>
