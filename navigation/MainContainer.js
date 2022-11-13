@@ -71,7 +71,7 @@ export default function MainContainer({navigation}) {
             <Tab.Screen options={{headerShown: false}} name={homeName} component={HomeScreen} navigation={navigation}/>
             <Tab.Screen options={{headerShown: false}} name={postsName} component={PostsScreen} navigation={navigation}/>
             <Tab.Screen options={{headerShown: false}} name={profileName} component={ProfileScreen} navigation={navigation}/>
-            <Tab.Screen options={{headerShown: false}} name={settingsName} component={AddDishScreen} navigation={navigation}/>
+            <Tab.Screen options={{headerShown: false}} name={settingsName} component={SettingsScreen} navigation={navigation}/>
             
 
         </Tab.Navigator>

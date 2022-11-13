@@ -120,17 +120,18 @@ export default class ImageUpload extends React.Component {
             justifyContent: 'center',
             borderWidth: 2,
             borderColor: colors.white,
+            backgroundColor: colors.lightGray,
             shadowColor: "rgba(0,0,0,1)",
             shadowOpacity: 0.2,
             shadowOffset: { width: 4, height: 4 },
             shadowRadius: 5,
             marginTop: 10,
-            elevation: 4
+            elevation: 4,
             }}>
                 <Pressable onPress={this._pickImage} >
                     <Image 
                     source={{ uri: this.props.image }}
-                    style={{ width: sizes.width - spacing.xl - spacing.s, height: 225, resizeMode: 'center', zIndex: 0}} 
+                    style={{ width: 312, height: 218, resizeMode: 'center', zIndex: 0, }} 
                     />
                 </Pressable>                
           </View>
@@ -154,7 +155,7 @@ export default class ImageUpload extends React.Component {
                   title="Delete"
                   height={spacing.xl}
                   width={spacing.l}
-                  onPress={console.log("DELETE")}
+                  onPress={this._delete}
                   fontSize={14}
                   icon={
                       <MaterialCommunityIcons
@@ -179,6 +180,11 @@ export default class ImageUpload extends React.Component {
     });
   };
 
+  _delete = () => {
+    console.log("DELETE")
+    this.props.setImage(null)
+  };
+
   _copyToClipboard = () => {
     Clipboard.setString(this.props.image);
     alert("Copied image URL to clipboard");
@@ -186,7 +192,6 @@ export default class ImageUpload extends React.Component {
 
   _takePhoto = async () => {
     let pickerResult = await ImagePicker.launchCameraAsync({
-      aspect: [3, 2],
       allowsEditing: true,
       quality: 0.6
     });
@@ -196,7 +201,6 @@ export default class ImageUpload extends React.Component {
 
   _pickImage = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      aspect: [3, 2],
       allowsEditing: true,
       quality: 0.6
     });

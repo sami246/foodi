@@ -12,21 +12,30 @@ import { addDoc, collection } from 'firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MultiSelectComponent from '../components/MultiSelect';
+import { Rating, AirbnbRating } from 'react-native-ratings';
+import { TagsData } from '../data';
 
 const AddDishScreen = ({ navigation, route }) => {
-    const dish = route.params.dish;
-    console.log("IN ADD DISH", dish)
+    // if (route){
+    //     const dish = route.params.dish;
+    //     console.log("IN ADD DISH", dish)
+    // }
+    
+    // States
     const [user, setUser] = useState(auth.currentUser)
-
     const [image, setImage] = useState(null);
-    const [dishName, setDishName] = useState('');
-    const [restaurant, setRestaurant] = useState('');
+    const [dishName, setDishName] = useState(null);
+    const [price, setPrice] = useState(null);
+    const [restaurant, setRestaurant] = useState(null);
     const [rating, setRating] = useState(null);
     const [comment, setComment] = useState(null);
-    const [uploading, setUploading] = useState(false);
-
+    const [tags, setTags] = useState([]);
     const [WHA, setWHA] = useState(false);
 
+    const [uploading, setUploading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    
+    
     // For Date
     // ---------------
     const [date, setDate] = useState(new Date());
@@ -34,12 +43,9 @@ const AddDishScreen = ({ navigation, route }) => {
     
     const [mode, setMode] = useState('');
     const [show, setShow] = useState('');
-    const [selected, setSelected] = useState("");
-    // ---------------
-
-    const [modalVisible, setModalVisible] = useState(false);
-    
-
+    const [selected, setSelected] = useState('');
+    // --------------- 
+        
     const onChangeDate = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShow(Platform.OS === 'ios');
@@ -58,20 +64,20 @@ const AddDishScreen = ({ navigation, route }) => {
         setWHA(previousState => !previousState)
     }
 
-    const handleDropDown = (selected) => {
-        console.log(selected)
+    const handleCancel = () => {
+        setImage(null)
+        setDishName(null)
+        setPrice(null)
+        setRestaurant(null)
+        setRating(null)
+        setComment(null)
+        setWHA(false)
+        setDate(new Date())
+        setDateText('')
+        setTags([])
+        navigation.goBack()
     }
 
-    const cuisine = [
-        { label: 'Burger', value: '1', icon: <AntDesign color="black" name="delete" size={17} /> },
-        { label: 'Apple', value: '2', icon: <MaterialCommunityIcons color="black" name="food-apple" size={17} /> },
-        { label: 'Item 3', value: '3', icon: <AntDesign color="black" name="delete" size={17} /> },
-        { label: 'Item 4', value: '4', icon: <AntDesign color="black" name="delete" size={17} /> },
-        { label: 'Item 5', value: '5', icon: <AntDesign color="black" name="delete" size={17} /> },
-        { label: 'Item 6', value: '6', icon: <AntDesign color="black" name="delete" size={17} /> },
-        { label: 'Item 7', value: '7', icon: <AntDesign color="black" name="delete" size={17} /> },
-        { label: 'Item 8', value: '8', icon: <AntDesign color="black" name="delete" size={17} /> },
-      ];
 
     const handleSubmit = async () => {
         try {
@@ -81,15 +87,19 @@ const AddDishScreen = ({ navigation, route }) => {
                 console.log("uploading Image")
                 uploadUrl = await uploadImageAsync(image);
             }
+            console.log("Adding Doc")
             const docRef = await addDoc(collection(firestoreDB, 'dishs'), {
                 userId: user.uid,
+                restaurant: restaurant,
                 dishName: dishName,
                 comment: comment,
                 rating: rating,
                 image: uploadUrl,
                 updatedTime: new Date(),
                 date: date,
-                categories: [],
+                dateText: dateText,
+                price: price,
+                categories: tags,
                 wouldHaveAgain: WHA
             })
             console.log("Dish Added")
@@ -98,6 +108,7 @@ const AddDishScreen = ({ navigation, route }) => {
             alert("Upload failed, sorry :(");
         } finally {
             setUploading(false)
+            handleCancel()
         }
 
     }
@@ -136,36 +147,60 @@ const AddDishScreen = ({ navigation, route }) => {
             style={styles.container}
             >
                 <View style = {styles.inputContainer}>
+                    {/* Image */}
                     <ImageUpload image={image} setImage={setImage} uploading={uploading} setUploading={setUploading}/>
+                    {/* Restaurant */}
                     <TextInput 
                         placeholder='Restaurant'
-                        value={{}}
-                        style={styles.input} 
-                        maxLength = {25}
+                        value={restaurant}
+                        style={[styles.input, styles.inputShadow]} 
                         onChangeText = { text => setRestaurant(text)}
                     />
+                    {/* Dish Name */}
                     <TextInput 
                         placeholder='Dish Name'
-                        value={{}}
-                        style={styles.input} 
-                        maxLength = {25}
+                        value={dishName}
+                        style={[styles.input, styles.inputShadow]} 
                         onChangeText = { text => setDishName(text)}
                     />
-                    <Image source={image} />
-                    <TextInput 
-                        placeholder='Rating'
-                        value={{}}
-                        style={styles.input} 
-                        onChangeText = { text => setRating(text)}
-                    />
+                    {/* Rating */}
+                    <View style={[{  
+                            justifyContent: 'center',      
+                            backgroundColor: 'white',
+                            paddingHorizontal: 5,
+                            paddingVertical: 5,
+                            borderRadius: 10,
+                            margin: 5,
+                            width: '100%',
+                        }, styles.inputShadow]}>
+                            <AirbnbRating
+                                selectedColor = {colors.orange}
+                                reviewColor = {colors.lightOrange}
+                                count={10}
+                                reviews={["   1/10\nTerrible", "2/10\n Bad", "3/10\nMeh", "4/10\n  OK", " 5/10\nGood", "     6/10\nVery Good", " 7/10\nGreat", "   8/10\nAmazing", "       9/10\nUnbelievable", "     10/10\nMasterpiece"]}
+                                defaultRating={0}
+                                size={20}
+                                starContainerStyle ={{paddingBottom: 10}}
+                                onFinishRating={setRating}
+                            />
+                    </View>
+                    {/* Comments */}
                     <TextInput 
                         placeholder='Comments'
-                        value={{}}
-                        style={styles.input} 
+                        value={comment}
+                        style={[styles.input, styles.inputShadow, {textAlignVertical: 'top', height: spacing.xl*3}]} 
                         onChangeText = { text => setComment(text)}
+                        multiline={true}
+                        underlineColorAndroid='transparent'
                     />
-                    <View style={{flexDirection: 'row', width: '100%'}}>
-                        <AppButton title='Add Date You Had Dish' height={spacing.xl} width={spacing.m} onPress={() => showMode('date')} fontSize={13} backgroundColor={colors.orange} color={colors.white}/>
+                    {/* Price and Date */}
+                    <View style={{flexDirection: 'row', width: '100%', margin: 5, justifyContent: 'space-between'}}>
+                    <Text 
+                            placeholder="Add Date"
+                            value={dateText}
+                            style={[styles.smallInput, styles.inputShadow]} 
+                            onPress={() => showMode('date')}
+                        >{dateText ? dateText : "DD/MM/YYYY"}</Text>
                         {show && (
                             <DateTimePicker 
                             testID='DatePicker'
@@ -175,13 +210,15 @@ const AddDishScreen = ({ navigation, route }) => {
                             onChange={onChangeDate}
                             />
                         )}
-                        <Text 
-                            placeholder="Add Date"
-                            value={dateText}
-                            style={styles.date} 
-                            onPress={() => showMode('date')}
-                        >{dateText ? dateText : "DD/MM/YYYY"}</Text>
+                                            
+                    <TextInput 
+                        placeholder='Price £'
+                        value={price}
+                        style={[styles.smallInput, styles.inputShadow]} 
+                        onChangeText = { text => setPrice(text)}
+                    />
                     </View>
+                    {/* Tags */}
                     <View style={styles.centeredView}>
                                 <Modal
                                     animationType="slide"
@@ -193,68 +230,71 @@ const AddDishScreen = ({ navigation, route }) => {
                                 >
                                     <View style={styles.centeredView}>
                                         <View style={styles.modalView}>
-                                            <AppButton
+                                            {/* <AppButton
                                             fontSize={15}
                                             height={spacing.xl}
                                             width= {'100%'}
-                                            onPress={() => alert("Add Cusine")}
-                                            title= "Add New Cuisine"
+                                            onPress={() => alert("Add tags")}
+                                            title= "Add New Tags"
                                             backgroundColor={colors.brown}
                                             color={colors.white}
-                                            />
-                                            <MultiSelectComponent data={cuisine}/>
-
-                                            <AppButton
-                                                fontSize={15}
-                                                height={spacing.xl}
-                                                width= {'100%'}
-                                                onPress={() => setModalVisible(!modalVisible)}
-                                                title= "Save"
-                                                backgroundColor={colors.blue}
-                                                color={colors.white}
-                                            />
-                                            <AppButton
-                                                fontSize={15}
-                                                height={spacing.xl}
-                                                width= {'100%'}
-                                                onPress={() => setModalVisible(!modalVisible)}
-                                                title= "Cancel"
-                                                backgroundColor={colors.white}
-                                                color={colors.blue}
-                                                buttonStyle={{borderColor: colors.blue, borderWidth: 2}}
-                                            />
+                                            /> */}
+                                            <View style={{flex: 4, marginTop: spacing.l}}>
+                                                <MultiSelectComponent data={TagsData} selected={tags} setSelected={setTags}/>
+                                            </View>
+                                            
+                                            <View style={{flex: 1}}>
+                                                <AppButton
+                                                    fontSize={15}
+                                                    height={spacing.xl}
+                                                    width= {'100%'}
+                                                    onPress={() => setModalVisible(!modalVisible)}
+                                                    title= "Save"
+                                                    backgroundColor={colors.blue}
+                                                    color={colors.white}
+                                                />
+                                                <AppButton
+                                                    fontSize={15}
+                                                    height={spacing.xl}
+                                                    width= {'100%'}
+                                                    onPress={() => {
+                                                        setTags([])
+                                                        setModalVisible(!modalVisible)}}
+                                                    title= "Cancel"
+                                                    backgroundColor={colors.white}
+                                                    color={colors.blue}
+                                                    buttonStyle={{borderColor: colors.blue, borderWidth: 2}}
+                                                />
+                                            </View>
                                         </View>
                                     </View>
                                 </Modal>
-                                <View style={styles.cusineContainer}>
+                                <View style={[styles.cusineContainer, styles.inputShadow]}>
                                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', width: sizes.width - 50 , alignItems: 'center', justifyContent: 'center'}}>
-                                        <View style={styles.selectedStyle}>
-                                            <Text numberOfLines={1}  style={styles.textSelectedStyle}>Pizza</Text>
-                                            <AntDesign color="black" name="delete" size={17} />
+                                        {tags != [] 
+                                        ? tags.map((tag, index) => 
+                                        <View key={index} style={styles.selectedStyle}>
+                                            <Text numberOfLines={1}  style={styles.textSelectedStyle}>{tag}</Text>
+                                            {/* <AntDesign color={colors.darkGray} name="star" size={15} /> */}
                                         </View>
-                                        <View style={styles.selectedStyle}>
-                                            <Text style={styles.textSelectedStyle}>Burger</Text>
-                                            <AntDesign color="black" name="delete" size={17} />
-                                        </View>
-                                        <View style={styles.selectedStyle}>
-                                            <Text style={styles.textSelectedStyle}>American</Text>
-                                            <AntDesign color="black" name="delete" size={17} />
-                                        </View>
+                                        ) 
+                                        : 
+                                        <Text> Add Tags</Text>}
                                     </View>
                                     <View style={{margin: 5, alignItems: 'center', justifyContent: 'center', height: 50}}>
                                         <AppButton
                                             fontSize={14}
                                             height={50}
-                                            width= {'40%'}
+                                            width= {'50%'}
                                             onPress={() => setModalVisible(true)}
-                                            title= "Add Cusines"
+                                            title= "Add/Remove Tags"
                                             backgroundColor={colors.darkGray}
                                             color={colors.white}
                                         />
                                     </View>
                                 </View>
                     </View>
-
+                    {/* Would Have Again Switch */}
                     <View style={styles.switchContainer}>
                         <Text style={styles.switchText}>Would have again?</Text>
                         <Switch 
@@ -266,6 +306,7 @@ const AddDishScreen = ({ navigation, route }) => {
                         />
                     </View>
                 </View>
+                {/* Buttons */}
                 <View style={{width: '75%'}}>
                     <AppButton
                         fontSize={18}
@@ -280,11 +321,7 @@ const AddDishScreen = ({ navigation, route }) => {
                         fontSize={18}
                         height={45}
                         width= {'100%'}
-                        onPress={() => {
-                            setImage(null)
-                            setDate(null)
-                            setDateText("")
-                            navigation.navigate('Posts')}}
+                        onPress={handleCancel}
                         title= "Cancel"
                         backgroundColor={colors.white}
                         color={colors.lightOrange}
@@ -308,7 +345,7 @@ const styles = StyleSheet.create({
         marginBottom: STATUS_BAR_HEIGHT + 10,
     },
     inputContainer: {
-        width: '80%',
+        width: '85%',
         justifyContent: "space-around",
         alignItems: 'center'
     },
@@ -337,20 +374,28 @@ const styles = StyleSheet.create({
         height: spacing.xl,
         color: colors.gray,
     },
-    date: {
+    smallInput: {
         backgroundColor: 'white',
         color: colors.gray,
         borderRadius: 10,
-        width: '40%',
+        width: '48%',
         height: spacing.xl,
-        alignSelf: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
         textAlignVertical: 'center'
     },
     switchText: {
         fontSize: sizes.body,
         fontWeight: '500'
+    },
+    inputShadow: {
+        shadowOffset: {
+            width: 1,
+            height: 2,
+            },
+            shadowOpacity: 0.6,
+            shadowRadius: 1.41,
+            elevation: 2,
     },
 
     //Modal
@@ -359,7 +404,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
       },
       modalView: {
-        justifyContent: 'space-around',
         height: sizes.height,
         width: sizes.width,
         margin: 20,
@@ -407,19 +451,12 @@ const styles = StyleSheet.create({
       cusineContainer: {
         alignItems: 'center',
         borderWidth: 2,
-        width: sizes.width - 50,
+        width: sizes.width - 55,
         overflow: 'hidden',
         padding: spacing.s,
         borderColor: colors.darkGray,
         backgroundColor: colors.lightOrange,
         marginTop: 10,
         borderRadius: 20,
-        shadowOffset: {
-        width: 1,
-        height: 2,
-        },
-        shadowOpacity: 0.6,
-        shadowRadius: 1.41,
-        elevation: 5,
       }
 })

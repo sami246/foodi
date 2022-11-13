@@ -11,23 +11,23 @@ import { useNavigation } from '@react-navigation/native';
 const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
     const navigation = useNavigation();
-    
+    console.log({dish})
   return (
     <SafeAreaView style={styles.container}>
          <View style={styles.contentContainer}>
               <View style={styles.imageBox}>
-                    <ImagePreviewer source={dish.image} style={styles.image} resizeMode="cover"/>
+                    <ImagePreviewer source={{uri: dish.image}} style={styles.image} resizeMode="cover"/>
               </View>
               <View style={styles.detailsBox}>
                 <View style={styles.titleBox}>
-                    <Text style={styles.title} adjustsFontSizeToFit={true} numberOfLines={1} minimumFontScale={0.7}>{dish.title}</Text>
+                    <Text style={styles.title} adjustsFontSizeToFit={true} numberOfLines={1} minimumFontScale={0.7}>{dish.dishName}</Text>
                     <TouchableOpacity style={styles.editIcon} onPress={() => navigation.navigate('Settings', {dish: dish})}>
                         <FontAwesome5 name='edit' size={30} color='black' />
                     </TouchableOpacity>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'flex-start', margin: spacing.s}}>
                     <FontAwesome5 name='map-marker-alt' size={25} color={colors.primary} />
-                    <Text style={{fontSize: sizes.h3, paddingHorizontal: spacing.m}}>{dish.location}</Text>
+                    <Text style={{fontSize: sizes.h3, paddingHorizontal: spacing.m}}>{dish.restaurant}</Text>
                 </View>
 
                 
@@ -50,7 +50,7 @@ const DishDetailsScreen = ({ route }) => {
                     
                 
                 
-                <Text style={styles.description}>{dish.description}</Text>
+                <Text style={styles.comment}>{dish.comment}</Text>
               </View>
             </View>
     </SafeAreaView>

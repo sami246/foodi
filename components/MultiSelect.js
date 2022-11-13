@@ -6,14 +6,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 
 
-const MultiSelectComponent = ({data}) => {
-  const [selected, setSelected] = useState([]);
+const MultiSelectComponent = ({data, selected, setSelected}) => {
+
 
   const renderItem = (item) => {
     return (
       <View style={styles.item}>
         <Text numberOfLines={1} style={styles.selectedTextStyle}>{item.label}</Text>
-        {item.icon}
+        {/* {item.icon} */}
       </View>
     );
   };
@@ -35,6 +35,7 @@ const MultiSelectComponent = ({data}) => {
         searchPlaceholder="Search..."
         onChange={item => {
           setSelected(item);
+          console.log(selected)
         }}
         renderLeftIcon={() => (
           <MaterialCommunityIcons
@@ -123,6 +124,6 @@ const styles = StyleSheet.create({
   },
   textSelectedStyle: {
     marginRight: 5,
-    fontSize: 16,
+    fontSize: 14,
   },
 });

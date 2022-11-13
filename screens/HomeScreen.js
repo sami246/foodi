@@ -8,7 +8,7 @@ import {colors, shadow, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/th
 import { TOP_PLACES, PLACES } from '../data';
 import RecentList from '../components/RecentList';
 import SectionHeader from '../components/SectionHeader';
-import AddButton from '../components/AddButton';
+import AddOverlayButton from '../components/AddOverlayButton';
 
 
 
@@ -17,9 +17,11 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-        {/* <AddButton /> */}
+        
         <NavBar />
+        
         <View style={styles.contentContainer}>
+          
             <ScrollView showsVerticalScrollIndicator={false}>
               <Text style={styles.heading1}>Your Top Dishes</Text>
               <TopPlacesCarousel list={TOP_PLACES}/>
@@ -31,6 +33,7 @@ const HomeScreen = ({ navigation }) => {
               <RecentList list={PLACES} />
           </ScrollView>
         </View>
+        <AddOverlayButton />
     </SafeAreaView>
   )
 }

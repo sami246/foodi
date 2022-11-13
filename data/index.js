@@ -1,3 +1,6 @@
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 export const TOP_PLACES = [
     {
       id: 1,
@@ -66,4 +69,26 @@ export const TOP_PLACES = [
       description:
         'Phuket is the largest island in Thailand. It is located in the Andaman Sea in southern Thailand',
     },
+  ];
+
+  export const TagsData = [
+    { label: 'American', value: 'American', icon: <MaterialCommunityIcons color="black" name="food-hot-dog" size={17} /> },
+    { label: 'Breakfast', value: 'Breakfast', icon: <MaterialCommunityIcons color="black" name="food-croissant" size={17} /> },
+    { label: 'Brunch', value: 'Brunch', icon: <AntDesign color="black" name="delete" size={17} /> },
+    { label: 'Burger', value: 'Burger', icon: <MaterialCommunityIcons color="black" name="hamburger" size={17} /> },
+    { label: 'Chicken', value: 'Chicken', icon: <MaterialCommunityIcons color="black" name="food-drumstick" size={17} /> },
+    { label: 'Chinese', value: 'Chinese', icon: <MaterialCommunityIcons color="black" name="food-takeout-box" size={17} /> },
+    { label: 'Dessert', value: 'Dessert', icon: <AntDesign color="black" name="delete" size={17} /> },
+    { label: 'Fish', value: 'Fish', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
+    { label: 'Gluten Free', value: 'Gluten Free', icon: <AntDesign color="black" name="delete" size={17} /> },
+    { label: 'Halal', value: 'Halal', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
+    { label: 'Italian', value: 'Italian', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
+    { label: 'Meat', value: 'Meat', icon: <MaterialCommunityIcons color="black" name="food-steak" size={17} /> },
+    { label: 'Mexican', value: 'Mexican', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
+    { label: 'Pizza', value: 'Pizza', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
+    { label: 'Snack', value: 'Snack', icon: <AntDesign color="black" name="delete" size={17} /> },
+    { label: 'Spicy', value: 'Spicy', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
+    { label: 'Sushi', value: 'Sushi', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
+    { label: 'Value for Money', value: 'Value for Money', icon: <AntDesign color="black" name="delete" size={17} /> },
+    { label: 'Vegetarian', value: 'Vegetarian', icon: <AntDesign color="black" name="delete" size={17} /> },
   ];

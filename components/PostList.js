@@ -9,22 +9,24 @@ const CARD_WIDTH = sizes.width - (spacing.xl);
 const CARD_HEIGHT = 250;
 
 const PostList = ({list}) => {
+  console.log("IN POST", {list})
 
   const navigation = useNavigation();
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {list.map((item, index) => {
+        console.log({item})
         return (
           <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
             <View style={[styles.card, shadow.light]} >
               <View style={styles.imageBox}>
-                <Image style={styles.image} source={item.image} />
+                <Image style={styles.image} source={{uri: item.image}} />
               </View>
               <View style={styles.footer}>
                 <View style={styles.titleBox}>
                   <FontAwesome name='star' size={25} color={colors.gold} />
-                  <Text numberOfLines={1} style={styles.title} allowFontScaling={true} minimumFontScale={0.8}>{item.title}</Text>
-                  <Text numberOfLines={1} style={styles.location}>{item.location}</Text>
+                  <Text numberOfLines={1} style={styles.title} allowFontScaling={true} minimumFontScale={0.8}>{item.dishName}</Text>
+                  <Text numberOfLines={1} style={styles.location}>{item.restaurant}</Text>
                 </View>
                 {/* <FavoriteButton /> */}
               </View>
