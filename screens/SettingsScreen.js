@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native'
 import React from 'react'
-import { STATUS_BAR_HEIGHT } from '../constants/theme'
+import { sizes, STATUS_BAR_HEIGHT } from '../constants/theme'
 import NavBar from '../components/NavBar'
+
 
 const SettingsScreen = ({ navigation }) => {
 
@@ -22,7 +23,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    top: STATUS_BAR_HEIGHT,
   },
   contentContainer : {
     flex: 10

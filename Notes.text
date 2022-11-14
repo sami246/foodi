@@ -5,3 +5,9 @@ Initial Steps:
     - npm install @react-navigation/native-stack
 
     - expo install firebase
+
+
+https://expo.dev/accounts/sami246/projects/foodi/builds/742aba81-759d-411e-a5e1-eb318218309b
+
+Need to do:
+    -- Need to do npx eas-cli build --profile development for ios when account created

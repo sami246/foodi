@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    top: STATUS_BAR_HEIGHT,
   },
   contentContainer : {
     flex: 10

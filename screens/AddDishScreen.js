@@ -15,6 +15,8 @@ import MultiSelectComponent from '../components/MultiSelect';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { TagsData } from '../data';
 import AppLoader from '../components/AppLoader';
+import AppBannerAd from '../components/Ads/AppBannerAd';
+
 
 const AddDishScreen = ({ navigation, route }) => {
     // if (route){
@@ -145,10 +147,12 @@ const AddDishScreen = ({ navigation, route }) => {
     <>
         {uploading ? <AppLoader /> : null}
         <ScrollView showsVerticalScrollIndicator={false}>
+            <AppBannerAd height={100} />
             <View
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
             >
+                
                 <View style = {styles.inputContainer}>
                     {/* Image */}
                     <ImageUpload image={image} setImage={setImage} uploading={uploading} setUploading={setUploading}/>
