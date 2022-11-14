@@ -14,6 +14,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MultiSelectComponent from '../components/MultiSelect';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { TagsData } from '../data';
+import AppLoader from '../components/AppLoader';
 
 const AddDishScreen = ({ navigation, route }) => {
     // if (route){
@@ -141,6 +142,8 @@ const AddDishScreen = ({ navigation, route }) => {
 
   
   return (
+    <>
+        {uploading ? <AppLoader /> : null}
         <ScrollView showsVerticalScrollIndicator={false}>
             <View
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -330,6 +333,8 @@ const AddDishScreen = ({ navigation, route }) => {
                 </View>
             </View>
         </ScrollView>
+        
+        </>
   )
 }
 

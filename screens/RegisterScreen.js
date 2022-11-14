@@ -2,10 +2,13 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } fro
 import React, { useState } from 'react'
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
+import AppButton from '../components/AppButton';
+import { colors } from '../constants/theme';
 
 
 
 const RegisterScreen = ({ navigation }) => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -33,12 +36,12 @@ const RegisterScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container} behavior='padding'>
         <View style = {styles.inputContainer}>
-            {/* <TextInput 
+            <TextInput 
                 placeholder='Name'
                 value={name}
                 style={styles.input} 
                 onChangeText = { text => setName(text)}
-            /> */}
+            />
             <TextInput 
                 placeholder='Email'
                 value={email}
@@ -54,12 +57,15 @@ const RegisterScreen = ({ navigation }) => {
             />
         </View>
         <View style={styles.buttonContainer}>
-                <TouchableOpacity 
-                    onPress={handleRegister}
-                    style = {styles.button}>
-                    <Text style = {styles.buttonText}>Register</Text>   
-                </TouchableOpacity>
-
+                    <AppButton
+                        fontSize={18}
+                        height={45}
+                        width= {'100%'}
+                        onPress={handleRegister}
+                        title= "Register"
+                        backgroundColor={colors.orange}
+                        color={colors.white}
+                    />
         </View>
     </SafeAreaView>
   )
@@ -87,7 +93,8 @@ const styles = StyleSheet.create({
         width: '60%',
         justifyContent: 'center',
         alignContent: 'center',
-        marginTop: 40
+        marginTop: 40,
+        height: 70
     },
     button: {
         backgroundColor: '#0782F9',

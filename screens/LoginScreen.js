@@ -3,6 +3,8 @@ import React from 'react'
 import { useState, useEffect} from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
+import AppButton from '../components/AppButton';
+import { colors } from '../constants/theme';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -63,20 +65,26 @@ const LoginScreen = ({ navigation }) => {
                 />
             </View>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity 
-                    onPress={handleSignIn}
-                    style = {styles.button}>
-                    <Text style = {styles.buttonText}>Login</Text>   
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                    onPress={() => navigation.navigate('Register')}
-                    style = {[styles.button, styles.buttonOutline]}>
-                    <Text style = {styles.buttonOutlineText}>Register</Text>   
-
-                </TouchableOpacity>
-
-            </View>
+                    <AppButton
+                        fontSize={18}
+                        height={45}
+                        width= {'100%'}
+                        onPress={handleSignIn}
+                        title= "Login"
+                        backgroundColor={colors.orange}
+                        color={colors.white}
+                    />
+                    <AppButton
+                        fontSize={18}
+                        height={45}
+                        width= {'100%'}
+                        onPress={() => navigation.navigate('Register')}
+                        title= "Register"
+                        backgroundColor={colors.white}
+                        color={colors.lightOrange}
+                        buttonStyle={{borderColor: colors.orange, borderWidth: 2}}
+                    />
+                </View>
         </SafeAreaView>
 
   )
@@ -145,13 +153,13 @@ const styles = StyleSheet.create({
         fontSize: 35,
         fontWeight: '450',
         alignSelf: 'center',
-        borderColor: 'black',
+        // fontFamily: 'Montserrat',
         borderWidth: 3,
-        padding: 10,
-        borderRadius: 30,
-        color: '#CC9767',
-        borderColor: '#CC9767',
-
+        padding: 15,
+        borderRadius: 15,
+        color: colors.orange,
+        borderColor: colors.lightOrange,
+        backgroundColor: colors.white,
     }
     
 })

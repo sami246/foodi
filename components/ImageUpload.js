@@ -77,7 +77,7 @@ export default class ImageUpload extends React.Component {
             
 
             
-            {this._maybeRenderUploadingOverlay()}
+            {/* {this._maybeRenderUploadingOverlay()} */}
         </View>
     </Pressable>
      : 

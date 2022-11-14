@@ -6,6 +6,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Rating from '../components/Rating';
 import { useNavigation } from '@react-navigation/native';
+import AppLoader from '../components/AppLoader';
 
 
 const DishDetailsScreen = ({ route }) => {
@@ -13,6 +14,7 @@ const DishDetailsScreen = ({ route }) => {
     const navigation = useNavigation();
     console.log({dish})
   return (
+
     <SafeAreaView style={styles.container}>
          <View style={styles.contentContainer}>
               <View style={styles.imageBox}>
@@ -54,6 +56,7 @@ const DishDetailsScreen = ({ route }) => {
               </View>
             </View>
     </SafeAreaView>
+
   )
 }
 

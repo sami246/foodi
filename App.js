@@ -10,6 +10,7 @@ import DishDetailsScreen from './screens/DishDetailsScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 import AddDishScreen from './screens/AddDishScreen';
+import AppLoader from './components/AppLoader';
 
 
 const Stack = createNativeStackNavigator();
@@ -45,7 +46,7 @@ export default function App() {
   }, [isReady]);
 
   if (!isReady) {
-    return null;
+    return <AppLoader />
   }
 
 

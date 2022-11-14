@@ -33,7 +33,7 @@ const AddOverlayButton = () => {
       flex: 1,
       position: 'absolute',
       right: 0,
-      bottom: STATUS_BAR_HEIGHT,
+      bottom: STATUS_BAR_HEIGHT + 5,
       },
     shadow: {
         shadowOffset: {
