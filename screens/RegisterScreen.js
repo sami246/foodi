@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image } from 'react-native'
 import React, { useState } from 'react'
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
@@ -35,6 +35,9 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container} behavior='padding'>
+        <View style = {styles.titleContainer}>
+            <Image  style={styles.titleImage} source={require('../assets/icon.png')} />
+        </View>
         <View style = {styles.inputContainer}>
             <TextInput 
                 placeholder='Name'
@@ -80,6 +83,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     inputContainer: {
+        flex: 1,
         width: '80%'
     },
     input: {
@@ -90,6 +94,7 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     buttonContainer: {
+        flex: 1,
         width: '60%',
         justifyContent: 'center',
         alignContent: 'center',
@@ -119,5 +124,19 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16
     },
+    titleContainer : {
+        flex: 1,
+        width: '80%',
+        justifyContent: 'center',
+        alignContent: 'center',
+        
+    },
+
+    titleImage: {
+        width: 200,
+        resizeMode: 'cover',
+        height: 100,
+        alignSelf: 'center'
+    }
     
 })

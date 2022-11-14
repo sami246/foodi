@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, SafeAreaView, Image } from 'react-native'
 import React from 'react'
 import { useState, useEffect} from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -47,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
   return (
         <SafeAreaView style={styles.container} behavior='padding'>
             <View style = {styles.titleContainer}>
-                <Text style={styles.title}>FOODI</Text>
+                <Image  style={styles.titleImage} source={require('../assets/icon.png')} />
             </View>
             <View style = {styles.inputContainer}>
                 <TextInput 
@@ -149,17 +149,12 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         
     },
-    title: {
-        fontSize: 35,
-        fontWeight: '450',
-        alignSelf: 'center',
-        // fontFamily: 'Montserrat',
-        borderWidth: 3,
-        padding: 15,
-        borderRadius: 15,
-        color: colors.orange,
-        borderColor: colors.lightOrange,
-        backgroundColor: colors.white,
+
+    titleImage: {
+        width: 200,
+        resizeMode: 'cover',
+        height: 100,
+        alignSelf: 'center'
     }
     
 })
