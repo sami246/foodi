@@ -4,7 +4,7 @@ import { useState, useEffect} from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase';
 import AppButton from '../components/AppButton';
-import { colors } from '../constants/theme';
+import { colors, sizes } from '../constants/theme';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -51,6 +51,7 @@ const LoginScreen = ({ navigation }) => {
             </View>
             <View style = {styles.inputContainer}>
                 <TextInput 
+                    keyboardType='email-address'
                     placeholder='Email'
                     value={email}
                     style={styles.input} 
@@ -96,10 +97,9 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1,
-        maxHeight: '70%',
-        top: 80,
-        bottom: 20
+        maxHeight: sizes.height,
+        height: sizes.height,
+        flex: 1
     },
     inputContainer: {
         flex: 1,

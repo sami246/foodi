@@ -40,12 +40,13 @@ const RegisterScreen = ({ navigation }) => {
         </View>
         <View style = {styles.inputContainer}>
             <TextInput 
-                placeholder='Name'
+                placeholder='Full Name'
                 value={name}
                 style={styles.input} 
                 onChangeText = { text => setName(text)}
             />
             <TextInput 
+                keyboardType='email-address'
                 placeholder='Email'
                 value={email}
                 style={styles.input} 
