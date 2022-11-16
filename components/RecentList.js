@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: spacing.m,
+
   },
   cardContainer: {
     marginLeft: spacing.l,

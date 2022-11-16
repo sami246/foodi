@@ -7,7 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import NavBar from '../components/NavBar';
 
 
-const ProfileScreen = ({ navigation }) => {
+const MapScreen = ({ navigation }) => {
   const [user, setUser] = useState(auth.currentUser)
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ProfileScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
         <NavBar />
         <View style={styles.contentContainer}>
-          <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>PROFILE SCREEN</Text>
+          <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>MAP SCREEN</Text>
           <Text>{user.displayName} </Text>
           <Text>{user.email} </Text>
           <Text>{user.photoURL} </Text>
@@ -44,7 +44,7 @@ const ProfileScreen = ({ navigation }) => {
   )
 }
 
-export default ProfileScreen
+export default MapScreen
 
 const styles = StyleSheet.create({
   container: {

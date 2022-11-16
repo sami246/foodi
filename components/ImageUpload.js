@@ -11,31 +11,38 @@ import {
   View,
   LogBox,
   TouchableHighlight,
-  Pressable
+  Pressable,
+  Linking,
+  Alert
 } from "react-native";
 import * as Clipboard from "expo-clipboard";
 import { colors, sizes, spacing } from "../constants/theme";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AppButton from "./AppButton";
+import { Permissions } from 'expo';
+
+
 
 // Firebase sets some timeers for a long period, which will trigger some warnings. Let's turn that off for this example
 LogBox.ignoreLogs([`Setting a timer for a long period`]);
 
 
 export default class ImageUpload extends React.Component {
-    
 
-
-  async componentDidMount() {
-    if (Platform.OS !== "web") {
-      const {
-        status,
-      } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-  }
+  showAlert1() {  
+    Alert.alert(  
+        'Permissions Needed',  
+        'Change Media and File Permissions in App Settings',  
+        [  
+            {  
+                text: 'Cancel',  
+                onPress: () => console.log('Cancel Pressed'),  
+                style: 'cancel',  
+            },  
+            {text: 'OK', onPress: () => Linking.openSettings()},  
+        ]  
+    );  
+}  
 
   render() {
 
@@ -199,15 +206,31 @@ export default class ImageUpload extends React.Component {
     this._handleImagePicked(pickerResult);
   };
 
+
   _pickImage = async () => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 0.6
-    });
-    if (!pickerResult.cancelled) {
-      this.props.setImage(pickerResult.uri)
+    var PermissionResponse = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (PermissionResponse.status === 'granted'){
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        quality: 0.6
+      });
+      console.log({pickerResult})
+      if (!pickerResult.canceled) {
+        this.props.setImage(pickerResult.assets.uri)
+      }
     }
-    
+    else{
+      if(PermissionResponse.canAskAgain === false){
+        console.log("Can't ask again")
+        this.showAlert1()
+
+      }
+      else{
+        alert("Sorry, we need camera roll permissions to make this work!");
+      } 
+
+
+    }
     // this._handleImagePicked(pickerResult);
   };
 

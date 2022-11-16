@@ -6,16 +6,16 @@ import {colors, shadow, sizes, spacing} from '../constants/theme';
 // Screens
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import PostsScreen from '../screens/PostsScreen';
 import AddDishScreen from '../screens/AddDishScreen';
+import MapScreen from '../screens/MapScreen';
 
 
 const Tab = createMaterialBottomTabNavigator()
 
 const homeName = 'Home';
 const postsName = 'Posts'
-const profileName = 'Profile';
+const mapName = 'Map';
 const settingsName = 'Settings';
 
 export default function MainContainer({navigation}) {
@@ -51,8 +51,8 @@ export default function MainContainer({navigation}) {
                 if (routeName === homeName){
                     iconName = focused ? 'home' : 'home-outline'
                 }
-                else if (routeName === profileName){
-                    iconName = focused ? 'person-circle' : 'person-circle-outline'
+                else if (routeName === mapName){
+                    iconName = focused ? 'map' : 'map-outline'
                 }
                 else if (routeName === settingsName){
                     iconName = focused ? 'settings' : 'settings-outline'
@@ -70,7 +70,7 @@ export default function MainContainer({navigation}) {
 
             <Tab.Screen options={{headerShown: false}} name={homeName} component={HomeScreen} navigation={navigation}/>
             <Tab.Screen options={{headerShown: false}} name={postsName} component={PostsScreen} navigation={navigation}/>
-            <Tab.Screen options={{headerShown: false}} name={profileName} component={ProfileScreen} navigation={navigation}/>
+            <Tab.Screen options={{headerShown: false}} name={mapName} component={MapScreen} navigation={navigation}/>
             <Tab.Screen options={{headerShown: false}} name={settingsName} component={SettingsScreen} navigation={navigation}/>
             
 

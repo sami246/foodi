@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Pressable  } from 'react-native'
+import { StyleSheet, Text, View, Pressable  } from 'react-native'
 import { signOut} from "firebase/auth";
 import { auth } from '../firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -23,9 +23,9 @@ const NavBar = () => {
             <Pressable onPress={() => navigation.navigate('Home')} android_ripple={{color: 'white'}} style={{padding: 5}}>
               <Text style={styles.title} >Foodi</Text>
             </Pressable>
-            <Pressable style={styles.button} onPress={handleSignOut}>
+            {/* <Pressable style={styles.button} onPress={handleSignOut}>
                 <Ionicons name='log-out-outline' size={25} color='white' />
-            </Pressable>
+            </Pressable> */}
         </View>
     )
   }
