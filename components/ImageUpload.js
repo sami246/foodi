@@ -216,7 +216,7 @@ export default class ImageUpload extends React.Component {
       });
       console.log({pickerResult})
       if (!pickerResult.canceled) {
-        this.props.setImage(pickerResult.assets.uri)
+        this.props.setImage(pickerResult.assets[0].uri)
       }
     }
     else{

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image } from 'react-native'
 import React, { useState } from 'react'
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut  } from "firebase/auth";
 import { auth } from '../firebase';
 import AppButton from '../components/AppButton';
 import { colors } from '../constants/theme';
@@ -13,16 +13,27 @@ const RegisterScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     function handleRegister() {
-        console.log("auth", auth)
-        console.log("email", email)
-        console.log("password", password)
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+            console.log("Here 1")
             // Signed in 
-            console.log("Created a user")
-            const user = userCredential.user;
-            console.log(user.email)
-            navigation.navigate('Login')
+            sendEmailVerification(userCredential.currentUser)
+            console.log("Here 2")
+            .then(() => {
+                console.log("Here 3")
+                alert("Your User has been Created!\nLook out in your email inbox for a verification email")
+                signOut(userCredential)
+            }).catch((error) => {
+                console.log("Error: ", error)
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log("Error: ", errorCode)
+            }).finally(() => {
+                console.log("Here")
+                navigation.navigate('Login')
+            }
+            )
+           
         })
         .catch((error) => {
             const errorCode = error.code;

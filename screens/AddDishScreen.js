@@ -90,11 +90,6 @@ const AddDishScreen = ({ navigation, route }) => {
     return unsubscribe;
   }, []);
 
-  // No advert ready to show yet
-  if (!loaded) {
-    return null;
-  }
-
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
@@ -114,14 +109,13 @@ const AddDishScreen = ({ navigation, route }) => {
     setWHA(false);
     setDate(new Date());
     setDateText("");
-    setTags([]);
+    setTags(null);
     navigation.goBack();
   };
 
   const handleSubmit = async () => {
     try {
       setUploading(true);
-      interstitial.show();
       var uploadUrl = null;
       if (image != null) {
         console.log("uploading Image");
@@ -139,9 +133,10 @@ const AddDishScreen = ({ navigation, route }) => {
         date: date,
         dateText: dateText,
         price: price,
-        categories: tags,
+        tags: "tags",
         wouldHaveAgain: WHA,
       });
+      // interstitial.show();
       console.log("Dish Added");
     } catch (e) {
       console.log(e);

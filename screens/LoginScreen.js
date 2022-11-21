@@ -24,16 +24,12 @@ const LoginScreen = ({ navigation }) => {
     
    
     function handleSignIn () {
-        console.log("auth", auth)
-        console.log("email", email)
-        console.log("password", password)
             signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in 
                 
                 const user = userCredential.user;
                 setUser(user)
-                // navigation.navigate('Home')
             })
             .catch((error) => {
                 const errorCode = error.code;
