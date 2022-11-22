@@ -1,27 +1,66 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native'
-import React, {useState} from 'react'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, RefreshControl } from 'react-native'
+import React, {useState, useEffect} from 'react'
 import NavBar from '../components/NavBar';
-import { STATUS_BAR_HEIGHT } from '../constants/theme';
 import PostList from '../components/PostList';
-import { TOP_PLACES, PLACES } from '../data';
-import { dishesData } from '../firebase';
 import AddOverlayButton from '../components/AddOverlayButton';
+import { collection, query, where, getDocs, onSnapshot  } from "firebase/firestore";
+import { auth, firestoreDB } from '../firebase';
 
-
+export var dishesData = []
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 const PostsScreen = ({ navigation }) => {
-  console.log({dishesData})
+  useEffect(() => {
+    loadDishesData()
+  }, [])
+  
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [dishes, setDishes] = React.useState([]);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    loadDishesData().then(() => setRefreshing(false)).catch((error) => alert(error))
+  }, []);
+
+  const loadDishesData = async () => {
+    try {
+      const user  = auth.currentUser
+      const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid));
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            if (!(doc.id in dishesData)){
+              dishesData.push({ ...doc.data(), id: doc.id})
+            }
+            
+          });
+          setDishes(dishesData)
+      });
+      return unsubscribe;
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
         <NavBar />
-        <AddOverlayButton />
         <View style={styles.contentContainer}>
-          <PostList list={dishesData} />
-
-            {/* <Text> All Your Posts </Text>
-            <PostList list={PLACES} /> */}
+          <ScrollView 
+              showsVerticalScrollIndicator={false}         
+              refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />}
+          >
+                    {dishes.length != 0 ? <PostList list={dishes} /> : <Text>Add some posts</Text>}
+          </ScrollView>
         </View>
+        <AddOverlayButton />
     </SafeAreaView>
   )
 }

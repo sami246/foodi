@@ -116,10 +116,12 @@ const AddDishScreen = ({ navigation, route }) => {
   const handleSubmit = async () => {
     try {
       setUploading(true);
+      interstitial.show();
       var uploadUrl = null;
       if (image != null) {
         console.log("uploading Image");
         uploadUrl = await uploadImageAsync(image);
+        console.log("ssssss", uploadUrl)
       }
       console.log("Adding Doc");
       const docRef = await addDoc(collection(firestoreDB, "dishs"), {
@@ -136,7 +138,7 @@ const AddDishScreen = ({ navigation, route }) => {
         tags: "tags",
         wouldHaveAgain: WHA,
       });
-      // interstitial.show();
+      
       console.log("Dish Added");
     } catch (e) {
       console.log(e);
@@ -152,6 +154,7 @@ const AddDishScreen = ({ navigation, route }) => {
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
     const blob = await new Promise((resolve, reject) => {
+
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
         resolve(xhr.response);
@@ -357,7 +360,7 @@ const AddDishScreen = ({ navigation, route }) => {
                   }}
                 >
                   {tags != [] ? (
-                    tags.map((tag, index) => (
+                    tags?.map((tag, index) => (
                       <View key={index} style={styles.selectedStyle}>
                         <Text
                           numberOfLines={1}

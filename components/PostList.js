@@ -3,13 +3,14 @@ import {Image, View, StyleSheet, TouchableOpacity, Text, ScrollView} from 'react
 import { useNavigation } from '@react-navigation/native';
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Rating from './Rating';
 // import FavoriteButton from './FavoriteButton';
 
 const CARD_WIDTH = sizes.width - (spacing.xl);
 const CARD_HEIGHT = 250;
 
 const PostList = ({list}) => {
-  console.log("IN POST", {list})
 
   const navigation = useNavigation();
   return (
@@ -20,14 +21,18 @@ const PostList = ({list}) => {
           <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
             <View style={[styles.card, shadow.light]} >
               <View style={styles.imageBox}>
-                <Image style={styles.image} source={{uri: item.image}} />
+                <Image style={styles.image} source={item.image ? {uri: item.image} : null} />
               </View>
               <View style={styles.footer}>
-                <View style={styles.titleBox}>
-                  <FontAwesome name='star' size={25} color={colors.gold} />
+                  <View style={{marginVertical: spacing.xs}}>
+                      <Rating rating={item.rating} fontSize={sizes.body} iconSize={17} fontColor={colors.gray}/>
+                  </View>
                   <Text numberOfLines={1} style={styles.title} allowFontScaling={true} minimumFontScale={0.8}>{item.dishName}</Text>
-                  <Text numberOfLines={1} style={styles.location}>{item.restaurant}</Text>
-                </View>
+                  {/* <Text numberOfLines={1} style={styles.location}>{item.restaurant}</Text> */}
+                  <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+                    <FontAwesome5 name='map-marker-alt' size={15} color={colors.primary} />
+                    <Text style={{fontSize: sizes.h4, paddingLeft: spacing.s}}>{item.restaurant}</Text>
+                  </View>
                 {/* <FavoriteButton /> */}
               </View>
             </View>
@@ -44,38 +49,40 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     overflow: 'hidden',
     marginBottom: spacing.m,
+    marginTop: spacing.m,
   },
   cardContainer: {
     marginBottom: spacing.l,
+    overflow: 'hidden'
   },
   card: {
     width: CARD_WIDTH,
+    overflow: 'hidden',
     height: CARD_HEIGHT,
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
+    borderWidth: 1.5,
+    borderColor: colors.orange
     
   },
   imageBox: {
     width: CARD_WIDTH,
-    height: CARD_HEIGHT - 60,
+    maxWidth: CARD_WIDTH,
+    height: CARD_HEIGHT - 90,
     borderTopLeftRadius: sizes.radius,
     borderTopRightRadius: sizes.radius,
     overflow: 'hidden',
   },
   image: {
     width: CARD_WIDTH,
-    height: CARD_HEIGHT - 60,
+    height: CARD_HEIGHT - 90,
     resizeMode: 'cover',
   },
   footer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    // flexDirection: 'row',
     marginTop: 6,
     marginLeft: 16,
     marginRight: 10,
-  },
-  titleBox: {
-    flex: 1,
   },
   title: {
     marginVertical: 4,

@@ -35,7 +35,7 @@ const DishDetailsScreen = ({ route }) => {
                 
                 {dish.rating ?
                   <View style={{backgroundColor: colors.blue, borderRadius: 15, marginVertical: spacing.s}}>
-                    <Rating rating={dish.rating}/>
+                    <Rating rating={dish.rating} fontSize={sizes.h3} iconSize={25} fontColor={colors.white}/>
                   </View>
 
                   : 
