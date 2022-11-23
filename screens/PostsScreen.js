@@ -6,7 +6,7 @@ import AddOverlayButton from '../components/AddOverlayButton';
 import { collection, query, where, getDocs, onSnapshot  } from "firebase/firestore";
 import { auth, firestoreDB } from '../firebase';
 
-export var dishesData = []
+export 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -29,12 +29,12 @@ const PostsScreen = ({ navigation }) => {
       const user  = auth.currentUser
       const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          var dishesData = []
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             if (!(doc.id in dishesData)){
-              dishesData.push({ ...doc.data(), id: doc.id})
+              dishesData.push({ ...doc.data(), id: doc.id, key: doc.id})
             }
-            
           });
           setDishes(dishesData)
       });
@@ -57,7 +57,17 @@ const PostsScreen = ({ navigation }) => {
                     onRefresh={onRefresh}
                   />}
           >
-                    {dishes.length != 0 ? <PostList list={dishes} /> : <Text>Add some posts</Text>}
+                  <View>
+                    <Text>Filter</Text>
+                    <Text>Search</Text>
+                    <Text>Tags</Text>
+                  </View>
+                    {dishes.length != 0 
+                    ? 
+                    <PostList list={dishes} /> 
+                    : 
+                    <Text style={{fontSize: 20}}>Add some posts</Text>
+                    }
           </ScrollView>
         </View>
         <AddOverlayButton />

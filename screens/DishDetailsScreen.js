@@ -35,12 +35,12 @@ const DishDetailsScreen = ({ route }) => {
                 
                 {dish.rating ?
                   <View style={{backgroundColor: colors.blue, borderRadius: 15, marginVertical: spacing.s}}>
-                    <Rating rating={dish.rating} fontSize={sizes.h3} iconSize={25} fontColor={colors.white}/>
+                    <Rating rating={dish.rating} fontSize={sizes.h3} iconSize={25} fontColor={colors.white} showText={true}/>
                   </View>
 
                   : 
 
-                  <View style={{flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.s}}>
+                  <View style={{backgroundColor: colors.lightGray, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.s, paddingVertical: spacing.xs, alignItems: 'center'}}>
                     <TouchableOpacity onPress={() => alert('Add Rating')}>
                       <FontAwesome name='star-o' size={25} color={colors.gray} />
                     </TouchableOpacity>

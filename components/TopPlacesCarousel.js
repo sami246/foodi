@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import { useNavigation } from '@react-navigation/native';
+import Rating from './Rating';
 
 const CARD_WIDTH = sizes.width - 80;
 const CARD_HEIGHT = 200;
@@ -41,7 +42,10 @@ const TopPlacesCarousel = ({list}) => {
               <View style={styles.titleBox}>
                 <Text style={[styles.title, styles.textShadow]}>{item.title}</Text>
                 <Text style={[styles.location, styles.textShadow]}>{item.location}</Text>
-                <Text style={[styles.rating, styles.textShadow]}>{item?.rating}/10</Text>
+                <View style={[styles.textShadow, {alignItems: 'flex-start'}]}>
+                  <Rating rating={item.rating} fontSize={10} iconSize={13} fontColor={colors.gold} showText={false}/>
+                </View>
+                
               </View>
             </View>
           </TouchableOpacity>

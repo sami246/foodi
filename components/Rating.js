@@ -3,7 +3,7 @@ import {Button, Text, View, StyleSheet} from 'react-native';
 import {sizes, spacing, colors} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Rating = ({rating, iconSize, fontSize, fontColor}) => {
+const Rating = ({rating, iconSize, fontSize, fontColor, showText}) => {
     const [ratingsArray, setRatingsArray] = useState([])
 
     useEffect(() => {
@@ -24,13 +24,13 @@ const Rating = ({rating, iconSize, fontSize, fontColor}) => {
         setRatingsArray(rows)
     }, [])
   
-
   return (
     <View style={{flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.xs, alignItems: 'center'}}>
-            {rating ? 
+            {rating && showText && 
             <Text style={{fontSize: fontSize, fontWeight: '500', color: fontColor}}>{rating}/10</Text> 
-            : 
-            <Text style={{fontSize: fontSize, fontWeight: '500', color: fontColor}}>No Rating</Text>
+            }
+            {!rating && showText &&
+            <Text style={{fontSize: fontSize, fontWeight: '500', color: colors.lightGray}}>No Rating</Text>
             }
             
             {ratingsArray}
