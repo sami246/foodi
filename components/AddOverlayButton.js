@@ -8,7 +8,6 @@ import { useNavigation } from '@react-navigation/native';
 const AddOverlayButton = () => {
     const navigation = useNavigation();
     const handlePress = () => {
-      console.log("Pressed AddOverlayButton")
       navigation.navigate('Add Dish')
     }
 

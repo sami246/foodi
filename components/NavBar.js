@@ -8,14 +8,6 @@ import {colors, shadow, sizes, spacing} from '../constants/theme';
 
 
 const NavBar = () => {
-    function handleSignOut(){
-        signOut(auth).then(() => {
-          navigation.replace('Login')
-        }).catch((error) => {
-          alert(error.message)
-        });
-    }
-
     const navigation = useNavigation();
     
     return (
@@ -23,9 +15,6 @@ const NavBar = () => {
             <Pressable onPress={() => navigation.navigate('Home')} android_ripple={{color: 'white'}} style={{padding: 5}}>
               <Text style={styles.title} >Foodi</Text>
             </Pressable>
-            {/* <Pressable style={styles.button} onPress={handleSignOut}>
-                <Ionicons name='log-out-outline' size={25} color='white' />
-            </Pressable> */}
         </View>
     )
   }

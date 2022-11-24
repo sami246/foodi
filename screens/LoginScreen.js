@@ -3,7 +3,7 @@ import React from 'react'
 import { useState, useEffect, useContext} from 'react';
 import AppButton from '../components/AppButton';
 import { colors, sizes } from '../constants/theme';
-import { AuthContext } from '../navigation/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 import { auth } from '../firebase';
 
 
@@ -12,17 +12,6 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const {user, setUser, SignIn} = useContext(AuthContext);
-
-    useEffect(() => {
-        // Use unsubscribe to leave from listener to save power
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            console.log("In App.js", user)
-            if(user){
-                navigation.replace('MainContainer')
-            }
-            })
-        return unsubscribe;
-    }, [])
      
   return (
         <SafeAreaView style={styles.container} behavior='padding'>

@@ -1,10 +1,8 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image } from 'react-native'
 import React, { useState, useContext } from 'react'
-import { createUserWithEmailAndPassword, sendEmailVerification, signOut  } from "firebase/auth";
-import { auth } from '../firebase';
 import AppButton from '../components/AppButton';
 import { colors } from '../constants/theme';
-import { AuthContext } from '../navigation/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
     
 
 // Need to add name to authcontext function
@@ -13,7 +11,7 @@ const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const {user, setUser, Register} = useContext(AuthContext);
+    const {Register} = useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container} behavior='padding'>

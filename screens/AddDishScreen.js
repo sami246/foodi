@@ -24,7 +24,7 @@ import AppLoader from "../components/AppLoader";
 import AppBannerAd from "../components/Ads/AppBannerAd";
 import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 import Tags from "../components/Tags";
-import {AuthContext} from '../navigation/AuthProvider';
+import { AuthContext } from '../contexts/AuthProvider';
 
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
 
