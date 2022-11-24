@@ -11,6 +11,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react';
 import AddDishScreen from './screens/AddDishScreen';
 import AppLoader from './components/AppLoader';
+import { AuthContext, AuthProvider } from './navigation/AuthProvider';
+import {useState, useEffect, useContext } from "react";
+import { auth } from './firebase';
 
 
 const Stack = createNativeStackNavigator();
@@ -51,18 +54,20 @@ export default function App() {
 
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider> 
       <NavigationContainer>
-          <Stack.Navigator>
+        <AuthProvider>
+            <Stack.Navigator>
 
-            {/* Authentification */}
-              <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
-              <Stack.Screen name="Register" component={RegisterScreen} />
-            {/* Main App */}
-              <Stack.Screen options={{headerShown: false}} name="MainContainer" component={MainContainer} />
-              <Stack.Screen options={{headerShown: true, animation:'slide_from_bottom'}} name='Post Detail' component={DishDetailsScreen} />
-              <Stack.Screen options={{headerShown: false, animation:'slide_from_bottom'}} name='Add Dish' component={AddDishScreen} />
-          </Stack.Navigator>
+              {/* Authentification */}
+                <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
+                <Stack.Screen name="Register" component={RegisterScreen} />
+              {/* Main App */}
+                <Stack.Screen options={{headerShown: false}} name="MainContainer" component={MainContainer} />
+                <Stack.Screen options={{headerShown: true, animation:'slide_from_bottom'}} name='Post Detail' component={DishDetailsScreen} />
+                <Stack.Screen options={{headerShown: false, animation:'slide_from_bottom'}} name='Add Dish' component={AddDishScreen} />
+            </Stack.Navigator>
+        </AuthProvider>
       </NavigationContainer>
     </SafeAreaProvider>
 

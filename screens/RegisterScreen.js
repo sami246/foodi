@@ -1,48 +1,19 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut  } from "firebase/auth";
 import { auth } from '../firebase';
 import AppButton from '../components/AppButton';
 import { colors } from '../constants/theme';
+import { AuthContext } from '../navigation/AuthProvider';
+    
 
-
+// Need to add name to authcontext function
 
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    function handleRegister() {
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            console.log("Here 1")
-            // Signed in 
-            sendEmailVerification(userCredential.currentUser)
-            console.log("Here 2")
-            .then(() => {
-                console.log("Here 3")
-                alert("Your User has been Created!\nLook out in your email inbox for a verification email")
-                signOut(userCredential)
-            }).catch((error) => {
-                console.log("Error: ", error)
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log("Error: ", errorCode)
-            }).finally(() => {
-                console.log("Here")
-                navigation.navigate('Login')
-            }
-            )
-           
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            if (errorCode === "auth/invalid-email"){
-                alert("Invalid Email")
-            }
-        });
-    }
+    const {user, setUser, Register} = useContext(AuthContext);
 
   return (
     <SafeAreaView style={styles.container} behavior='padding'>
@@ -50,12 +21,12 @@ const RegisterScreen = ({ navigation }) => {
             <Image  style={styles.titleImage} source={require('../assets/icon.png')} />
         </View>
         <View style = {styles.inputContainer}>
-            <TextInput 
+            {/* <TextInput 
                 placeholder='Full Name'
                 value={name}
                 style={styles.input} 
                 onChangeText = { text => setName(text)}
-            />
+            /> */}
             <TextInput 
                 keyboardType='email-address'
                 placeholder='Email'
@@ -76,7 +47,7 @@ const RegisterScreen = ({ navigation }) => {
                         fontSize={18}
                         height={45}
                         width= {'100%'}
-                        onPress={handleRegister}
+                        onPress={() => {Register(email, password)}}
                         title= "Register"
                         backgroundColor={colors.orange}
                         color={colors.white}

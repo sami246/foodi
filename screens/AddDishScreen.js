@@ -7,7 +7,7 @@ import {
   Modal,
   Switch,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { db, auth, firestoreDB } from "../firebase";
 import ImageUpload from "../components/ImageUpload";
@@ -24,6 +24,7 @@ import AppLoader from "../components/AppLoader";
 import AppBannerAd from "../components/Ads/AppBannerAd";
 import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 import Tags from "../components/Tags";
+import {AuthContext} from '../navigation/AuthProvider';
 
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
 
@@ -39,7 +40,7 @@ const AddDishScreen = ({ navigation, route }) => {
   // }
 
   // States
-  const [user, setUser] = useState(auth.currentUser);
+  const {user} = useContext(AuthContext);
   const [image, setImage] = useState(null);
   const [dishName, setDishName] = useState(null);
   const [price, setPrice] = useState(null);
