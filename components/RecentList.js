@@ -19,12 +19,12 @@ const RecentList = ({list}) => {
           <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
             <View style={[styles.card, shadow.light]} >
               <View style={styles.imageBox}>
-                <Image style={styles.image} source={item.image} />
+                <Image style={styles.image} source={item.image ? {uri: item.image} : null} />
               </View>
               <View style={styles.footer}>
                 <View style={styles.titleBox}>
-                  <Text numberOfLines={1} style={styles.title}>{item.title}</Text>
-                  <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.7} style={styles.location}>{item.location}</Text>
+                  <Text numberOfLines={1} style={styles.title}>{item.dishName}</Text>
+                  <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.7} style={styles.location}>{item.restaurant}</Text>
                 </View>
                 {/* <FavoriteButton /> */}
               </View>

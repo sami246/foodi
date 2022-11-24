@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Button, Text, View, StyleSheet} from 'react-native';
-import {sizes, spacing, colors} from '../constants/theme';
+import {sizes, spacing, colors, shadow} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Rating = ({rating, iconSize, fontSize, fontColor, showText}) => {

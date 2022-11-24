@@ -37,11 +37,11 @@ const TopPlacesCarousel = ({list}) => {
             }}>
             <View style={[styles.card, shadow.dark]}>
               <View style={styles.imageBox}>
-                <Image source={item.image} style={styles.image} />
+                <Image source={item.image ? {uri: item.image} : null} style={styles.image} />
               </View>
               <View style={styles.titleBox}>
-                <Text style={[styles.title, styles.textShadow]}>{item.title}</Text>
-                <Text style={[styles.location, styles.textShadow]}>{item.location}</Text>
+                <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8}  style={[styles.title, styles.textShadow]}>{item.dishName}</Text>
+                <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8} style={[styles.location, styles.textShadow]}>{item.restaurant}</Text>
                 <View style={[styles.textShadow, {alignItems: 'flex-start'}]}>
                   <Rating rating={item.rating} fontSize={10} iconSize={13} fontColor={colors.gold} showText={false}/>
                 </View>
@@ -84,13 +84,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: CARD_HEIGHT - 80,
     left: 16,
+    width: CARD_WIDTH - 32,
+    overflow: 'hidden'
   },
   title: {
     fontSize: sizes.h2,
     fontWeight: 'bold',
     color: colors.white,
+    
+    overflow: 'hidden'
   },
   location: {
+    overflow: 'hidden',
     fontSize: sizes.h3,
     color: colors.white,
   },
