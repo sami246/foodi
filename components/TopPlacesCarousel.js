@@ -28,28 +28,31 @@ const TopPlacesCarousel = ({list}) => {
       showsHorizontalScrollIndicator={false}
       keyExtractor={i => i.id}
       renderItem={({item, index}) => {
-        return (
-          <TouchableOpacity
-            onPress={() => {navigation.navigate('Post Detail', {dish: item})}}
-            style={{
-              marginLeft: spacing.l,
-              marginRight: index === list.length - 1 ? spacing.l : 0,
-            }}>
-            <View style={[styles.card, shadow.dark]}>
-              <View style={styles.imageBox}>
-                <Image source={item.image ? {uri: item.image} : null} style={styles.image} />
-              </View>
-              <View style={styles.titleBox}>
-                <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8}  style={[styles.title, styles.textShadow]}>{item.dishName}</Text>
-                <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8} style={[styles.location, styles.textShadow]}>{item.restaurant}</Text>
-                <View style={[styles.textShadow, {alignItems: 'flex-start'}]}>
-                  <Rating rating={item.rating} fontSize={10} iconSize={13} fontColor={colors.gold} showText={false}/>
+        if(item.rating != null){
+          return (
+            <TouchableOpacity
+              onPress={() => {navigation.navigate('Post Detail', {dish: item})}}
+              style={{
+                marginLeft: index === 0 ? spacing.l : 0,
+                marginRight: spacing.l,
+              }}>
+              <View style={[styles.card, shadow.dark]}>
+                <View style={styles.imageBox}>
+                  <Image source={item.image ? {uri: item.image} : null} style={styles.image} />
                 </View>
-                
+                <View style={styles.titleBox}>
+                  <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8}  style={[styles.title, styles.textShadow]}>{item.dishName}</Text>
+                  <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8} style={[styles.location, styles.textShadow]}>{item.restaurant}</Text>
+                  <View style={[styles.textShadow, {alignItems: 'flex-start'}]}>
+                    <Rating rating={item.rating} fontSize={10} iconSize={13} fontColor={colors.gold} showText={false}/>
+                  </View>
+                  
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        );
+            </TouchableOpacity>
+          );
+        }
+       
       }}
     />
   );

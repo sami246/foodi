@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { colors, sizes, spacing } from '../constants/theme'
 
-const Tags = ({tags, bColor, fColor}) => {
+const Tags = ({tags, bColor, fColor, handleTagPress}) => {
   return (
     <View
         style={{
@@ -15,7 +15,11 @@ const Tags = ({tags, bColor, fColor}) => {
     >
         {tags != [] ? (
         tags?.map((tag, index) => (
-            <View key={index} style={[styles.selectedStyle, {backgroundColor: bColor}]}>
+            <Pressable onPress={() => {
+              if(handleTagPress){
+                handleTagPress(tag)
+              }              
+              }} key={index} style={[styles.selectedStyle, {backgroundColor: bColor}]}>
             <Text
                 numberOfLines={1}
                 style={[styles.textSelectedStyle, {color: fColor}]}
@@ -23,7 +27,7 @@ const Tags = ({tags, bColor, fColor}) => {
                 {tag}
             </Text>
             {/* <AntDesign color={colors.darkGray} name="star" size={15} /> */}
-            </View>
+            </Pressable>
         ))
         ) : (
         <Text> Add Tags</Text>

@@ -36,37 +36,38 @@ export const TOP_PLACES = [
   export const PLACES = [
     {
       id: 4,
-      image: {uri: 'https://steakandteeth.files.wordpress.com/2016/05/2016-05-18-07-25-05-1-2-jpg.jpeg?w=1140'},
-      title: 'Caramel Popcorn Freak Shake',
-      location: 'Sweet Stepney Green',
+      image: 'https://steakandteeth.files.wordpress.com/2016/05/2016-05-18-07-25-05-1-2-jpg.jpeg?w=1140',
+      dishName: 'Caramel Popcorn Freak Shake',
+      restaurant: 'Sweet Stepney Green',
       rating: 3,
-      description:
+      comment:
         "Cappadocia's landscape includes dramatic expanses of soft volcanic rock, shaped by erosion into towers, cones, valleys, and caves. Rock-cut churches and underground tunnel complexes from the Byzantine and Islamic eras are scattered throughout the countryside.",
     },
     {
       id: 5,
-      image: {uri: 'https://www.hot-dinners.com/images/stories/blog/2019/coqfighter2.jpg'},
-      title: 'Chicken Burger',
-      location: 'Coqfighter Kings Cross',
-      description:
+      image: 'https://www.hot-dinners.com/images/stories/blog/2019/coqfighter2.jpg',
+      dishName: 'Chicken Burger',
+      restaurant: 'Coqfighter Kings Cross',
+      rating: 5,
+      comment:
         'Capri is an island of a thousand faces, where visitors can walk the trails skirting the cliffs above the Mediterranean in total solitude, dive into the crystalline waters of its rocky shore, or plunge into the vibrant crowds of the Piazzetta and shop in the most fashionable boutiques in the world.',
     },
     {
       id: 6,
-      image: {uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ4QU9gM25u_hoEmw_E_HO9Xf-3ZBkjnWa_s_b2kWa9rDzMnXrY6pEGUukqjgQvgatyIs&usqp=CAU'},
-      title: 'Steak',
-      location: 'Steakout',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ4QU9gM25u_hoEmw_E_HO9Xf-3ZBkjnWa_s_b2kWa9rDzMnXrY6pEGUukqjgQvgatyIs&usqp=CAU',
+      dishName: 'Steak',
+      restaurant: 'Steakout',
       rating: 1,
-      description:
+      comment:
         'Learn how you can travel Bora Bora on a budget and how overwater bungalows are possible for cheap plus tips on keeping Bora Bora trip costs low.',
     },
     {
       id: 7,
-      image: {uri: 'https://i.pinimg.com/736x/51/40/c5/5140c501e7d035d64e896bbce9e3f4c5--wagamama-teppanyaki.jpg'},
-      title: 'Chicken * Prawn Pad-Thai testtttt',
-      location: 'Wagamama Stratford',
+      image: 'https://i.pinimg.com/736x/51/40/c5/5140c501e7d035d64e896bbce9e3f4c5--wagamama-teppanyaki.jpg',
+      dishName: 'Chicken * Prawn Pad-Thai testtttt',
+      restaurant: 'Wagamama Stratford',
       rating: 5,
-      description:
+      comment:
         'Phuket is the largest island in Thailand. It is located in the Andaman Sea in southern Thailand',
     },
   ];

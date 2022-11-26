@@ -80,7 +80,6 @@ const AddDishScreen = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    console.log("In Add Dish")
     const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
       setLoaded(true);
     });
@@ -352,7 +351,7 @@ const AddDishScreen = ({ navigation, route }) => {
                 </View>
               </Modal>
               <View style={[styles.cusineContainer, styles.inputShadow]}>
-                <Tags tags={tags} bColor={colors.white} fColor={colors.black}/>
+                <Tags tags={tags} bColor={colors.white} fColor={colors.black} s/>
                 <View
                   style={{
                     margin: 5,

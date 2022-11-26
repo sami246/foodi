@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar, Pressable, Image } from 'react-native'
 import React, { useEffect} from 'react'
-import { sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme'
+import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme'
 import { auth } from '../firebase';
 import { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,13 +16,11 @@ const MapScreen = ({ navigation }) => {
 
     }
   }, [])
-  
-
 
 
   return (
     <SafeAreaView style={styles.container}>
-        <NavBar />
+        <NavBar bgColor={colors.blue}/>
         <View style={styles.contentContainer}>
           <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>MAP SCREEN</Text>
           <Text>{user.displayName} </Text>

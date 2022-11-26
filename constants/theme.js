@@ -17,8 +17,8 @@ export const colors = {
   red: '#CA2C1E',
   brown: '#AE7218',
   lightOrange: '#E9974A',
-  orange: '#EE8A2C'
-
+  orange: '#EE8A2C',
+  green: '#03C03C'
 };
 
 export const shadow = {

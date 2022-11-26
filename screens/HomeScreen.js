@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView,StatusBar, RefreshControl } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView,StatusBar, RefreshControl, ActivityIndicator } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 // import { getAuth, signOut, GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import { auth } from '../firebase';
@@ -10,37 +10,44 @@ import RecentList from '../components/RecentList';
 import SectionHeader from '../components/SectionHeader';
 import AddOverlayButton from '../components/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
+import AppLoader from '../components/AppLoader'
 
 
 const HomeScreen = ({ navigation }) => {
-  const {dishesDataByRating, fetchDishesDataByRating, dishesDataByRecent, fetchDishesDataByRecent} = useContext(DataContext);
+  const {dishesDataByRating, fetchDishesDataByRating, dishesDataByRecent, fetchDishesDataByRecent, isLoading} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
 
   useEffect(() => {
     onRefresh()
   }, [])
 
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
 
   const onRefresh = React.useCallback(() => {
     // By Rating
     setRefreshing(true);
-    fetchDishesDataByRating().then(() => 
-    {
-      setRefreshing(false)
-    }).catch((error) => alert(error))
-    // By Recent
-    fetchDishesDataByRecent().then(() => 
+    wait(2000).then(() => {
+      fetchDishesDataByRating()
+      fetchDishesDataByRecent()
+    })
+    .then(() => 
     {
       setRefreshing(false)
     }).catch((error) => alert(error))
   }, []);
-  
+
+ 
 
   return (
+    
     <SafeAreaView style={styles.container}>
-        <StatusBar style="light" />
-        <NavBar />
+      
+        <StatusBar style="dark" />
+        <NavBar refresh={false}/>
         <View style={styles.contentContainer}>
+
             <ScrollView 
             showsVerticalScrollIndicator={false}
             refreshControl={
@@ -50,13 +57,23 @@ const HomeScreen = ({ navigation }) => {
               />}
             >
               <Text style={styles.heading1}>Your Top Dishes</Text>
-              <TopPlacesCarousel list={dishesDataByRating}/>
+              {dishesDataByRating != false ?
+                <TopPlacesCarousel list={dishesDataByRating}/>
+              :
+                <ActivityIndicator />
+              }
+              
               <SectionHeader
                 title="Recent Updates"
                 buttonTitle="See All"
                 onPress={() => {}}
               />
+              {dishesDataByRecent != false ?
               <RecentList list={dishesDataByRecent} />
+               :
+              <ActivityIndicator /> 
+               }
+              
           </ScrollView>
         </View>
         <AddOverlayButton />

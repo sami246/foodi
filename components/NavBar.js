@@ -5,16 +5,24 @@ import { auth } from '../firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import {colors, shadow, sizes, spacing} from '../constants/theme';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-const NavBar = () => {
+const NavBar = ({refresh, onRefresh, bgColor}) => {
     const navigation = useNavigation();
     
     return (
-        <View style={styles.navContainer}>
+        <View style={[styles.navContainer, {backgroundColor: bgColor ? bgColor : colors.lightOrange}]}>
             <Pressable onPress={() => navigation.navigate('Home')} android_ripple={{color: 'white'}} style={{padding: 5}}>
               <Text style={styles.title} >Foodi</Text>
             </Pressable>
+            {refresh && 
+            <Pressable onPress={() => {onRefresh()}} > 
+              {({ pressed }) => (
+                <FontAwesome name='refresh' size={26} color={pressed ? colors.white : colors.primary} />
+              )}
+            </Pressable>
+            }
         </View>
     )
   }

@@ -21,17 +21,17 @@ export default function MainContainer({navigation}) {
   return (
         
         <Tab.Navigator 
-        initialRouteName={homeName}
+        initialRouteName={dishName}
         activeColor = {colors.white}
         inactiveColor = {colors.black}
         barStyle = {{
-            backgroundColor: colors.lightOrange,
+            // backgroundColor: colors.lightOrange,
             fontSize: 20
         }}
         
         screenOptions ={({route}) => ({
             
-            // activeColor: colors.primary,
+            activeColor: colors.primary,
             // tabBarInactiveTintColor: colors.gray,
             // tabBarLabelStyle: {
             //     fontSize: 10,
@@ -43,6 +43,7 @@ export default function MainContainer({navigation}) {
                 
             
             //     }, null ],
+            tabBarColor: route.name == mapName ? colors.blue : colors.lightOrange,
             tabBarIcon: ({focused, color, size}) => {
                 let iconName;
                 let routeName = route.name;
