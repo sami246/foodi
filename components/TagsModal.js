@@ -65,6 +65,9 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags}) => {
             </View>
         </View>
         </Modal>
+
+
+        
         <View style={[styles.cusineContainer, styles.inputShadow]}>
         <Tags tags={tags} bColor={colors.white} fColor={colors.black} s/>
         <View

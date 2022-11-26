@@ -20,8 +20,15 @@ const DishesScreen = ({ navigation }) => {
     
     setSearch(search)
     if(search){
-      search.toLowerCase()
-      setFilteredData(dishesData.filter(item => item.dishName?.includes(search) || item.restaurant?.includes(search) ))
+      setFilteredData(dishesData.filter(function (item) {
+        // Applying filter for the inserted text in search bar
+        const textData = search.toUpperCase();
+        return item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1;
+      }))
+
+
+      
+      console.log({filteredData})
     }
     else{
       setFilteredData(dishesData)
@@ -44,9 +51,9 @@ const DishesScreen = ({ navigation }) => {
         <NavBar refresh={true} onRefresh={onRefresh}/>
         <View style={styles.contentContainer}>
         {refreshing && <ActivityIndicator color={colors.orange} size={'large'}/>}
-          <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 2, width: '100%'}}>
+          <View style={{alignItems:'center', marginVertical: 2, width: '100%', }}>
                 <TextInput
-                    placeholder='Search'
+                    placeholder='Search Dish Name or Restaurant'
                     value={search}
                     style={styles.input} 
                     onChangeText = { text => handleSearch(text)}

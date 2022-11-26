@@ -19,7 +19,7 @@ const NavBar = ({refresh, onRefresh, bgColor}) => {
             {refresh && 
             <Pressable onPress={() => {onRefresh()}} > 
               {({ pressed }) => (
-                <FontAwesome name='refresh' size={26} color={pressed ? colors.white : colors.primary} />
+                <FontAwesome name='refresh' size={26} color={pressed ? colors.white : colors.primary} style={{padding: 5}}/>
               )}
             </Pressable>
             }

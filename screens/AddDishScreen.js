@@ -18,11 +18,9 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import AppButton from "../components/AppButton";
 import { addDoc, collection } from "firebase/firestore";
 import { AirbnbRating } from "react-native-ratings";
-
 import AppLoader from "../components/AppLoader";
 import AppBannerAd from "../components/Ads/AppBannerAd";
 import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
-import Tags from "../components/Tags";
 import { AuthContext } from '../contexts/AuthProvider';
 import TagsModal from "../components/TagsModal";
 
