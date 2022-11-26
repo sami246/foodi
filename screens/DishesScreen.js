@@ -7,7 +7,7 @@ import { DataContext } from '../contexts/DataContext';
 import { colors, sizes } from '../constants/theme';
 
 const DishesScreen = ({ navigation }) => {
-  const {dishesData,setDishesData, fetchDishesData} = useContext(DataContext);
+  const {dishesData,setDishesData, fetchDishesData, isLoading, setIsLoading} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
@@ -32,6 +32,7 @@ const DishesScreen = ({ navigation }) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchDishesData().then(() => {
+      setIsLoading(false)
       setRefreshing(false)
     }).catch((error) => alert(error))
     
@@ -51,7 +52,7 @@ const DishesScreen = ({ navigation }) => {
                     onChangeText = { text => handleSearch(text)}
                 />
           </View>
-          
+            {isLoading ? <ActivityIndicator color={colors.orange} size={'large'}/> : null}
             {dishesData
             ? 
             <DishList list={filteredData == null ? dishesData : filteredData} /> 

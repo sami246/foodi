@@ -23,6 +23,7 @@ export const DataProvider = ({children}) => {
         dishesDataByRating,
         dishesDataByRecent,
         isLoading,
+        setIsLoading,
         fetchDishesData: async () => {
             try {
               const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid));

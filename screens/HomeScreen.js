@@ -60,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
               {dishesDataByRating != false ?
                 <TopPlacesCarousel list={dishesDataByRating}/>
               :
-                <ActivityIndicator />
+              <ActivityIndicator color={colors.orange} size={'large'} />
               }
               
               <SectionHeader
@@ -71,7 +71,7 @@ const HomeScreen = ({ navigation }) => {
               {dishesDataByRecent != false ?
               <RecentList list={dishesDataByRecent} />
                :
-              <ActivityIndicator /> 
+               <ActivityIndicator color={colors.orange} size={'large'} />
                }
               
           </ScrollView>

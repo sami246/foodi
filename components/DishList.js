@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: CARD_WIDTH,
     maxWidth: CARD_WIDTH,
     height: IMAGE_HEIGHT,
-    borderTopLeftRadius: sizes.radius,
+    borderTopLeftRadius: sizes.radius - 5,
     borderTopRightRadius: sizes.radius,
     overflow: 'hidden',
   },

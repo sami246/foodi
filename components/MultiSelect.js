@@ -3,6 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { MultiSelect } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { sizes } from '../constants/theme';
 
 
 
@@ -62,7 +63,7 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
 export default MultiSelectComponent;
 
 const styles = StyleSheet.create({
-  container: { padding: 16, width: 320, },
+  container: { padding: 16, width: sizes.width - 10, },
   dropdown: {
     height: 50,
     width: '100%',
