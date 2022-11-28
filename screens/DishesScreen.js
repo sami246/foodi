@@ -5,12 +5,15 @@ import DishList from '../components/DishList';
 import AddOverlayButton from '../components/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
 import { colors, sizes } from '../constants/theme';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Pressable } from 'react-native';
 
 const DishesScreen = ({ navigation }) => {
   const {dishesData,setDishesData, fetchDishesData, isLoading, setIsLoading} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
+  const [display, setDisplay] = useState('full')
 
   useEffect(() => {
     onRefresh()
@@ -57,12 +60,40 @@ const DishesScreen = ({ navigation }) => {
                     value={search}
                     style={styles.input} 
                     onChangeText = { text => handleSearch(text)}
-                />
+          />
+          </View>
+          <View style={{alignItems:'center', marginVertical: 3, width: '100%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20}}>
+              <View style={{alignItems:'center', flexDirection: 'row'}}>
+                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8}]}
+                onPress={() => {alert("FIlter by Tags")}}
+                >
+                  <MaterialCommunityIcons name='filter' size={20} color={colors.darkGray} />
+                  <Text> Filter by Tags</Text>
+                </Pressable>
+                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8}]}
+                onPress={() => {alert("Sort By")}}
+                >
+                  <MaterialCommunityIcons name='sort' size={20} color={colors.darkGray} />
+                  <Text> Sort by</Text>
+                </Pressable>
+              </View>
+              <View style={{alignItems:'center', flexDirection: 'row'}}>
+                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'full' ? colors.lightOrange : colors.white}]}
+                name='view-day' size={25} color={display === 'full' ? colors.white : colors.darkGray} 
+                onPress={() => {
+                  setDisplay('full')
+                }}/>
+                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'grid' ? colors.lightOrange : colors.white}]}
+                name='view-grid' size={25} color={display === 'grid' ? colors.white : colors.darkGray} 
+                onPress={() => {
+                  setDisplay('grid')
+                }}/>
+              </View>
           </View>
             {isLoading ? <ActivityIndicator color={colors.orange} size={'large'}/> : null}
             {dishesData
             ? 
-            <DishList list={filteredData == null ? dishesData : filteredData} /> 
+            <DishList list={filteredData == null ? dishesData : filteredData} display={display}/> 
 
             : 
             <Text style={{fontSize: 20}}>Add some posts</Text>
@@ -96,5 +127,12 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: colors.gray
 },
-
+smallButton: {
+  backgroundColor: colors.white,
+  paddingHorizontal: 3,
+  paddingVertical: 4,
+  borderRadius: 10,
+  borderWidth: 0.5,
+  borderColor: colors.gray,
+  marginHorizontal: 2 }
 })

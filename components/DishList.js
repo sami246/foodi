@@ -7,20 +7,21 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Rating from './Rating';
 import Tags from './Tags';
 import AppLoader from './AppLoader';
+import GridDisplay from './Displays/GridDisplay';
 
 
 const CARD_WIDTH = sizes.width - (spacing.xl);
 const CARD_HEIGHT = 250;
 const IMAGE_HEIGHT = 160;
 
-const DishList = ({list}) => {
+const DishList = ({list, display}) => {
   const navigation = useNavigation();
 
   const handleTagPress = (tag) => {
     alert(tag)
   }
 
-  const renderItem = ({ item }) => (
+  const renderItemFull = ({ item }) => (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
     <View style={[styles.card, shadow.light]} >
       <View style={styles.imageBox}>
@@ -74,6 +75,11 @@ const DishList = ({list}) => {
   </TouchableOpacity>
   );
 
+  const renderItemHalf = ({ item }) => (
+    <GridDisplay item={item} />
+    
+  );
+
   if(!list){
     return(
       <AppLoader />
@@ -82,12 +88,27 @@ const DishList = ({list}) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={list}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}        
-      />
+      {display === 'full' ? 
+          <FlatList
+          data={list}
+          renderItem={renderItemFull}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}        
+        />
+      : 
+      <View style={styles.containerHalf}>
+          <FlatList
+          key={item => item.id}
+          data={list}
+          scrollToOverflowEnabled={true}
+          scrollEnabled={true}
+          renderItem={renderItemHalf}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false} 
+          numColumns={2}                  // set number of columns     
+        />
+      </View>
+      }
       {/* {list?.map((item) => {
         return(
 
@@ -98,8 +119,12 @@ const DishList = ({list}) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: STATUS_BAR_HEIGHT + spacing.m,
+    flex: 1,
+    // marginBottom: spacing.s,
     marginTop: spacing.s,
+  },
+  containerHalf: {
+    width: sizes.width,
   },
   cardContainer: {
     marginBottom: spacing.m,
@@ -112,7 +137,6 @@ const styles = StyleSheet.create({
     borderRadius: sizes.radius,
     borderWidth: 1.5,
     borderColor: colors.orange
-    
   },
   imageBox: {
     width: CARD_WIDTH,

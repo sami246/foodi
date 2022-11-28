@@ -11,6 +11,7 @@ import SectionHeader from '../components/SectionHeader';
 import AddOverlayButton from '../components/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
 import AppLoader from '../components/AppLoader'
+import GridDisplay from '../components/Displays/GridDisplay';
 
 
 const HomeScreen = ({ navigation }) => {
@@ -68,6 +69,7 @@ const HomeScreen = ({ navigation }) => {
                 buttonTitle="See All"
                 onPress={() => {}}
               />
+              {/* Should change to FlatList with GridDisplay */}
               {dishesDataByRecent != false ?
               <RecentList list={dishesDataByRecent} />
                :
