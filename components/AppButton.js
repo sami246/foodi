@@ -20,13 +20,13 @@ const AppButton = ({ onPress, title, height, width, fontSize, icon, backgroundCo
   const styles = StyleSheet.create({
     appButtonContainer: {
         flex: 1,
-        elevation: 5,
+        elevation: 3,
         backgroundColor: colors.blue,
         borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 12,
         margin: 5,
-        maxHeight: 50,
+        // maxHeight: 50,
         flexDirection: 'row',
       },
       appButtonText: {

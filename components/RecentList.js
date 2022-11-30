@@ -19,7 +19,7 @@ const RecentList = ({list}) => {
           <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
             <View style={[styles.card, shadow.light]} >
               <View style={styles.imageBox}>
-                <Image style={styles.image} source={item.image ? {uri: item.image} : null} />
+                <Image style={styles.image} source={item.image ? {uri: item.image} : require('../assets/image-placeholder.png')} />
               </View>
               <View style={styles.footer}>
                 <View style={styles.titleBox}>

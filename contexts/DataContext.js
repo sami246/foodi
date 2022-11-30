@@ -79,6 +79,10 @@ export const DataProvider = ({children}) => {
               console.log("fetch", error)
             }
           },
+          firebaseTimetoString: (time) => {
+            var time2 = time.toDate()
+            return `${time2.getDate()}/${time2.getMonth()}/${time2.getFullYear()}`
+          }
       }}>
       {children}
     </DataContext.Provider>

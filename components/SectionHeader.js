@@ -6,7 +6,7 @@ const SectionHeader = ({title, onPress, buttonTitle}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <Button title={buttonTitle} color={colors.primary}/>
+      <Button onPress={onPress} title={buttonTitle} color={colors.primary}/>
     </View>
   );
 };

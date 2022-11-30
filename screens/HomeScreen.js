@@ -67,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
               <SectionHeader
                 title="Recent Updates"
                 buttonTitle="See All"
-                onPress={() => {}}
+                onPress={() => {navigation.navigate('Dishes')}}
               />
               {/* Should change to FlatList with GridDisplay */}
               {dishesDataByRecent != false ?

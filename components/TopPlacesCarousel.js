@@ -38,7 +38,7 @@ const TopPlacesCarousel = ({list}) => {
               }}>
               <View style={[styles.card, shadow.dark]}>
                 <View style={styles.imageBox}>
-                  <Image source={item.image ? {uri: item.image} : null} style={styles.image} />
+                  <Image source={item.image ? {uri: item.image} : require('../assets/image-placeholder.png')} style={[styles.image, {}]} />
                 </View>
                 <View style={styles.titleBox}>
                   <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8}  style={[styles.title, styles.textShadow]}>{item.dishName}</Text>

@@ -2,12 +2,12 @@ import React, {useEffect} from 'react';
 import {Image, View, StyleSheet, TouchableOpacity, Text, ScrollView, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {colors, shadow, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/theme';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Rating from './Rating';
 import Tags from './Tags';
 import AppLoader from './AppLoader';
 import GridDisplay from './Displays/GridDisplay';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 const CARD_WIDTH = sizes.width - (spacing.xl);
@@ -25,20 +25,20 @@ const DishList = ({list, display}) => {
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
     <View style={[styles.card, shadow.light]} >
       <View style={styles.imageBox}>
-        <Image style={styles.image} source={item.image ? {uri: item.image} : null} />
+        <Image style={styles.image} source={item.image ? {uri: item.image} : require('../assets/image-placeholder.png')} />
       </View>
       <View style={styles.footer}>
         {/* Rating */}
           <View style={{flexDirection: 'row', }}>
             <View style={{flex: 1.5}}>
-                <Rating rating={item.rating} fontSize={13} iconSize={17} fontColor={colors.gold} showText={false}/>
+                <Rating rating={item.rating} fontSize={13} iconSize={20} fontColor={colors.gold} showText={false}/>
             </View>
             <View style={{flex: 1, alignItems: 'center', alignSelf: 'center', borderLeftWidth: 0.7, flexDirection: 'row', paddingLeft: 10, borderColor: colors.orange}}>
               <Text style={{fontSize: 11, paddingRight: 10}}>Would Have Again?</Text>
               {item.wouldHaveAgain ? 
-              <FontAwesome5 name='check-square' size={20} color={colors.green} />
+              <MaterialCommunityIcons name='repeat' size={20} color={colors.green} />
               :
-              <FontAwesome5 name='minus-square' size={20} color={colors.darkGray} />
+              <MaterialCommunityIcons name='repeat-off' size={20} color={colors.darkGray} />
             }
             </View>
             
@@ -67,7 +67,7 @@ const DishList = ({list, display}) => {
             }
           </View>
           <View style={{flexDirection: 'row', marginBottom: spacing.s, justifyContent: 'space-around'}}>
-              <Tags tags={item.categories} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress}/>
+              <Tags tags={item.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={true}/>
           </View>
         {/* <FavoriteButton /> */}
       </View>
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginBottom: spacing.m,
     overflow: 'hidden',
+    elevation: 5,
   },
   card: {
     width: CARD_WIDTH,

@@ -134,7 +134,7 @@ const AddDishScreen = ({ navigation, route }) => {
         date: date,
         dateText: dateText,
         price: price,
-        tags: "tags",
+        tags: tags,
         wouldHaveAgain: WHA,
       });
       

@@ -69,7 +69,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags}) => {
 
         
         <View style={[styles.cusineContainer, styles.inputShadow]}>
-        <Tags tags={tags} bColor={colors.white} fColor={colors.black} s/>
+        <Tags tags={tags} bColor={colors.white} fColor={colors.black} wrap={true}/>
         <View
             style={{
             margin: 5,
