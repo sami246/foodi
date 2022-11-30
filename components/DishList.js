@@ -8,6 +8,7 @@ import Tags from './Tags';
 import AppLoader from './AppLoader';
 import GridDisplay from './Displays/GridDisplay';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ThreeDisplay from './Displays/ThreeDisplay';
 
 
 const CARD_WIDTH = sizes.width - (spacing.xl);
@@ -16,6 +17,8 @@ const IMAGE_HEIGHT = 160;
 
 const DishList = ({list, display}) => {
   const navigation = useNavigation();
+
+  console.log({display})
 
   const handleTagPress = (tag) => {
     alert(tag)
@@ -34,7 +37,7 @@ const DishList = ({list, display}) => {
                 <Rating rating={item.rating} fontSize={13} iconSize={20} fontColor={colors.gold} showText={false}/>
             </View>
             <View style={{flex: 1, alignItems: 'center', alignSelf: 'center', borderLeftWidth: 0.7, flexDirection: 'row', paddingLeft: 10, borderColor: colors.orange}}>
-              <Text style={{fontSize: 11, paddingRight: 10}}>Would Have Again?</Text>
+              <Text style={{fontSize: 11, paddingRight: 10, fontWeight: '500'}}>Would Have Again?</Text>
               {item.wouldHaveAgain ? 
               <MaterialCommunityIcons name='repeat' size={20} color={colors.green} />
               :
@@ -75,8 +78,13 @@ const DishList = ({list, display}) => {
   </TouchableOpacity>
   );
 
-  const renderItemHalf = ({ item }) => (
+  const renderItemTwo = ({ item }) => (
     <GridDisplay item={item} />
+    
+  );
+
+  const renderItemThree = ({ item }) => (
+    <ThreeDisplay item={item} />
     
   );
 
@@ -86,35 +94,65 @@ const DishList = ({list, display}) => {
     )
   }
 
-  return (
-    <View style={styles.container}>
-      {display === 'full' ? 
+  if(display === 'one'){
+    return(
+      <View style={styles.container}>
           <FlatList
-          data={list}
-          renderItem={renderItemFull}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}        
-        />
-      : 
-      <View style={styles.containerHalf}>
-          <FlatList
-          key={item => item.id}
-          data={list}
-          scrollToOverflowEnabled={true}
-          scrollEnabled={true}
-          renderItem={renderItemHalf}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false} 
-          numColumns={2}                  // set number of columns     
-        />
+            data={list}
+            renderItem={renderItemFull}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}        
+          />
       </View>
-      }
-      {/* {list?.map((item) => {
-        return(
+    )
 
-      )})} */}
-    </View>
-  );
+  }
+  if(display === 'two'){
+    return(
+      <View style={styles.container}>
+          <View style={styles.containerHalf}>
+            <FlatList
+            key={item => item.id}
+            data={list}
+            scrollToOverflowEnabled={true}
+            scrollEnabled={true}
+            renderItem={renderItemTwo}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false} 
+            numColumns={2}                  // set number of columns     
+          />
+        </View>
+      </View>
+    )
+  }
+  if(display === 'three'){
+    return(
+      <View style={styles.container}>
+          <View style={styles.containerThree}>
+            <FlatList
+            key={item => item.dishName + item.restaurant}
+            data={list}
+            scrollToOverflowEnabled={true}
+            scrollEnabled={true}
+            renderItem={renderItemThree}
+            keyExtractor={item => item.dishName + item.restaurant}
+            showsVerticalScrollIndicator={false} 
+            numColumns={3}                  // set number of columns    
+            centerContent = {true} 
+          />
+        </View>
+      </View>
+    )
+  }
+
+  // return (
+  //   <View style={styles.container}>
+  //     {/* {list?.map((item) => {
+  //       return(
+
+  //     )})} */}
+  //   </View>
+  // );
 };
 
 const styles = StyleSheet.create({
@@ -126,6 +164,10 @@ const styles = StyleSheet.create({
   containerHalf: {
     width: sizes.width,
   },
+  containerThree: {
+    width: sizes.width,
+    alignItems: 'center'
+  },
   cardContainer: {
     marginBottom: spacing.m,
     overflow: 'hidden',
@@ -136,7 +178,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
-    borderWidth: 1.5,
+    borderWidth: 2,
     borderColor: colors.orange
   },
   imageBox: {
@@ -174,13 +216,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     paddingHorizontal: 5,
-    alignItems: 'center'
+    alignItems: 'center',
+
   },
   halfBoxText: {
     flex: 2,
     paddingLeft: spacing.s,
     textAlignVertical: 'center',
     fontSize: 13,
+    fontWeight: '500'
   }
 });
 

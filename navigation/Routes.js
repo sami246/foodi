@@ -36,7 +36,7 @@ const Routes = () => {
             <Stack.Navigator>
                 {/* Main App */}
                 <Stack.Screen options={{headerShown: false}} name="MainContainer" component={MainContainer} />
-                <Stack.Screen options={{headerShown: true, animation:'slide_from_bottom'}} name='Post Detail' component={DishDetailsScreen} />
+                <Stack.Screen options={{headerShown: false, animation:'slide_from_bottom'}} name='Post Detail' component={DishDetailsScreen} />
                 <Stack.Screen options={{headerShown: false, animation:'slide_from_bottom'}} name='Add Dish' component={AddDishScreen} />
             </Stack.Navigator>
           </DataProvider>

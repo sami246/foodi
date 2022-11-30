@@ -13,7 +13,7 @@ const DishesScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
-  const [display, setDisplay] = useState('full')
+  const [display, setDisplay] = useState('one')
 
   useEffect(() => {
     onRefresh()
@@ -78,15 +78,20 @@ const DishesScreen = ({ navigation }) => {
                 </Pressable>
               </View>
               <View style={{alignItems:'center', flexDirection: 'row'}}>
-                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'full' ? colors.lightOrange : colors.white}]}
-                name='view-day' size={25} color={display === 'full' ? colors.white : colors.darkGray} 
+                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'one' ? colors.lightOrange : colors.white}]}
+                name='view-day' size={25} color={display === 'one' ? colors.white : colors.darkGray} 
                 onPress={() => {
-                  setDisplay('full')
+                  setDisplay('one')
                 }}/>
-                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'grid' ? colors.lightOrange : colors.white}]}
-                name='view-grid' size={25} color={display === 'grid' ? colors.white : colors.darkGray} 
+                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'two' ? colors.lightOrange : colors.white}]}
+                name='view-grid' size={25} color={display === 'two' ? colors.white : colors.darkGray} 
                 onPress={() => {
-                  setDisplay('grid')
+                  setDisplay('two')
+                }}/>
+                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'three' ? colors.lightOrange : colors.white}]}
+                name='view-parallel' size={25} color={display === 'three' ? colors.white : colors.darkGray} 
+                onPress={() => {
+                  setDisplay('three')
                 }}/>
               </View>
           </View>
