@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
-import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme';
+import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../../constants/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 

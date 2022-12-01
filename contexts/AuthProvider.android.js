@@ -2,6 +2,7 @@ import React, {createContext, useState} from 'react';
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
+// import { getAuth, signOut, GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 
 
 export const AuthContext = createContext();

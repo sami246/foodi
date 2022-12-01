@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Image } from 'react-native'
 import React, { useState, useContext } from 'react'
-import AppButton from '../components/AppButton';
+import AppButton from '../components/SmallComponents/AppButton';
 import { colors } from '../constants/theme';
 import { AuthContext } from '../contexts/AuthProvider';
     

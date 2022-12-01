@@ -3,10 +3,10 @@ import React from 'react'
 import { colors, sizes, spacing } from '../constants/theme';
 import { TagsData } from "../data";
 import Tags from './Tags';
-import AppButton from './AppButton';
+import AppButton from './SmallComponents/AppButton';
 import MultiSelectComponent from "../components/MultiSelect";
 
-const TagsModal = ({modalVisible, setModalVisible, tags, setTags}) => {
+const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton}) => {
   return (
     <View style={styles.centeredView}>
         <Modal
@@ -67,7 +67,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags}) => {
         </Modal>
 
 
-        
+        {showButton &&
         <View style={[styles.cusineContainer, styles.inputShadow]}>
         <Tags tags={tags} bColor={colors.white} fColor={colors.black} wrap={true}/>
         <View
@@ -89,6 +89,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags}) => {
             />
         </View>
         </View>
+        }
     </View>
   )
 }

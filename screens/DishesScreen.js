@@ -2,42 +2,53 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar, ActivityIn
 import React, {useState, useEffect, useContext} from 'react'
 import NavBar from '../components/NavBar';
 import DishList from '../components/DishList';
-import AddOverlayButton from '../components/AddOverlayButton';
+import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
 import { colors, sizes } from '../constants/theme';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Pressable } from 'react-native';
+import TagsModal from '../components/TagsModal';
+import { isEmpty } from '@firebase/util';
 
 const DishesScreen = ({ navigation }) => {
   const {dishesData,setDishesData, fetchDishesData, isLoading, setIsLoading} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
+  const [filterTags, setFilterTags] = useState([])
   const [filteredData, setFilteredData] = useState(null)
   const [display, setDisplay] = useState('one')
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    onRefresh()
+    onRefresh();
   }, [])
 
-  const handleSearch = (search) => {
-    
-    setSearch(search)
-    if(search){
-      setFilteredData(dishesData.filter(function (item) {
+  useEffect(() => {
+    var dataSource = search ? filteredData : dishesData
+    if(search && (!isEmpty(filterTags) && filterTags !== null)){
+      setFilteredData(dataSource.filter(function (item) {
         // Applying filter for the inserted text in search bar
         const textData = search.toUpperCase();
-        return item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1;
+        return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) && item.tags?.some(r=> filterTags.indexOf(r) >= 0);
       }))
-
-
-      
-      console.log({filteredData})
+    }
+    else if (search){
+      setFilteredData(dataSource.filter(function (item) {
+        // Applying filter for the inserted text in search bar
+        const textData = search.toUpperCase();
+        return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1);
+      }))
+    }
+    else if ((!isEmpty(filterTags) && filterTags !== null)){
+        setFilteredData(dataSource.filter(function (item) {
+          return item.tags?.some(r=> filterTags.indexOf(r) >= 0);
+        }))
     }
     else{
       setFilteredData(dishesData)
     }
-
-  }
+    console.log({filterTags})
+  }, [search, filterTags])
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -59,16 +70,17 @@ const DishesScreen = ({ navigation }) => {
                     placeholder='Search Dish Name or Restaurant'
                     value={search}
                     style={styles.input} 
-                    onChangeText = { text => handleSearch(text)}
+                    onChangeText = { text => setSearch(text)}
           />
           </View>
           <View style={{alignItems:'center', marginVertical: 3, width: '100%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20}}>
               <View style={{alignItems:'center', flexDirection: 'row'}}>
-                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8}]}
-                onPress={() => {alert("FIlter by Tags")}}
+                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8, backgroundColor: !isEmpty(filterTags) ? colors.lightOrange : colors.white}]}
+                onPress={() => setModalVisible(true)}
                 >
-                  <MaterialCommunityIcons name='filter' size={20} color={colors.darkGray} />
-                  <Text> Filter by Tags</Text>
+                  <MaterialCommunityIcons name='filter' size={20} color={!isEmpty(filterTags) ? colors.white : colors.darkGray} />
+                  <Text style={{color: !isEmpty(filterTags) ? colors.white : colors.darkGray}}> Filter</Text>
+                  <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={filterTags} setTags={setFilterTags} showButton={false}/>
                 </Pressable>
                 <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8}]}
                 onPress={() => {alert("Sort By")}}
@@ -98,7 +110,7 @@ const DishesScreen = ({ navigation }) => {
             {isLoading ? <ActivityIndicator color={colors.orange} size={'large'}/> : null}
             {dishesData
             ? 
-            <DishList list={filteredData == null ? dishesData : filteredData} display={display}/> 
+            <DishList list={filteredData === null ? dishesData : filteredData} display={display}/> 
 
             : 
             <Text style={{fontSize: 20}}>Add some posts</Text>

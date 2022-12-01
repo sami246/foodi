@@ -1,17 +1,12 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView,StatusBar, RefreshControl, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, SafeAreaView,StatusBar, RefreshControl, ActivityIndicator } from 'react-native'
 import React, { useContext, useEffect } from 'react'
-// import { getAuth, signOut, GoogleAuthProvider,signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
-import { auth } from '../firebase';
 import NavBar from '../components/NavBar';
 import TopPlacesCarousel from '../components/TopPlacesCarousel';
-import {colors, shadow, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/theme';
-import { TOP_PLACES, PLACES } from '../data';
+import {colors, sizes, spacing} from '../constants/theme';
 import RecentList from '../components/RecentList';
 import SectionHeader from '../components/SectionHeader';
-import AddOverlayButton from '../components/AddOverlayButton';
+import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
-import AppLoader from '../components/AppLoader'
-import GridDisplay from '../components/Displays/GridDisplay';
 
 
 const HomeScreen = ({ navigation }) => {

@@ -5,13 +5,14 @@ import ImagePreviewer from 'rc-image-previewer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Rating from '../components/Rating';
 import { useNavigation } from '@react-navigation/native';
 import Tags from '../components/Tags';
-import AppButton from '../components/AppButton';
+import AppButton from '../components/SmallComponents/AppButton';
 import { Pressable } from 'react-native';
 import ImageView from 'react-native-image-view';
-import { ScrollView } from 'react-native-gesture-handler';
+import BackButton from '../components/SmallComponents/BackButton';
 
 
 const DishDetailsScreen = ({ route }) => {
@@ -56,7 +57,7 @@ const DishDetailsScreen = ({ route }) => {
                      :
                      <Text style={{fontSize: sizes.h3, paddingHorizontal: spacing.m, color: colors.gray}}>Add Restaurant</Text> 
                      }
-                     {dish.wouldHaveAgain && <MaterialCommunityIcons name='repeat' size={25} color={colors.green} />}
+                     {dish.wouldHaveAgain && <MaterialCommunityIcons name='repeat' size={30} color={colors.green} />}
                     
                 </View>
                 {dish.rating ?
@@ -78,14 +79,16 @@ const DishDetailsScreen = ({ route }) => {
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: spacing.s}}>
                       {dish.dateText && 
                       <View style={styles.smallBox}>
+                          <Text style={{paddingRight: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>Date Eaten</Text>
                           <FontAwesome5 name='calendar' size={15} color={colors.darkGray} />
                           <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>{dish.dateText}</Text>
                         </View>
                       }
                       {dish.price && 
                       <View style={styles.smallBox}>
+                          <Text style={{paddingRight: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>Price</Text>
                           <FontAwesome5 name='pound-sign' size={15} color={colors.darkGray} />
-                          <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>{dish.price}</Text>
+                          <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray, overflow: 'hidden'}}>{dish.price}</Text>
                         </View>
                       }
                     </View>
@@ -121,6 +124,7 @@ const DishDetailsScreen = ({ route }) => {
                       }
                       
               </View>
+              <BackButton iconColor={colors.white}/>
 
     </SafeAreaView>
 
@@ -197,7 +201,7 @@ const styles = StyleSheet.create({
   smallBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingBottom: 3,
     borderBottomWidth: 1,
     borderColor: colors.blue 

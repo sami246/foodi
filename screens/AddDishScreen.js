@@ -15,7 +15,7 @@ import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from "../constants/theme";
 import { ScrollView } from "react-native-gesture-handler";
 import uuid from "uuid";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import AppButton from "../components/AppButton";
+import AppButton from "../components/SmallComponents/AppButton";
 import { addDoc, collection } from "firebase/firestore";
 import { AirbnbRating } from "react-native-ratings";
 import AppLoader from "../components/AppLoader";
@@ -23,6 +23,7 @@ import AppBannerAd from "../components/Ads/AppBannerAd";
 import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 import { AuthContext } from '../contexts/AuthProvider';
 import TagsModal from "../components/TagsModal";
+import BackButton from "../components/SmallComponents/BackButton";
 
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
 
@@ -288,10 +289,11 @@ const AddDishScreen = ({ navigation, route }) => {
                 value={price}
                 style={[styles.smallInput, styles.inputShadow]}
                 onChangeText={(text) => setPrice(text)}
+                maxLength={7}
               />
             </View>
             {/* Tags */}
-            <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tags} setTags={setTags}/>
+            <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tags} setTags={setTags} showButton={true}/>
             {/* Would Have Again Switch */}
             <View style={styles.switchContainer}>
               <Text style={styles.switchText}>Would have again?</Text>
@@ -327,6 +329,7 @@ const AddDishScreen = ({ navigation, route }) => {
             />
           </View>
         </View>
+        <BackButton iconColor={colors.orange} />
       </ScrollView>
     </>
   );

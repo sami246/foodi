@@ -18,7 +18,7 @@ import {
 import * as Clipboard from "expo-clipboard";
 import { colors, sizes, spacing } from "../constants/theme";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AppButton from "./AppButton";
+import AppButton from "./SmallComponents/AppButton";
 import { Permissions } from 'expo';
 
 
@@ -214,7 +214,6 @@ export default class ImageUpload extends React.Component {
         allowsEditing: true,
         quality: 0.6
       });
-      console.log({pickerResult})
       if (!pickerResult.canceled) {
         this.props.setImage(pickerResult.assets[0].uri)
       }

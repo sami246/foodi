@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View, SafeAreaView, Image } from 'react-native'
 import React from 'react'
 import { useState, useEffect, useContext} from 'react';
-import AppButton from '../components/AppButton';
+import AppButton from '../components/SmallComponents/AppButton';
 import { colors, sizes } from '../constants/theme';
 import { AuthContext } from '../contexts/AuthProvider';
 import { auth } from '../firebase';

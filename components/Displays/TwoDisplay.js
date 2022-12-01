@@ -10,7 +10,7 @@ const CARD_HEIGHT = 200;
 
 
 
-const GridDisplay = ({item}) => {
+const TwoDisplay = ({item}) => {
 
   const navigation = useNavigation();
   return (
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GridDisplay;
+export default TwoDisplay;
