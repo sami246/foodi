@@ -20,10 +20,14 @@ const DishesScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
+
     onRefresh();
+    console.log(dishesData)
+    console.log(filteredData)
   }, [])
 
   useEffect(() => {
+    console.log("HERE")
     var dataSource = search ? filteredData : dishesData
     if(search && (!isEmpty(filterTags) && filterTags !== null)){
       setFilteredData(dataSource.filter(function (item) {
@@ -44,10 +48,9 @@ const DishesScreen = ({ navigation }) => {
           return item.tags?.some(r=> filterTags.indexOf(r) >= 0);
         }))
     }
-    else{
+    else if (!isEmpty(dishesData)){
       setFilteredData(dishesData)
     }
-    console.log({filterTags})
   }, [search, filterTags])
 
   const onRefresh = React.useCallback(() => {
