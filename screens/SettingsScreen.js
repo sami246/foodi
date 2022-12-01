@@ -3,8 +3,10 @@ import React from 'react'
 import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme'
 import NavBar from '../components/NavBar'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { signOut} from "firebase/auth";
 import { auth } from '../firebase';
+import AppButton from '../components/SmallComponents/AppButton';
 
 
 const SettingsScreen = ({ navigation }) => {
@@ -20,10 +22,51 @@ const SettingsScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
         <NavBar />
         <View style={styles.contentContainer}>
-            <Text> Settings </Text>
-            <Pressable style={styles.button} onPress={handleSignOut}>
-                <Ionicons name='log-out-outline' size={25} color='white' />
-            </Pressable>
+
+            <Text style={{fontSize: 40, fontWeight: '600'}}> Settings </Text>
+            <View style={styles.infoLine}>
+              <Text style={styles.infoText}>Email: </Text>
+              <Text style={styles.infoText}> test@gmail.com</Text>
+            </View>
+            <View style={styles.infoLine}>
+              <Text style={styles.infoText}>Number of Dishes: </Text>
+              <Text style={styles.infoText}> 30</Text>
+            </View>
+            <View style={styles.infoLine}>
+              <Text style={styles.infoText}>Number of Map Places: </Text>
+              <Text style={styles.infoText}> 4</Text>
+            </View>
+            <View style={styles.infoLine}>
+              <Text style={styles.infoText}>Account Created: </Text>
+              <Text style={styles.infoText}> 01/11/2022</Text>
+            </View>
+
+            <View style={{alignItems: 'center', height: 60, marginTop: spacing.m}}>
+              <AppButton 
+              backgroundColor={colors.black}
+              color={colors.white}
+              // height={50}
+              width={120}
+              fontSize={15}
+              icon={<Ionicons name='log-out-outline' size={25} color='white' />}
+              title={'Log Out'}
+              onPress={handleSignOut}
+              buttonStyle={{alignItems: 'center'}}
+              />
+            </View>
+            <View style={{alignItems: 'center', height: 60}}>
+              <AppButton 
+              backgroundColor={colors.red}
+              color={colors.white}
+              // height={50}
+              width={160}
+              fontSize={15}
+              icon={<MaterialCommunityIcons name='account-remove-outline' size={25} color='white' />}
+              title={'Delete Account'}
+              onPress={() => alert("Delete Account")}
+              buttonStyle={{alignItems: 'center'}}
+              />
+            </View>
         </View>
     </SafeAreaView>
   )
@@ -38,7 +81,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentContainer : {
-    flex: 10
+    flex: 10,
+    
   },
   button: {
     backgroundColor: colors.primary,
@@ -46,9 +90,21 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
+    width: 50
   },
   buttonText: {
       color: colors.light,
       alignItems: 'center' 
   },
+  infoLine: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: sizes.width - spacing.l,
+    margin: spacing.s,
+  },
+  infoText: {
+    flex: 1,
+    fontSize: sizes.h3,
+    fontWeight: '350',
+  }
 })

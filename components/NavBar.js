@@ -4,7 +4,7 @@ import { signOut} from "firebase/auth";
 import { auth } from '../firebase';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import {colors, shadow, sizes, spacing} from '../constants/theme';
+import {colors, NAV_BAR_HEIGHT, shadow, sizes, spacing} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     navContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      height: '7%',
+      height: NAV_BAR_HEIGHT,
       width: '100%',
       paddingHorizontal: 10,
       marginHorizontal: 5,

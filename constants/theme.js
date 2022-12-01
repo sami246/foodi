@@ -62,3 +62,5 @@ export const spacing = {
 };
 
 export const STATUS_BAR_HEIGHT = StatusBar.currentHeight + 5
+
+export const NAV_BAR_HEIGHT = 45;

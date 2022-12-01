@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar';
 import DishList from '../components/DishList';
 import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
-import { colors, sizes } from '../constants/theme';
+import { colors, NAV_BAR_HEIGHT, sizes } from '../constants/theme';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Pressable } from 'react-native';
 import TagsModal from '../components/TagsModal';
@@ -16,42 +16,63 @@ const DishesScreen = ({ navigation }) => {
   const [search, setSearch] = useState(null)
   const [filterTags, setFilterTags] = useState([])
   const [filteredData, setFilteredData] = useState(null)
-  const [display, setDisplay] = useState('one')
+  const [display, setDisplay] = useState('two')
   const [modalVisible, setModalVisible] = useState(false);
+  const [WHAFilter, setWHAFilter] = useState(false);
 
   useEffect(() => {
-
     onRefresh();
-    console.log(dishesData)
-    console.log(filteredData)
   }, [])
 
   useEffect(() => {
-    console.log("HERE")
     var dataSource = search ? filteredData : dishesData
     if(search && (!isEmpty(filterTags) && filterTags !== null)){
       setFilteredData(dataSource.filter(function (item) {
         // Applying filter for the inserted text in search bar
         const textData = search.toUpperCase();
-        return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) && item.tags?.some(r=> filterTags.indexOf(r) >= 0);
+        if(WHAFilter){
+          return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) && item.tags?.some(r=> filterTags.indexOf(r) >= 0) 
+          && item.wouldHaveAgain;
+        }else{
+          return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) && item.tags?.some(r=> filterTags.indexOf(r) >= 0);
+        }
+        
       }))
     }
     else if (search){
       setFilteredData(dataSource.filter(function (item) {
         // Applying filter for the inserted text in search bar
         const textData = search.toUpperCase();
-        return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1);
+        if(WHAFilter){
+          console.log("onw")
+          return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) 
+          && item.wouldHaveAgain;
+        }else{
+          console.log("gwow")
+          return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1);
+        }
       }))
     }
     else if ((!isEmpty(filterTags) && filterTags !== null)){
         setFilteredData(dataSource.filter(function (item) {
-          return item.tags?.some(r=> filterTags.indexOf(r) >= 0);
+          if(WHAFilter){
+            return item.tags?.some(r=> filterTags.indexOf(r) >= 0) && item.wouldHaveAgain;
+          }else{
+            return item.tags?.some(r=> filterTags.indexOf(r) >= 0);
+          }
         }))
     }
     else if (!isEmpty(dishesData)){
-      setFilteredData(dishesData)
+      if (WHAFilter){
+        setFilteredData(dataSource.filter(function (item) {
+          return item.wouldHaveAgain
+        }))
+      }else{
+        setFilteredData(dishesData)
+      }
     }
-  }, [search, filterTags])
+
+  }, [search, filterTags, WHAFilter])
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -90,6 +111,11 @@ const DishesScreen = ({ navigation }) => {
                 >
                   <MaterialCommunityIcons name='sort' size={20} color={colors.darkGray} />
                   <Text> Sort by</Text>
+                </Pressable>
+                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, backgroundColor: WHAFilter ? colors.green : colors.white}]}
+                onPress={() => {setWHAFilter((previousState) => !previousState);}}
+                >
+                  <MaterialCommunityIcons name='repeat' size={20} color={WHAFilter ? colors.white : colors.darkGray} />
                 </Pressable>
               </View>
               <View style={{alignItems:'center', flexDirection: 'row'}}>
@@ -131,9 +157,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
   contentContainer : {
-    flex: 10,
+    flex: 1,
+    height: sizes.height - NAV_BAR_HEIGHT,
     width: sizes.width,
     alignItems: 'center'
   },
