@@ -71,15 +71,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 6,
-    marginLeft: 16,
+    marginLeft: 12,
     marginRight: 10,
   },
   titleBox: {
     flex: 1,
   },
   title: {
-    marginVertical: 4,
-    fontSize: sizes.body,
+    marginVertical: 3,
+    fontSize: sizes.body + 2,
     fontWeight: 'bold',
     color: colors.primary,
     

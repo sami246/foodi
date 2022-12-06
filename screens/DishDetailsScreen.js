@@ -21,14 +21,15 @@ import { DataContext } from '../contexts/DataContext';
 const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
     const navigation = useNavigation();
-    const {fetchRestaurantData, handlePlaceholder} = useContext(DataContext);
-    const [googlePlace, setGooglePlace] = useState(null)
+    const {fetchRestaurantData, handlePlaceholder, googlePlace, setGooglePlace} = useContext(DataContext);
+    
 
     useEffect(() => {
-      console.log(googlePlace)
-      if(dish?.restaurantPlaceId){
-        var tempPlace = fetchRestaurantData(dish?.restaurantPlaceId).catch((error) => alert(error));
-        setGooglePlace(tempPlace)
+      fetchRestaurantData(dish?.restaurantPlaceId).then(() => {
+        console.log("1", googlePlace)
+      })
+      if(!dish?.restaurantPlaceId){
+        setGooglePlace(null)
       }
 
     }, [])
@@ -87,7 +88,8 @@ const DishDetailsScreen = ({ route }) => {
                 onPress={handleEditPress}>
                       {dish.restaurantPlaceId ?
                       <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
-                       onPress={() => { Linking.openURL(googlePlace.website);}}>
+                       onPress={() => { Linking.openURL(googlePlace.url);}}>
+                      {/* onPress={() => { console.log(googlePlace);}}> */}
                         <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
                       </Pressable>
                       :

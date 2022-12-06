@@ -30,7 +30,7 @@ const TwoDisplay = ({item}) => {
             <View style={styles.footer}>
             <View style={styles.titleBox}>
                 <Text numberOfLines={1} style={styles.title}>{item.dishName}</Text>
-                <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.7} style={styles.restaurant}>{item.restaurant ? item.restaurant : "N/A"}</Text>
+                <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.85} style={styles.restaurant}>{item.restaurant ? item.restaurant : "N/A"}</Text>
             </View>
             {/* <FavoriteButton /> */}
             </View>

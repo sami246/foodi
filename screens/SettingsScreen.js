@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar, Pressable } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme'
 import NavBar from '../components/NavBar'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,9 +7,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { signOut} from "firebase/auth";
 import { auth } from '../firebase';
 import AppButton from '../components/SmallComponents/AppButton';
+import { DataContext } from '../contexts/DataContext';
+import { AuthContext } from '../contexts/AuthProvider';
 
 
 const SettingsScreen = ({ navigation }) => {
+  const {numDishes} = useContext(DataContext);
+  const {user} = useContext(AuthContext);
+
   function handleSignOut(){
     signOut(auth).then(() => {
       navigation.replace('Login')
@@ -26,19 +31,25 @@ const SettingsScreen = ({ navigation }) => {
             <Text style={{fontSize: 40, fontWeight: '600'}}> Settings </Text>
             <View style={styles.infoLine}>
               <Text style={styles.infoText}>Email: </Text>
-              <Text style={styles.infoText}> test@gmail.com</Text>
+              <Text style={styles.infoText}> {user.email}</Text>
             </View>
+            {user.displayName &&
+            <View style={styles.infoLine}>
+              <Text style={styles.infoText}>Name: </Text>
+              <Text style={styles.infoText}> {user.displayName}</Text>
+            </View>
+                       }
             <View style={styles.infoLine}>
               <Text style={styles.infoText}>Number of Dishes: </Text>
-              <Text style={styles.infoText}> 30</Text>
+              <Text style={styles.infoText}> {numDishes}</Text>
             </View>
             <View style={styles.infoLine}>
               <Text style={styles.infoText}>Number of Map Places: </Text>
-              <Text style={styles.infoText}> 4</Text>
+              <Text style={styles.infoText}> sss 4</Text>
             </View>
             <View style={styles.infoLine}>
               <Text style={styles.infoText}>Account Created: </Text>
-              <Text style={styles.infoText}> 01/11/2022</Text>
+              <Text style={styles.infoText}>aaaa 01/11/2022</Text>
             </View>
 
             <View style={{alignItems: 'center', height: 60, marginTop: spacing.m}}>

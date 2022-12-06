@@ -10,6 +10,8 @@ export const DataProvider = ({children}) => {
     const [dishesData, setDishesData] = useState([]);
     const [dishesDataByRating, setdishesDataByRating] = useState(false);
     const [dishesDataByRecent, setdishesDataByRecent] = useState(false);
+    const [numDishes, setNumDishes] = useState(null);
+    const [googlePlace, setGooglePlace] = useState(null)
     
 
   return (
@@ -19,6 +21,10 @@ export const DataProvider = ({children}) => {
         setDishesData,
         dishesDataByRating,
         dishesDataByRecent,
+        numDishes,
+        setNumDishes,
+        googlePlace,
+        setGooglePlace,
         fetchDishesData: async () => {
             try {
               const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid));
@@ -31,6 +37,7 @@ export const DataProvider = ({children}) => {
                     }
                   });
                   setDishesData(dishesDataTemp)
+                  setNumDishes(dishesDataTemp.length)
               });
               return unsubscribe;
             }
@@ -40,19 +47,24 @@ export const DataProvider = ({children}) => {
           },
           fetchRestaurantData: async (id) => {
             try {
-              const docRef  = doc(firestoreDB, "restaurants", id);
-              const docSnap = await getDoc(docRef);
+              if(id){
+                const docRef  = doc(firestoreDB, "restaurants", id);
+                const docSnap = await getDoc(docRef);
 
-              if (docSnap.exists()) {
-                return docSnap.data();
-              } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!");
-                return null
+                if (docSnap.exists()) {
+                  setGooglePlace(docSnap.data());
+                } else {
+                  // doc.data() will be undefined in this case
+                  console.log("No such document!");
+                  setGooglePlace(null)
+                }
+              }
+              else{
+                setGooglePlace(null)
               }
             }
             catch (error) {
-              console.log(error)
+              console.log("ERROR", error)
             }
           },
           fetchDishesDataByRating: async () => {
