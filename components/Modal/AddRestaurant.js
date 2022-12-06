@@ -13,7 +13,7 @@ const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaur
   
     const handlePlaces = (data, details) => {
       setModalVisible(false);
-    //   console.log(JSON.stringify(data, null, 3));
+    //   console.log(JSON.stringify(details, null, 3));
         var restaurant = details.name
         var resAdditional = {
             address: details.formatted_address,
@@ -22,12 +22,11 @@ const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaur
             lat: details.geometry.location.lat,
             lng: details.geometry.location.lng,
             price_level: details.price_level,
-            website: details.website
+            website: details.website,
+            rating: details.rating
         }
       setRestaurant(restaurant)
       setRestaurantAdditional(resAdditional)
-      console.log(restaurant)
-      console.log(resAdditional)
     }
 
     const handleNotFoundSave = () => {
@@ -93,6 +92,11 @@ const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaur
                     suppressDefaultStyles= {true}
                     autoFillOnNotFound={true}
                     />
+                    
+                </View>
+                <View style={{marginHorizontal: 20, marginBottom: 10}}>
+                <Text style={styles.text}>Try adding the rough location to find the restaurant. </Text>
+                <Text style={styles.text}>Or save without Google verified location, we accept both! </Text>
                 </View>
                 <View style= {{height: 60, width: 150, alignSelf: 'center', marginBottom: spacing.s}}>
                     <AppButton
@@ -164,5 +168,9 @@ const styles = StyleSheet.create({
         marginLeft: spacing.l,
         color: colors.white,
         marginTop: spacing.m,
+    },
+    text: {
+        fontSize: 12,
+        color: colors.darkGray
     }
 })

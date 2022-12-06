@@ -196,7 +196,6 @@ export default class ImageUpload extends React.Component {
   };
 
   _delete = () => {
-    console.log("DELETE")
     this.props.setImage(null)
   };
 
@@ -225,7 +224,6 @@ export default class ImageUpload extends React.Component {
     }
     else{
       if(PermissionResponse.canAskAgain === false){
-        console.log("Can't ask again")
         this.showAlert1()
       }
       else{
@@ -249,7 +247,6 @@ export default class ImageUpload extends React.Component {
     }
     else{
       if(PermissionResponse.canAskAgain === false){
-        console.log("Can't ask again")
         this.showAlert1()
 
       }

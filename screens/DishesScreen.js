@@ -29,10 +29,10 @@ const DishesScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     if(route?.params?.tag){
-      console.log(route.params.tag)
-      setFilterTags(route.params.tag);
+      console.log(route?.params?.tag)
+      setFilterTags(route?.params?.tag);
     }
-  }, [route?.params.tag])
+  }, [route?.params?.tag])
 
   useEffect(() => {
     var dataSource = search ? filteredData : dishesData

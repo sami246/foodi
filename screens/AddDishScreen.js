@@ -16,7 +16,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import uuid from "uuid";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import AppButton from "../components/SmallComponents/AppButton";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection,setDoc, doc } from "firebase/firestore";
 import { AirbnbRating } from "react-native-ratings";
 import AppLoader from "../components/AppLoader";
 import AppBannerAd from "../components/Ads/AppBannerAd";
@@ -154,6 +154,7 @@ const AddDishScreen = ({ navigation, route }) => {
       const docRef = await addDoc(collection(firestoreDB, "dishs"), {
         userId: user.uid,
         restaurant: restaurant,
+        restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
         dishName: dishName,
         comment: comment,
         rating: rating,
@@ -165,8 +166,21 @@ const AddDishScreen = ({ navigation, route }) => {
         tags: tags,
         wouldHaveAgain: WHA,
       });
-      
       console.log("Dish Added");
+      if (restaurantAdditonal != null){
+        const docRef2 = await setDoc(doc(firestoreDB, "restaurants", restaurantAdditonal.place_id), {
+          name: restaurant,
+          address: restaurantAdditonal.address ? restaurantAdditonal.address : null,
+          url: restaurantAdditonal.url ? restaurantAdditonal.url : null,
+          lat: restaurantAdditonal.lat ? restaurantAdditonal.lat : null,
+          lng: restaurantAdditonal.lng ? restaurantAdditonal.lng : null,
+          priceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
+          website: restaurantAdditonal.website ? restaurantAdditonal.website : null,
+          rating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
+        });
+        console.log("Restaurant Added");
+      }
+      
     } catch (e) {
       console.log(e);
       alert("Upload failed, sorry :(");
@@ -409,6 +423,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+    marginVertical: 5
   },
 
   //Inputs

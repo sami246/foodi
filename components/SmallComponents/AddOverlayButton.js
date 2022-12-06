@@ -16,9 +16,8 @@ const AddOverlayButton = () => {
     <TouchableOpacity
         activeOpacity={0.7}
         onPress={handlePress}
-        style={styles.shadow}
     >
-        <Ionicons style={[styles.addButton, styles.shadow]} color={colors.gold} name="add-circle" size={80}/>
+        <Ionicons style={[styles.addButton, {}]} color={colors.gold} name="add-circle" size={80}/>
     </TouchableOpacity>
     </View>)
 
@@ -34,15 +33,6 @@ const AddOverlayButton = () => {
       right: 0,
       bottom: 10,
       },
-    shadow: {
-        shadowOffset: {
-            width: 1,
-            height: 2,
-            },
-        shadowOpacity: 0.6,
-        shadowRadius: 1.41,
-        elevation: 2,
-    },
     addButton: { 
         zIndex: 1,
     },
