@@ -37,16 +37,16 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
 
             <View style={{ flex: 1 }}>
                 <AppButton
-                fontSize={15}
+                fontSize={20}
                 height={spacing.xl}
                 width={"100%"}
                 onPress={() => setModalVisible(!modalVisible)}
                 title="Save"
-                backgroundColor={colors.blue}
+                backgroundColor={colors.gold}
                 color={colors.white}
                 />
                 <AppButton
-                fontSize={15}
+                fontSize={20}
                 height={spacing.xl}
                 width={"100%"}
                 onPress={() => {
@@ -55,9 +55,9 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                 }}
                 title="Cancel"
                 backgroundColor={colors.white}
-                color={colors.blue}
+                color={colors.gold}
                 buttonStyle={{
-                    borderColor: colors.blue,
+                    borderColor: colors.gold,
                     borderWidth: 2,
                 }}
                 />
@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   centeredView: {
     justifyContent: "center",
     alignItems: "center",
+    
   },
   modalView: {
     height: sizes.height,

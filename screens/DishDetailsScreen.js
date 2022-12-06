@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert } from 'react-native'
-import React, {useContext} from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, Linking  } from 'react-native'
+import React, {useContext, useEffect, useState} from 'react'
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import ImagePreviewer from 'rc-image-previewer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -15,12 +15,26 @@ import ImageView from 'react-native-image-view';
 import BackButton from '../components/SmallComponents/BackButton';
 import { doc, deleteDoc } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
+import { DataContext } from '../contexts/DataContext';
 
 
 const DishDetailsScreen = ({ route }) => {
-      const dish = route.params.dish;
-    console.log({dish})
+    const dish = route.params.dish;
     const navigation = useNavigation();
+    const {fetchRestaurantData} = useContext(DataContext);
+    const [googlePlace, setGooglePlace] = useState(null)
+
+    useEffect(() => {
+      console.log(googlePlace)
+      if(dish?.restaurantPlaceId){
+        var tempPlace = fetchRestaurantData(dish?.restaurantPlaceId).catch((error) => alert(error));
+        console.log("gggggggg", tempPlace)
+        setGooglePlace(tempPlace)
+        console.log("---------", googlePlace)
+      }
+
+    }, [])
+    
 
     const handleTagPress = (tag) => {
       navigation.navigate("Dishes", {tag: tag})
@@ -32,11 +46,11 @@ const DishDetailsScreen = ({ route }) => {
         'Are you sure you want to delete?',  
         [  
             {  
-                text: 'Cancel',  
-                onPress: () => console.log('Cancel Pressed'),  
+                text: 'No',  
+                onPress: () => console.log('Cancel Delete'),  
                 style: 'cancel',  
             },  
-            {text: 'OK', onPress: async () => {
+            {text: 'Yes', onPress: async () => {
               await deleteDoc(doc(firestoreDB, "dishs", dish.id));
               navigation.goBack()
             }},  
@@ -51,6 +65,9 @@ const DishDetailsScreen = ({ route }) => {
   return (
 
     <SafeAreaView style={styles.container}>
+                <Pressable style={{position: 'absolute', zIndex: 1, top: 0, right: 0, padding: 15}} onPress={() => {handleDeleteDish()}}>
+                    <MaterialCommunityIcons name='delete-outline' size={30} color={colors.white} />
+                </Pressable>
               <View style={styles.imageBox}>
                     <ImagePreviewer source={dish.image ? {uri: dish.image} : require('../assets/image-placeholder.png')} style={styles.image} resizeMode="cover" />
                     {/* <ImageView
@@ -70,8 +87,14 @@ const DishDetailsScreen = ({ route }) => {
                 
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', margin: spacing.s, alignItems: 'center'}} 
                 onPress={handleEditPress}>
-
-                    <FontAwesome5 name='map-marker-alt' size={25} color={dish.restaurant ? colors.primary : colors.gray} />
+                      {dish.restaurantPlaceId ?
+                      <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}} onPress={() => { Linking.openURL("https://maps.google.com/?cid=11193503472849442996");}}>
+                        <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
+                      </Pressable>
+                      :
+                      <MaterialCommunityIcons name='map-marker' size={30} color={dish.restaurant ? colors.primary : colors.gray} />
+                      }
+                    
                     {dish.restaurant ?
                      <Text numberOfLines={1} style={{fontSize: sizes.h3, paddingHorizontal: spacing.m}}>{dish.restaurant}</Text> 
                      :
@@ -116,7 +139,7 @@ const DishDetailsScreen = ({ route }) => {
                       <Text style={[styles.comment, dish.comment ? {} : {color: colors.gray}]}>{dish.comment ? dish.comment : "Add a comment..."}</Text>
                     </Pressable>
                     
-                    <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly'}}>
+                    <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 20}}>
                         {dish.tags ?
                           <Tags tags={dish.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={false}/>
                         :
@@ -130,15 +153,15 @@ const DishDetailsScreen = ({ route }) => {
                         }
                     </View>
                    
-                      <View style={{height: 50, alignItems: 'center'}}>
+                      {/* <View style={{height: 50, alignItems: 'center'}}>
                         <AppButton backgroundColor={colors.red} color={colors.white} title={'DELETE'} height={100} width={100}
                         icon={<MaterialCommunityIcons name='delete-outline' size={20} color='white' />}
                         onPress={() => handleDeleteDish()}
                         fontSize={14}
                         />
-                      </View>
+                      </View> */}
                       {dish.updatedTime && 
-                      <Text style={{position:'absolute', bottom: 0, left: 5, fontSize: 9, fontWeight: '300', color: colors.darkGray}}>
+                      <Text style={{position:'absolute', bottom: 2, left: 4, fontSize: 9, fontWeight: '300', color: colors.darkGray}}>
                         Last Updated: {dish.updatedTime.toDate().getDate() + "/" +  dish.updatedTime.toDate().getMonth() + "/" + dish.updatedTime.toDate().getFullYear()}
                       </Text>
                       }
@@ -158,6 +181,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+
   },
 
   titleBox: {

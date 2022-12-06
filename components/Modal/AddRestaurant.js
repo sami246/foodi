@@ -13,7 +13,7 @@ const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaur
   
     const handlePlaces = (data, details) => {
       setModalVisible(false);
-    //   console.log(JSON.stringify(details, null, 3));
+      console.log(JSON.stringify(details, null, 3));
         var restaurant = details.name
         var resAdditional = {
             address: details.formatted_address,

@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { MultiSelect } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { sizes } from '../constants/theme';
+import { colors, sizes } from '../constants/theme';
 
 
 
@@ -120,11 +120,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-
+    borderWidth: 1,
+    borderColor: colors.gold,
     elevation: 2,
   },
   textSelectedStyle: {
     marginRight: 5,
     fontSize: 14,
+
   },
 });

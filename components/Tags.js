@@ -69,7 +69,7 @@ const Tags = ({tags, bColor, fColor, handleTagPress, wrap, filterTags}) => {
                 if(handleTagPress){
                   handleTagPress(tag)
                 }              
-                }} key={index} style={[styles.selectedStyle, {backgroundColor: bColor}]}>
+                }} key={index} style={[styles.selectedStyle, {backgroundColor: bColor, elevation: 0}]}>
               <Text
                   numberOfLines={1}
                   style={[styles.textSelectedStyle, {color: fColor}]}

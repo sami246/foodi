@@ -1,6 +1,6 @@
 import React, {createContext, useState, useContext, useEffect} from 'react';
 import { AuthContext } from '../contexts/AuthProvider';
-import { collection, query, where, onSnapshot, orderBy, limit } from "firebase/firestore";
+import { collection, query, where, onSnapshot, orderBy, limit, getDoc, doc,  } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
     
 
@@ -35,6 +35,24 @@ export const DataProvider = ({children}) => {
                   setDishesData(dishesDataTemp)
               });
               return unsubscribe;
+            }
+            catch (error) {
+              console.log(error)
+            }
+          },
+          fetchRestaurantData: async (id) => {
+            try {
+              const docRef  = doc(firestoreDB, "restaurants", id);
+              const docSnap = await getDoc(docRef);
+
+              if (docSnap.exists()) {
+                console.log("Document data:", docSnap.data());
+                return docSnap.data();
+              } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+                return null
+              }
             }
             catch (error) {
               console.log(error)
