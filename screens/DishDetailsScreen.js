@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert } from 'react-native'
 import React, {useContext} from 'react'
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import ImagePreviewer from 'rc-image-previewer';
@@ -13,14 +13,35 @@ import AppButton from '../components/SmallComponents/AppButton';
 import { Pressable } from 'react-native';
 import ImageView from 'react-native-image-view';
 import BackButton from '../components/SmallComponents/BackButton';
+import { doc, deleteDoc } from "firebase/firestore";
+import { firestoreDB } from '../firebase';
 
 
 const DishDetailsScreen = ({ route }) => {
-    const dish = route.params.dish;
+      const dish = route.params.dish;
+    console.log({dish})
     const navigation = useNavigation();
 
     const handleTagPress = (tag) => {
       navigation.navigate("Dishes", {tag: tag})
+    }
+
+    const handleDeleteDish = () => {
+      Alert.alert(  
+        'Delete',  
+        'Are you sure you want to delete?',  
+        [  
+            {  
+                text: 'Cancel',  
+                onPress: () => console.log('Cancel Pressed'),  
+                style: 'cancel',  
+            },  
+            {text: 'OK', onPress: async () => {
+              await deleteDoc(doc(firestoreDB, "dishs", dish.id));
+              navigation.goBack()
+            }},  
+        ]  
+    );  
     }
 
     const handleEditPress = () => {
@@ -112,7 +133,7 @@ const DishDetailsScreen = ({ route }) => {
                       <View style={{height: 50, alignItems: 'center'}}>
                         <AppButton backgroundColor={colors.red} color={colors.white} title={'DELETE'} height={100} width={100}
                         icon={<MaterialCommunityIcons name='delete-outline' size={20} color='white' />}
-                        onPress={() => {alert("ARE YOU SURE YOU WANT TO DELETE?")}}
+                        onPress={() => handleDeleteDish()}
                         fontSize={14}
                         />
                       </View>
