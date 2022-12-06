@@ -21,16 +21,14 @@ import { DataContext } from '../contexts/DataContext';
 const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
     const navigation = useNavigation();
-    const {fetchRestaurantData} = useContext(DataContext);
+    const {fetchRestaurantData, handlePlaceholder} = useContext(DataContext);
     const [googlePlace, setGooglePlace] = useState(null)
 
     useEffect(() => {
       console.log(googlePlace)
       if(dish?.restaurantPlaceId){
         var tempPlace = fetchRestaurantData(dish?.restaurantPlaceId).catch((error) => alert(error));
-        console.log("gggggggg", tempPlace)
         setGooglePlace(tempPlace)
-        console.log("---------", googlePlace)
       }
 
     }, [])
@@ -69,7 +67,7 @@ const DishDetailsScreen = ({ route }) => {
                     <MaterialCommunityIcons name='delete-outline' size={30} color={colors.white} />
                 </Pressable>
               <View style={styles.imageBox}>
-                    <ImagePreviewer source={dish.image ? {uri: dish.image} : require('../assets/image-placeholder.png')} style={styles.image} resizeMode="cover" />
+                    <ImagePreviewer source={dish.image ? {uri: dish.image} : handlePlaceholder()} style={styles.image} resizeMode="cover" />
                     {/* <ImageView
                         images={[{source: {uri: dish.image}}]}
                         imageIndex={0}
@@ -88,7 +86,8 @@ const DishDetailsScreen = ({ route }) => {
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', margin: spacing.s, alignItems: 'center'}} 
                 onPress={handleEditPress}>
                       {dish.restaurantPlaceId ?
-                      <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}} onPress={() => { Linking.openURL("https://maps.google.com/?cid=11193503472849442996");}}>
+                      <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
+                       onPress={() => { Linking.openURL(googlePlace.website);}}>
                         <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
                       </Pressable>
                       :

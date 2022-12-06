@@ -3,6 +3,8 @@ import {Image, View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 // import FavoriteButton from './FavoriteButton';
+import { useContext } from 'react';
+import { DataContext } from '../contexts/DataContext';
 
 const CARD_WIDTH = sizes.width / 2 - (spacing.l + spacing.l / 2);
 const CARD_HEIGHT = 220;
@@ -10,7 +12,7 @@ const CARD_HEIGHT = 220;
 
 
 const RecentList = ({list}) => {
-
+  const {handlePlaceholder} = useContext(DataContext);
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -19,7 +21,7 @@ const RecentList = ({list}) => {
           <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
             <View style={[styles.card, shadow.light]} >
               <View style={styles.imageBox}>
-                <Image style={styles.image} source={item.image ? {uri: item.image} : require('../assets/image-placeholder.png')} />
+                <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder()} />
               </View>
               <View style={styles.footer}>
                 <View style={styles.titleBox}>

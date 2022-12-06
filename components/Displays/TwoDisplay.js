@@ -4,20 +4,21 @@ import { useNavigation } from '@react-navigation/native';
 import {colors, shadow, sizes, spacing} from '../../constants/theme';
 import Rating from '../Rating';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useContext } from 'react';
+import { DataContext } from '../../contexts/DataContext';
 
 const CARD_WIDTH = sizes.width / 2 - (spacing.l + spacing.l / 2);
 const CARD_HEIGHT = 200;
 
-
-
 const TwoDisplay = ({item}) => {
+  const {handlePlaceholder} = useContext(DataContext);
 
   const navigation = useNavigation();
   return (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
         <View style={[styles.card, shadow.light]} >
             <View style={styles.imageBox}>
-            <Image style={styles.image} source={item.image ? {uri: item.image} : require('../../assets/image-placeholder.png')} />
+            <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder()} />
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, left: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
                     <Rating rating={item.rating} fontSize={10} iconSize={14} fontColor={colors.gold} showText={false}/>
                 </View>

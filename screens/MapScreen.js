@@ -27,7 +27,7 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <NavBar bgColor={colors.blue}/>
+        <NavBar bgColor={colors.blue} fontColor={colors.white}/>
         <View style={styles.contentContainer}>
           {/* <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>MAP SCREEN</Text>
           <Text>{user.displayName} </Text>

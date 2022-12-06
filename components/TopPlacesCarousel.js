@@ -10,13 +10,16 @@ import {
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import { useNavigation } from '@react-navigation/native';
 import Rating from './Rating';
+import { useContext } from 'react';
+import { DataContext } from '../contexts/DataContext';
+
 
 const CARD_WIDTH = sizes.width - 80;
 const CARD_HEIGHT = 200;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
 const TopPlacesCarousel = ({list}) => {
-
+  const {handlePlaceholder} = useContext(DataContext);
   const navigation = useNavigation();
 
   return (
@@ -38,7 +41,7 @@ const TopPlacesCarousel = ({list}) => {
               }}>
               <View style={[styles.card, shadow.dark]}>
                 <View style={styles.imageBox}>
-                  <Image source={item.image ? {uri: item.image} : require('../assets/image-placeholder.png')} style={[styles.image, {}]} />
+                  <Image source={item.image ? {uri: item.image} : handlePlaceholder()} style={[styles.image, {}]} />
                 </View>
                 <View style={styles.titleBox}>
                   <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8}  style={[styles.title, styles.textShadow]}>{item.dishName}</Text>

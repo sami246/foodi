@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {Image, View, StyleSheet, TouchableOpacity, Text, ScrollView, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {colors, shadow, sizes, spacing, STATUS_BAR_HEIGHT} from '../../constants/theme';
@@ -6,6 +6,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Rating from '../Rating';
 import Tags from '../Tags';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { DataContext } from '../../contexts/DataContext';
+
 
 
 const CARD_WIDTH = sizes.width - (spacing.xl);
@@ -14,16 +16,19 @@ const IMAGE_HEIGHT = 160;
 
 
 const OneDisplay = ({item, setFilterTags, filterTags}) => {
-const handleTagPress = (tag) => {
-    setFilterTags(tag)
-    }
+
+  const {handlePlaceholder} = useContext(DataContext);
+  
+  const handleTagPress = (tag) => {
+      setFilterTags(tag)
+  }
 
   const navigation = useNavigation();
   return (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
     <View style={[styles.card, shadow.light]} >
       <View style={styles.imageBox}>
-        <Image style={styles.image} source={item.image ? {uri: item.image} : require('../../assets/image-placeholder.png')} />
+        <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder()} />
       </View>
       <View style={styles.footer}>
         {/* Rating */}

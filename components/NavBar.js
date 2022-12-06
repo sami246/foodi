@@ -8,13 +8,13 @@ import {colors, NAV_BAR_HEIGHT, shadow, sizes, spacing} from '../constants/theme
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-const NavBar = ({refresh, onRefresh, bgColor}) => {
+const NavBar = ({refresh, onRefresh, bgColor, fontColor}) => {
     const navigation = useNavigation();
     
     return (
         <View style={[styles.navContainer, {backgroundColor: bgColor ? bgColor : colors.lightOrange}]}>
             <Pressable onPress={() => navigation.navigate('Home')} android_ripple={{color: 'white'}} style={{padding: 5}}>
-              <Text style={styles.title} >Foodi</Text>
+              <Text style={[styles.title, {color: fontColor}]} >Foodi</Text>
             </Pressable>
             {refresh && 
             <Pressable onPress={() => {onRefresh()}} > 

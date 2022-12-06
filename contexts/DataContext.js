@@ -2,9 +2,7 @@ import React, {createContext, useState, useContext, useEffect} from 'react';
 import { AuthContext } from '../contexts/AuthProvider';
 import { collection, query, where, onSnapshot, orderBy, limit, getDoc, doc,  } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
-    
-
-
+  
 export const DataContext = createContext();
 
 export const DataProvider = ({children}) => {
@@ -46,7 +44,6 @@ export const DataProvider = ({children}) => {
               const docSnap = await getDoc(docRef);
 
               if (docSnap.exists()) {
-                console.log("Document data:", docSnap.data());
                 return docSnap.data();
               } else {
                 // doc.data() will be undefined in this case
@@ -97,6 +94,24 @@ export const DataProvider = ({children}) => {
           firebaseTimetoString: (time) => {
             var time2 = time.toDate()
             return `${time2.getDate()}/${time2.getMonth()}/${time2.getFullYear()}`
+          },
+          handlePlaceholder: () => {
+            var randomNumber = Math.floor(Math.random() * 5)
+            if (randomNumber === 0){
+              return require(`../assets/place-holders/image-placeholder-red.png`) 
+            }
+            else if (randomNumber === 1) {
+              return require(`../assets/place-holders/image-placeholder-orange.png`) 
+            }
+            else if(randomNumber === 2){
+              return require(`../assets/place-holders/image-placeholder-gold.png`) 
+            }
+            else if(randomNumber === 3){
+              return require(`../assets/place-holders/image-placeholder-blue.png`) 
+            }
+            else if(randomNumber === 4){
+              return require(`../assets/place-holders/image-placeholder-green.png`) 
+            }
           }
       }}>
       {children}
