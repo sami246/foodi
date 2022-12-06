@@ -18,6 +18,8 @@ const mapName = 'Map';
 const settingsName = 'Settings';
 
 export default function MainContainer({navigation}) {
+
+    
   return (
         
         <Tab.Navigator 
@@ -32,18 +34,22 @@ export default function MainContainer({navigation}) {
         screenOptions ={({route}) => ({
             
             activeColor: colors.primary,
-            // tabBarInactiveTintColor: colors.gray,
-            // tabBarLabelStyle: {
-            //     fontSize: 10,
+            tabBarColor: 
+            route.name == mapName ? colors.blue : colors.lightOrange,
+            // () => {
+            //     if(route.name == mapName){
+            //         return colors.blue
+            //     }
+            //     else if(route.name == settingsName){
+            //         return colors.gray
+            //     }
+            //     else{
+            //         return colors.lightOrange
+            //     }
             // },
-            // tabBarStyle: [
-            //     {
-            //     display: "flex",
-            //     padding: 5,
-                
             
-            //     }, null ],
-            tabBarColor: route.name == mapName ? colors.blue : colors.lightOrange,
+            
+            
             tabBarIcon: ({focused, color, size}) => {
                 let iconName;
                 let routeName = route.name;

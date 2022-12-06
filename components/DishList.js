@@ -7,9 +7,9 @@ import TwoDisplay from './Displays/TwoDisplay';
 import ThreeDisplay from './Displays/ThreeDisplay';
 import OneDisplay from './Displays/OneDisplay';
 
-const DishList = ({list, display}) => {
+const DishList = ({list, display, setFilterTags, filterTags}) => {
   const renderItemFull = ({ item }) => (
-    <OneDisplay item={item} />
+    <OneDisplay item={item} setFilterTags={setFilterTags} filterTags={filterTags}/>
   );
 
   const renderItemTwo = ({ item }) => (

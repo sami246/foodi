@@ -1,28 +1,35 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar, Pressable, Image } from 'react-native'
-import React, { useEffect} from 'react'
+import React, { useEffect, useRef } from 'react';
 import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme'
 import { auth } from '../firebase';
 import { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import NavBar from '../components/NavBar';
+import { Gooogle_API_Key } from '../config';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 
 
 const MapScreen = ({ navigation }) => {
   const [user, setUser] = useState(auth.currentUser)
+  const [data, setData] = useState(null)
+  const ref = useRef();
 
   useEffect(() => {
-    if (user !== null) {
-      console.log({user})
+    ref.current?.getAddressText();
+  }, []);
 
-    }
-  }, [])
+  const handlePlaces = (obj, obj2) => {
+    setData(obj)
+    // console.log(JSON.stringify(obj, null, 3));
+    console.log(JSON.stringify(obj2, null, 3));
+  }
 
 
   return (
     <SafeAreaView style={styles.container}>
         <NavBar bgColor={colors.blue}/>
         <View style={styles.contentContainer}>
-          <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>MAP SCREEN</Text>
+          {/* <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>MAP SCREEN</Text>
           <Text>{user.displayName} </Text>
           <Text>{user.email} </Text>
           <Text>{user.photoURL} </Text>
@@ -36,7 +43,7 @@ const MapScreen = ({ navigation }) => {
                       style={{ width: sizes.width - spacing.xl - spacing.s, height: 230, overflow: 'hidden', resizeMode: 'center' }} 
                       
                       />
-          </Pressable>
+          </Pressable> */}
         </View>
     </SafeAreaView>
   )

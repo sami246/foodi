@@ -11,7 +11,7 @@ const AppBannerAd = ({height}) => {
         <BannerAd
 
         unitId={TestIds.BANNER}
-        size={`${sizes.width- 10}x${height}`}
+        size={`${sizes.width- 5}x${height}`}
         requestOptions={{
             requestNonPersonalizedAdsOnly: true,
         }}
@@ -25,6 +25,6 @@ export default AppBannerAd
 const styles = StyleSheet.create({
   container: {
     marginTop: 5,
-    alignItems: 'center'
+    alignItems: 'center',
   }
 })

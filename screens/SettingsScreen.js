@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   contentContainer : {
     flex: 10,
-    
+    padding: 20
   },
   button: {
     backgroundColor: colors.primary,

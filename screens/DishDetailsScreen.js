@@ -19,9 +19,8 @@ const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
     const navigation = useNavigation();
 
-
     const handleTagPress = (tag) => {
-      alert(tag)
+      navigation.navigate("Dishes", {tag: tag})
     }
 
     const handleEditPress = () => {

@@ -3,7 +3,21 @@ import React from 'react'
 import { colors, sizes, spacing } from '../constants/theme'
 import { ScrollView } from 'react-native-gesture-handler'
 
-const Tags = ({tags, bColor, fColor, handleTagPress, wrap}) => {
+const Tags = ({tags, bColor, fColor, handleTagPress, wrap, filterTags}) => {
+  const handleBColour = (tag) => {
+    if (filterTags){
+      if(filterTags.includes(tag)){
+        return colors.gold
+      }
+      else{
+        return bColor
+      }
+    }
+    else{
+      return bColor
+    }
+  } 
+
   if(wrap){
     return (
       <View
@@ -21,7 +35,7 @@ const Tags = ({tags, bColor, fColor, handleTagPress, wrap}) => {
                 if(handleTagPress){
                   handleTagPress(tag)
                 }              
-                }} key={index} style={[styles.selectedStyle, {backgroundColor: bColor}]}>
+                }} key={index} style={[styles.selectedStyle, {backgroundColor: handleBColour(tag)}]}>
               <Text
                   numberOfLines={1}
                   style={[styles.textSelectedStyle, {color: fColor}]}
@@ -45,7 +59,8 @@ const Tags = ({tags, bColor, fColor, handleTagPress, wrap}) => {
           flexDirection: "row",
           flexWrap: "nowrap",
           width: sizes.width - 50,
-          height: '100%'
+          height: '100%',
+          paddingBottom: 5
           }}
       >
           {tags != [] ? (
@@ -54,7 +69,7 @@ const Tags = ({tags, bColor, fColor, handleTagPress, wrap}) => {
                 if(handleTagPress){
                   handleTagPress(tag)
                 }              
-                }} key={index} style={[styles.selectedStyle, {backgroundColor: bColor, elevation: 0}]}>
+                }} key={index} style={[styles.selectedStyle, {backgroundColor: bColor}]}>
               <Text
                   numberOfLines={1}
                   style={[styles.textSelectedStyle, {color: fColor}]}

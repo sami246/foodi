@@ -13,9 +13,9 @@ const CARD_HEIGHT = 250;
 const IMAGE_HEIGHT = 160;
 
 
-const OneDisplay = ({item}) => {
+const OneDisplay = ({item, setFilterTags, filterTags}) => {
 const handleTagPress = (tag) => {
-    alert(tag)
+    setFilterTags(tag)
     }
 
   const navigation = useNavigation();
@@ -65,7 +65,7 @@ const handleTagPress = (tag) => {
             }
           </View>
           <View style={{flexDirection: 'row', marginBottom: spacing.s, justifyContent: 'space-around'}}>
-              <Tags tags={item.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={true}/>
+              <Tags tags={item.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={true} filterTags={filterTags}/>
           </View>
         {/* <FavoriteButton /> */}
       </View>

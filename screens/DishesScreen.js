@@ -10,7 +10,7 @@ import { Pressable } from 'react-native';
 import TagsModal from '../components/TagsModal';
 import { isEmpty } from '@firebase/util';
 
-const DishesScreen = ({ navigation }) => {
+const DishesScreen = ({ navigation, route }) => {
   const {dishesData,setDishesData, fetchDishesData, isLoading, setIsLoading} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
@@ -20,9 +20,22 @@ const DishesScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [WHAFilter, setWHAFilter] = useState(false);
 
+
+
+
   useEffect(() => {
     onRefresh();
   }, [])
+
+  useEffect(() => {
+    console.log("In Dishes Screen")
+    console.log(route?.params.tag)
+    if(route?.params?.tag){
+      console.log(route.params.tag)
+      setFilterTags(route.params.tag);
+    }
+
+  }, [route?.params.tag])
 
   useEffect(() => {
     var dataSource = search ? filteredData : dishesData
@@ -44,11 +57,9 @@ const DishesScreen = ({ navigation }) => {
         // Applying filter for the inserted text in search bar
         const textData = search.toUpperCase();
         if(WHAFilter){
-          console.log("onw")
           return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) 
           && item.wouldHaveAgain;
         }else{
-          console.log("gwow")
           return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1);
         }
       }))
@@ -99,7 +110,7 @@ const DishesScreen = ({ navigation }) => {
           </View>
           <View style={{alignItems:'center', marginVertical: 3, width: '100%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20}}>
               <View style={{alignItems:'center', flexDirection: 'row'}}>
-                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8, backgroundColor: !isEmpty(filterTags) ? colors.lightOrange : colors.white}]}
+                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8, backgroundColor: !isEmpty(filterTags) ? colors.gold : colors.white}]}
                 onPress={() => setModalVisible(true)}
                 >
                   <MaterialCommunityIcons name='filter' size={20} color={!isEmpty(filterTags) ? colors.white : colors.darkGray} />
@@ -139,11 +150,14 @@ const DishesScreen = ({ navigation }) => {
             {isLoading ? <ActivityIndicator color={colors.orange} size={'large'}/> : null}
             {dishesData
             ? 
-            <DishList list={filteredData === null ? dishesData : filteredData} display={display}/> 
-
+            <DishList list={filteredData === null ? dishesData : filteredData} display={display} filterTags={filterTags} setFilterTags={setFilterTags}/> 
             : 
-            <Text style={{fontSize: 20}}>Add some posts</Text>
+            <Text style={{fontSize: 20, marginTop: 10}}>Add some posts</Text>
             }
+            {/* {isEmpty(filteredData) && 
+            <View style={{alignSelf:'center', backgroundColor: 'red', flex: 2}}>
+            <Text>No Dishes Matching Your Search.</Text>
+            </View>} */}
         </View>
         <AddOverlayButton />
     </SafeAreaView>

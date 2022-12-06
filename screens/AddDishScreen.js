@@ -24,6 +24,8 @@ import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile
 import { AuthContext } from '../contexts/AuthProvider';
 import TagsModal from "../components/TagsModal";
 import BackButton from "../components/SmallComponents/BackButton";
+import AddRestaurant from "../components/Modal/AddRestaurant";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
 
@@ -44,6 +46,7 @@ const AddDishScreen = ({ navigation, route }) => {
   const [dishName, setDishName] = useState(null);
   const [price, setPrice] = useState(null);
   const [restaurant, setRestaurant] = useState(null);
+  const [restaurantAdditonal, setRestaurantAdditional] = useState(null);
   const [rating, setRating] = useState(null);
   const [comment, setComment] = useState(null);
   const [tags, setTags] = useState([]);
@@ -53,6 +56,7 @@ const AddDishScreen = ({ navigation, route }) => {
 
   const [uploading, setUploading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [addRestaurantModalVisible, setAddRestaurantModalVisible] = useState(false);
 
   // For Date
   // ---------------
@@ -79,6 +83,7 @@ const AddDishScreen = ({ navigation, route }) => {
   };
 
   useEffect(() => {
+    console.log({restaurantAdditonal})
     const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
       setLoaded(true);
     });
@@ -104,6 +109,7 @@ const AddDishScreen = ({ navigation, route }) => {
     setDishName(null);
     setPrice(null);
     setRestaurant(null);
+    setRestaurantAdditional(null);
     setRating(null);
     setComment(null);
     setWHA(false);
@@ -111,6 +117,27 @@ const AddDishScreen = ({ navigation, route }) => {
     setDateText("");
     setTags(null);
     navigation.goBack();
+  };
+
+  const handleRatingColour = () => {
+    if(rating === 1 || rating === 2){
+      return colors.red
+    }
+    else if(rating === 3 || rating === 4){
+      return colors.orange
+    }
+    else if(rating === 5 || rating === 6){
+      return colors.blue
+    }
+    else if(rating === 7 || rating === 8){
+      return colors.green
+    }
+    else if(rating === 9 || rating === 10){
+      return colors.gold
+    }
+    else{
+      return colors.gray
+    }
   };
 
   const handleSubmit = async () => {
@@ -179,6 +206,12 @@ const AddDishScreen = ({ navigation, route }) => {
   return (
     <>
       {uploading ? <AppLoader /> : null}
+      {addRestaurantModalVisible && <AddRestaurant
+       modalVisible={addRestaurantModalVisible}
+       setModalVisible={setAddRestaurantModalVisible}
+       setRestaurant={setRestaurant}
+       setRestaurantAdditional = {setRestaurantAdditional}
+       />}
       <ScrollView showsVerticalScrollIndicator={false}>
         <AppBannerAd height={100} />
         <View
@@ -194,12 +227,22 @@ const AddDishScreen = ({ navigation, route }) => {
               setUploading={setUploading}
             />
             {/* Restaurant */}
-            <TextInput
+
+            {/* <TextInput
               placeholder="Restaurant"
               value={restaurant}
               style={[styles.input, styles.inputShadow]}
               onChangeText={(text) => setRestaurant(text)}
-            />
+            /> */}
+            <View style={{width: "100%", flexDirection: 'row', justifyContent: 'center'}}>
+              <Text 
+              numberOfLines={1}
+              style={[styles.input, styles.inputShadow, {flex: restaurantAdditonal ? 1 : 0,}]}
+              onPress={() => setAddRestaurantModalVisible(true)}
+              >{restaurant ? restaurant : "Restaurant"}</Text>
+              {restaurantAdditonal && <MaterialCommunityIcons name='google-maps' size={30} color={colors.green} style={{marginLeft:5, textAlignVertical: 'center' }}/>}
+            </View>
+
             {/* Dish Name */}
             <TextInput
               placeholder="Dish Name"
@@ -218,13 +261,15 @@ const AddDishScreen = ({ navigation, route }) => {
                   borderRadius: 10,
                   margin: 5,
                   width: "100%",
+                  borderWidth: rating ? 2 : 0,
+                  borderColor: handleRatingColour()
                 },
                 styles.inputShadow,
               ]}
             >
               <AirbnbRating
-                selectedColor={colors.orange}
-                reviewColor={colors.lightOrange}
+                selectedColor={handleRatingColour()}
+                reviewColor={handleRatingColour()}
                 count={10}
                 reviews={[
                   "   1/10\nTerrible",
@@ -240,7 +285,7 @@ const AddDishScreen = ({ navigation, route }) => {
                 ]}
                 defaultRating={0}
                 size={20}
-                starContainerStyle={{ paddingBottom: 10 }}
+                starContainerStyle={{ paddingBottom: 10, }}
                 onFinishRating={setRating}
               />
             </View>
@@ -330,6 +375,7 @@ const AddDishScreen = ({ navigation, route }) => {
           </View>
         </View>
         <BackButton iconColor={colors.orange} />
+        
       </ScrollView>
     </>
   );
@@ -375,6 +421,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: spacing.xl,
     color: colors.gray,
+    textAlignVertical: 'center',
+    fontWeight: '400'
   },
   smallInput: {
     backgroundColor: "white",
