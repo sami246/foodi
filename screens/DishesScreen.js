@@ -28,13 +28,10 @@ const DishesScreen = ({ navigation, route }) => {
   }, [])
 
   useEffect(() => {
-    console.log("In Dishes Screen")
-    console.log(route?.params.tag)
     if(route?.params?.tag){
       console.log(route.params.tag)
       setFilterTags(route.params.tag);
     }
-
   }, [route?.params.tag])
 
   useEffect(() => {

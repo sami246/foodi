@@ -70,16 +70,24 @@ export default class ImageUpload extends React.Component {
              
             <View style={{ alignItems: "center", margin: 10 }}>
                 <MaterialCommunityIcons name='image-edit-outline' size={60} color='gray' style={{margin:5}}/>
-                <AppButton 
-                  title='Pick an image from camera roll'
-                  height={spacing.m}
-                  width={225}
-                  onPress={this._pickImage}
-                  fontSize={13}
-                  backgroundColor={colors.orange}
-                  color={colors.white}/>
-
-                {/* <Button onPress={this._takePhoto} title="Take a photo" /> */}
+                <View style={{height: 50}}>
+                  <AppButton 
+                    title='Pick an image from camera roll'
+                    width={225}
+                    onPress={this._pickImage}
+                    fontSize={13}
+                    backgroundColor={colors.orange}
+                    color={colors.white}/>
+                  </View>
+                  <View style={{height: 50}}>
+                  <AppButton 
+                    title='Take a Photo'
+                    width={225}
+                    onPress={this._takePhoto}
+                    fontSize={13}
+                    backgroundColor={colors.white}
+                    color={colors.orange}/>
+                  </View>
             </View>
             
 
@@ -198,12 +206,33 @@ export default class ImageUpload extends React.Component {
   };
 
   _takePhoto = async () => {
-    let pickerResult = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 0.6
-    });
-    this.props.setImage(pickerResult)
-    this._handleImagePicked(pickerResult);
+    // let pickerResult = await ImagePicker.launchCameraAsync({
+    //   allowsEditing: true,
+    //   quality: 0.6
+    // });
+    // this.props.setImage(pickerResult)
+
+
+    var PermissionResponse = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (PermissionResponse.status === 'granted'){
+      let pickerResult = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        quality: 0.6
+      });
+      if (!pickerResult.canceled) {
+        this.props.setImage(pickerResult.assets[0].uri)
+      }
+    }
+    else{
+      if(PermissionResponse.canAskAgain === false){
+        console.log("Can't ask again")
+        this.showAlert1()
+      }
+      else{
+        alert("Sorry, we need camera roll permissions to make this work!");
+      } 
+    }
+    // this._handleImagePicked(pickerResult);
   };
 
 
@@ -227,10 +256,7 @@ export default class ImageUpload extends React.Component {
       else{
         alert("Sorry, we need camera roll permissions to make this work!");
       } 
-
-
     }
-    // this._handleImagePicked(pickerResult);
   };
 
 }
