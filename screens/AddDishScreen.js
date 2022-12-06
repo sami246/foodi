@@ -136,7 +136,7 @@ const AddDishScreen = ({ navigation, route }) => {
       return colors.gold
     }
     else{
-      return colors.gray
+      return colors.orange
     }
   };
 
@@ -239,6 +239,7 @@ const AddDishScreen = ({ navigation, route }) => {
               setImage={setImage}
               uploading={uploading}
               setUploading={setUploading}
+              color={handleRatingColour()}
             />
             {/* Restaurant */}
 
@@ -352,7 +353,7 @@ const AddDishScreen = ({ navigation, route }) => {
               />
             </View>
             {/* Tags */}
-            <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tags} setTags={setTags} showButton={true}/>
+            <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tags} setTags={setTags} showButton={true} color={handleRatingColour()}/>
             {/* Would Have Again Switch */}
             <View style={styles.switchContainer}>
               <Text style={styles.switchText}>Would have again?</Text>
@@ -373,7 +374,7 @@ const AddDishScreen = ({ navigation, route }) => {
               width={"100%"}
               onPress={handleSubmit}
               title="Add Dish"
-              backgroundColor={colors.orange}
+              backgroundColor={handleRatingColour()}
               color={colors.white}
             />
             <AppButton
@@ -383,8 +384,8 @@ const AddDishScreen = ({ navigation, route }) => {
               onPress={handleCancel}
               title="Cancel"
               backgroundColor={colors.white}
-              color={colors.lightOrange}
-              buttonStyle={{ borderColor: colors.orange, borderWidth: 2 }}
+              color={handleRatingColour()}
+              buttonStyle={{ borderColor: handleRatingColour(), borderWidth: 2 }}
             />
           </View>
         </View>

@@ -76,7 +76,7 @@ export default class ImageUpload extends React.Component {
                     width={225}
                     onPress={this._pickImage}
                     fontSize={13}
-                    backgroundColor={colors.orange}
+                    backgroundColor={this.props.color}
                     color={colors.white}/>
                   </View>
                   <View style={{height: 50}}>
@@ -86,7 +86,7 @@ export default class ImageUpload extends React.Component {
                     onPress={this._takePhoto}
                     fontSize={13}
                     backgroundColor={colors.white}
-                    color={colors.orange}/>
+                    color={this.props.color}/>
                   </View>
             </View>
             

@@ -73,7 +73,7 @@ const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaur
                     )}
                     enablePoweredByContainer={false}
                     styles={{
-                        container: {padding: 10, fontSize: 14, backgroundColor: 'white', elevation: 2, width: '100%'},
+                        container: {padding: 10, fontSize: 14, backgroundColor: 'white', elevation: 2, width: '100%', borderRadius: 10},
                         separator: { paddingVertical: 3},
                         // description: {borderColor: colors.orange, borderBottomWidth: 1.5, padding: 10, fontSize: 14, backgroundColor: 'white', borderRadius: 10},
                         loader: {
@@ -94,14 +94,14 @@ const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaur
                     />
                     
                 </View>
-                <View style={{marginHorizontal: 20, marginBottom: 10}}>
+                <View style={{marginHorizontal: 20, marginBottom: 5, alignItems: 'center', top: -5}}>
                 <Text style={styles.text}>Try adding the rough location to find the restaurant. </Text>
                 <Text style={styles.text}>Or save without Google verified location, we accept both! </Text>
                 </View>
-                <View style= {{height: 60, width: 150, alignSelf: 'center', marginBottom: spacing.s}}>
+                <View style= {{height: 55, width: 150, alignSelf: 'center', marginBottom: spacing.s}}>
                     <AppButton
                         fontSize={15}
-                        height={spacing.xl}
+                        height={50}
                         width={"100%"}
                         onPress={() => handleNotFoundSave()}
                         title="Save"
@@ -113,7 +113,7 @@ const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaur
                         }}
                         />
                 </View>
-                <View style= {{height: 60, width: 150, alignSelf: 'center', marginBottom: spacing.m}}>
+                <View style= {{height: 55, width: 150, alignSelf: 'center', marginBottom: spacing.m}}>
                     
                     <AppButton
                         fontSize={15}

@@ -6,7 +6,7 @@ import Tags from './Tags';
 import AppButton from './SmallComponents/AppButton';
 import MultiSelectComponent from "../components/MultiSelect";
 
-const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton}) => {
+const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, color}) => {
   return (
     <View style={styles.centeredView}>
         <Modal
@@ -68,7 +68,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton}) =
 
 
         {showButton &&
-        <View style={[styles.cusineContainer, styles.inputShadow]}>
+        <View style={[styles.cusineContainer, styles.inputShadow, {backgroundColor: color}]}>
         <Tags tags={tags} bColor={colors.white} fColor={colors.black} wrap={true}/>
         <View
             style={{
