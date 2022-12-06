@@ -11,7 +11,7 @@ import TagsModal from '../components/TagsModal';
 import { isEmpty } from '@firebase/util';
 
 const DishesScreen = ({ navigation, route }) => {
-  const {dishesData,setDishesData, fetchDishesData, isLoading, setIsLoading} = useContext(DataContext);
+  const {dishesData,setDishesData, fetchDishesData} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
   const [filterTags, setFilterTags] = useState([])
@@ -21,7 +21,9 @@ const DishesScreen = ({ navigation, route }) => {
   const [WHAFilter, setWHAFilter] = useState(false);
 
 
-
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
 
   useEffect(() => {
     onRefresh();
@@ -84,10 +86,10 @@ const DishesScreen = ({ navigation, route }) => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    fetchDishesData().then(() => {
-      setIsLoading(false)
+    wait(2000).then(() => {fetchDishesData().then(() => {
       setRefreshing(false)
-    }).catch((error) => alert(error))
+    }).catch((error) => alert(error))})
+
     
   }, []);
 
@@ -96,7 +98,7 @@ const DishesScreen = ({ navigation, route }) => {
       <StatusBar style="dark" />
         <NavBar refresh={true} onRefresh={onRefresh}/>
         <View style={styles.contentContainer}>
-        {refreshing && <ActivityIndicator color={colors.orange} size={'large'}/>}
+        
           <View style={{alignItems:'center', marginVertical: 2, width: '100%', }}>
                 <TextInput
                     placeholder='Search Dish Name or Restaurant'
@@ -144,7 +146,7 @@ const DishesScreen = ({ navigation, route }) => {
                 }}/>
               </View>
           </View>
-            {isLoading ? <ActivityIndicator color={colors.orange} size={'large'}/> : null}
+            {refreshing && <ActivityIndicator color={colors.orange} size={'large'}/>}
             {dishesData
             ? 
             <DishList list={filteredData === null ? dishesData : filteredData} display={display} filterTags={filterTags} setFilterTags={setFilterTags}/> 

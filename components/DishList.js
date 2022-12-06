@@ -35,7 +35,7 @@ const DishList = ({list, display, setFilterTags, filterTags}) => {
             data={list}
             renderItem={renderItemFull}
             keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false}        
+            showsVerticalScrollIndicator={false}      
           />
       </View>
     )

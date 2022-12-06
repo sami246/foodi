@@ -12,7 +12,6 @@ export const DataProvider = ({children}) => {
     const [dishesData, setDishesData] = useState([]);
     const [dishesDataByRating, setdishesDataByRating] = useState(false);
     const [dishesDataByRecent, setdishesDataByRecent] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
     
 
   return (
@@ -22,8 +21,6 @@ export const DataProvider = ({children}) => {
         setDishesData,
         dishesDataByRating,
         dishesDataByRecent,
-        isLoading,
-        setIsLoading,
         fetchDishesData: async () => {
             try {
               const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid));
