@@ -7,6 +7,7 @@ import Rating from '../Rating';
 import Tags from '../Tags';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DataContext } from '../../contexts/DataContext';
+import AppBannerAd from "../Ads/AppBannerAd";
 
 
 
@@ -22,8 +23,9 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
   const handleTagPress = (tag) => {
       setFilterTags(tag)
   }
-
+  
   const navigation = useNavigation();
+  if(item.id){
   return (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
     <View style={[styles.card, shadow.light]} >
@@ -76,7 +78,14 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
       </View>
     </View>
   </TouchableOpacity>
-  );
+  );}
+  else{
+    return(
+      <View style={[styles.cardContainer, styles.card]}>
+        <AppBannerAd height={150} width={CARD_WIDTH}/>
+      </View>
+    )
+  }
 };
 
 const styles = StyleSheet.create({

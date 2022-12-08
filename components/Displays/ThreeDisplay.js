@@ -6,6 +6,7 @@ import Rating from '../Rating';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useContext } from 'react';
 import { DataContext } from '../../contexts/DataContext';
+import AppBannerAd from "../Ads/AppBannerAd";
 
 
 const CARD_WIDTH = sizes.width / 3 - (spacing.m);
@@ -14,6 +15,9 @@ const CARD_HEIGHT = sizes.height / 5.2;
 const ThreeDisplay = ({item}) => {
   const {handlePlaceholder} = useContext(DataContext);
   const navigation = useNavigation();
+  if(item.id){
+
+
   return (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
         <View style={[styles.card, shadow.light]} >
@@ -36,7 +40,14 @@ const ThreeDisplay = ({item}) => {
             </View>
         </View>
     </TouchableOpacity>
-  );
+  );  }
+  else{
+    return(
+      <View style={[styles.cardContainer, styles.card]}>
+        <AppBannerAd height={CARD_HEIGHT} width={CARD_WIDTH}/>
+      </View>
+    )
+  }
 };
 
 const styles = StyleSheet.create({
@@ -50,7 +61,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
     borderWidth: 1.5,
-    borderColor: colors.orange
+    borderColor: colors.orange,
+    overflow:'hidden'
     
   },
   imageBox: {

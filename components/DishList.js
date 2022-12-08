@@ -5,8 +5,46 @@ import AppLoader from './AppLoader';
 import TwoDisplay from './Displays/TwoDisplay';
 import ThreeDisplay from './Displays/ThreeDisplay';
 import OneDisplay from './Displays/OneDisplay';
+import { useEffect } from 'react';
+import uuid from "uuid";
+import { useState } from 'react';
 
 const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
+  const [list1, setList1] = useState([...list]);
+  const [list2, setList2] = useState([...list]);
+  const [list3, setList3] = useState([...list]);
+
+  useEffect(() => {
+    var length = list.length;
+    var numoftimedividedby4 = Math.floor(length/4);
+    var numoftimedividedby6 = Math.floor(length/6);
+    var numoftimedividedby9 = Math.floor(length/9);
+
+    if(display==="three"){
+      var temp = [...list];
+      for (let i = 1; i <= numoftimedividedby9; i++) {
+        temp.splice(9*i + (i-1), 0, {ad: 'ad'});
+      }
+      setList3(temp)
+    }
+    else if(display ==="two"){
+      var temp = [...list];
+      for (let i = 1; i <= numoftimedividedby6; i++) {
+        temp.splice(6*i + (i-1), 0, {ad: 'ad'});
+      }
+      setList2(temp)
+    }
+    else{
+      var temp = [...list];
+      for (let i = 1; i <= numoftimedividedby4; i++) {
+        temp.splice(4*i + (i-1), 0, {ad: 'ad'});
+      }
+      setList1(temp)
+    }
+    
+  }, [list, refreshing, display] || [])
+  
+
   const renderItemFull = ({ item }) => (
     <OneDisplay item={item} setFilterTags={setFilterTags} filterTags={filterTags}/>
   );
@@ -31,10 +69,10 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
     return(
       <View style={styles.container}>
           <FlatList
-            data={list}
+            data={list1}
             extraData={refreshing}
             renderItem={renderItemFull}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id || uuid.v4()}
             showsVerticalScrollIndicator={false} 
             refreshing={refreshing}
             initialNumToRender={4}
@@ -48,8 +86,8 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
       <View style={styles.container}>
           <View style={styles.containerHalf}>
             <FlatList
-            key={item => item.id}
-            data={list}
+            key={item => item.id || uuid.v4()}
+            data={list2}
             extraData={refreshing}
             scrollToOverflowEnabled={true}
             scrollEnabled={true}
@@ -71,8 +109,8 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
       <View style={styles.container}>
           <View style={styles.containerThree}>
             <FlatList
-            key={item => item.dishName + item.restaurant} // Have to have a different key
-            data={list}
+            key={item => item.dishName + item.restaurant || uuid.v4()} // Have to have a different key
+            data={list3}
             extraData={refreshing}
             scrollToOverflowEnabled={true}
             scrollEnabled={true}
