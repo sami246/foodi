@@ -16,17 +16,21 @@ import BackButton from '../components/SmallComponents/BackButton';
 import { doc, deleteDoc } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
 import { DataContext } from '../contexts/DataContext';
+import { isEmpty } from '@firebase/util';
 
 
 const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
     const navigation = useNavigation();
-    const {fetchRestaurantData, handlePlaceholder, googlePlace, setGooglePlace} = useContext(DataContext);
+    const {fetchRestaurantData, handlePlaceholder, googlePlace, setGooglePlace, fetchDishesData} = useContext(DataContext);
     
+    if(isEmpty(dish.tags)){
+      dish.tags = null;
+    }
 
     useEffect(() => {
+      fetchDishesData()
       fetchRestaurantData(dish?.restaurantPlaceId).then(() => {
-        console.log("1", googlePlace)
       })
       if(!dish?.restaurantPlaceId){
         setGooglePlace(null)
@@ -37,6 +41,16 @@ const DishDetailsScreen = ({ route }) => {
 
     const handleTagPress = (tag) => {
       navigation.navigate("Dishes", {tag: tag})
+    }
+
+    const handleDaysAgo = () => {
+      // To calculate the time difference of two dates
+      // console.log(new Date(dish.date.seconds * 1000), new Date())
+      var Difference_In_Time = new Date() - new Date(dish.date.seconds * 1000);
+
+      // To calculate the no. of days between two dates
+      var Difference_In_Days = Math.floor((Difference_In_Time / (1000 * 3600 * 24)));
+      Alert.alert("Time Flies!", `You had this ${Difference_In_Days} days ago! ⏳`)
     }
 
     const handleDeleteDish = () => {
@@ -58,7 +72,7 @@ const DishDetailsScreen = ({ route }) => {
     }
 
     const handleEditPress = () => {
-      alert("EDIT")
+      navigation.navigate('Add Dish', {dish: dish})
     }
 
   return (
@@ -101,9 +115,10 @@ const DishDetailsScreen = ({ route }) => {
                      :
                      <Text style={{fontSize: sizes.h3, paddingHorizontal: spacing.m, color: colors.gray}}>Add Restaurant</Text> 
                      }
-                     {dish.wouldHaveAgain && <MaterialCommunityIcons name='repeat' size={30} color={colors.green} />}
+                     {dish.wouldHaveAgain && <Pressable onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}><MaterialCommunityIcons name='repeat' size={30} color={colors.green} /></Pressable>}
                     
                 </View>
+                {/* <Text>{googlePlace.address}</Text> */}
                 {dish.rating ?
                   <View style={{backgroundColor: colors.blue, borderRadius: 15, marginVertical: spacing.s}}>
                     <Rating rating={dish.rating} fontSize={sizes.h3} iconSize={30} fontColor={colors.white} showText={true}/>
@@ -122,11 +137,11 @@ const DishDetailsScreen = ({ route }) => {
                 <View style={styles.additionalBox}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: spacing.s}}>
                       {dish.dateText && 
-                      <View style={styles.smallBox}>
+                      <Pressable style={styles.smallBox} onPress={handleDaysAgo}>
                           <Text style={{paddingRight: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>Date Eaten</Text>
                           <FontAwesome5 name='calendar' size={15} color={colors.darkGray} />
                           <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>{dish.dateText}</Text>
-                        </View>
+                      </Pressable>
                       }
                       {dish.price && 
                       <View style={styles.smallBox}>
@@ -135,22 +150,28 @@ const DishDetailsScreen = ({ route }) => {
                           <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray, overflow: 'hidden'}}>{dish.price}</Text>
                         </View>
                       }
+                      {!dish.price && !dish.dateText && 
+                        <Pressable style={[styles.smallBox, {borderBottomWidth: 0 ,}]} onPress={() => handleEditPress()}>
+                          <Text style={{paddingRight: spacing.s, fontSize: 14, fontWeight: '300', color: colors.darkGray}}>Add More Details like Price and Date Eaten</Text>
+                          <FontAwesome5 name='plus' size={15} color={colors.gray} />
+                        </Pressable>
+                      }
                     </View>
                     <Pressable onPress={handleEditPress}>
                       <Text style={[styles.comment, dish.comment ? {} : {color: colors.gray}]}>{dish.comment ? dish.comment : "Add a comment..."}</Text>
                     </Pressable>
                     
                     <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 20}}>
-                        {dish.tags ?
+                        {dish.tags && dish.tags !== [] ?
                           <Tags tags={dish.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={false}/>
                         :
-                          <View style={{height: 50, alignItems: 'center'}}>
-                            <AppButton backgroundColor={colors.gray} color={colors.white} title={' ADD TAGS'} height={50} width={120}
-                            icon={<FontAwesome name='plus' size={22} color='white' />}
+                          <View style={{alignItems: 'center', width: 120, height: 50, textAlignVertical: 'center'}}>
+                            <AppButton backgroundColor={colors.gray} color={colors.white} title={'ADD TAGS'} height={100} width={120}
+                            icon={<FontAwesome name='plus' size={21} color='white' />}
                             onPress={() => {alert("DELETE")}}
-                            fontSize={15}
+                            fontSize={13}
                             />
-                        </View>
+                          </View>
                         }
                     </View>
                    

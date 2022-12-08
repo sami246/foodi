@@ -20,24 +20,28 @@ const DishesScreen = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [WHAFilter, setWHAFilter] = useState(false);
 
-
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
+  
+  // dishesData.forEach((dish) => {if(dish.id === '84SEpzGj2T6dvHRaUFq0'){console.log("Rating----", dish.rating)}});
+  // filteredData?.forEach((dish) => {if(dish.id === '84SEpzGj2T6dvHRaUFq0'){console.log("Rating F----", dish.rating)}});
 
   useEffect(() => {
     onRefresh();
+    
   }, [])
 
   useEffect(() => {
     if(route?.params?.tag){
+      console.log("Entered with Params")
       console.log(route?.params?.tag)
       setFilterTags(route?.params?.tag);
     }
   }, [route?.params?.tag])
 
   useEffect(() => {
-    var dataSource = search ? filteredData : dishesData
+    var dataSource = dishesData
     if(search && (!isEmpty(filterTags) && filterTags !== null)){
       setFilteredData(dataSource.filter(function (item) {
         // Applying filter for the inserted text in search bar
@@ -82,7 +86,7 @@ const DishesScreen = ({ navigation, route }) => {
       }
     }
 
-  }, [search, filterTags, WHAFilter])
+  }, [search, filterTags, WHAFilter, dishesData])
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -90,8 +94,8 @@ const DishesScreen = ({ navigation, route }) => {
       setRefreshing(false)
     }).catch((error) => alert(error))})
 
-    
   }, []);
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -149,7 +153,7 @@ const DishesScreen = ({ navigation, route }) => {
             {refreshing && <ActivityIndicator color={colors.orange} size={'large'}/>}
             {dishesData
             ? 
-            <DishList list={filteredData === null ? dishesData : filteredData} display={display} filterTags={filterTags} setFilterTags={setFilterTags}/> 
+            <DishList list={filteredData === null? dishesData : filteredData} display={display} filterTags={filterTags} setFilterTags={setFilterTags} refreshing={refreshing}/> 
             : 
             <Text style={{fontSize: 20, marginTop: 10}}>Add some posts</Text>
             }

@@ -37,7 +37,7 @@ const Rating = ({rating, iconSize, fontSize, fontColor, showText}) => {
         }
 
 
-    }, [])
+    }, [rating])
   
   return (
     <View style={{flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.xs, alignItems: 'center'}}>

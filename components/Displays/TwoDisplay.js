@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import { DataContext } from '../../contexts/DataContext';
 
 const CARD_WIDTH = sizes.width / 2 - (spacing.l + spacing.l / 2);
-const CARD_HEIGHT = 200;
+const CARD_HEIGHT = sizes.height / 4;
 
 const TwoDisplay = ({item}) => {
   const {handlePlaceholder} = useContext(DataContext);

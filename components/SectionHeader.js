@@ -2,10 +2,10 @@ import React from 'react';
 import {Button, Text, View, StyleSheet} from 'react-native';
 import {sizes, spacing, colors} from '../constants/theme';
 
-const SectionHeader = ({title, onPress, buttonTitle}) => {
+const SectionHeader = ({title, onPress, buttonTitle, textStyle}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, textStyle]}>{title}</Text>
       <Button onPress={onPress} title={buttonTitle} color={colors.primary}/>
     </View>
   );

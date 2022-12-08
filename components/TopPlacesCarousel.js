@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   card: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    marginVertical: 10,
+    marginTop: 10,
     elevation: 10,
     shadowColor: '#52006A',
   },

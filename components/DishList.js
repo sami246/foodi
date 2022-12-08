@@ -1,13 +1,12 @@
-import React, {useEffect} from 'react';
-import {Image, View, StyleSheet, TouchableOpacity, Text, ScrollView, FlatList} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import {colors, shadow, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/theme';
+import React from 'react';
+import {View, StyleSheet, FlatList} from 'react-native';
+import {sizes, spacing} from '../constants/theme';
 import AppLoader from './AppLoader';
 import TwoDisplay from './Displays/TwoDisplay';
 import ThreeDisplay from './Displays/ThreeDisplay';
 import OneDisplay from './Displays/OneDisplay';
 
-const DishList = ({list, display, setFilterTags, filterTags}) => {
+const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
   const renderItemFull = ({ item }) => (
     <OneDisplay item={item} setFilterTags={setFilterTags} filterTags={filterTags}/>
   );
@@ -33,9 +32,12 @@ const DishList = ({list, display, setFilterTags, filterTags}) => {
       <View style={styles.container}>
           <FlatList
             data={list}
+            extraData={refreshing}
             renderItem={renderItemFull}
             keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false}      
+            showsVerticalScrollIndicator={false} 
+            refreshing={refreshing}
+            initialNumToRender={4}
           />
       </View>
     )
@@ -48,12 +50,17 @@ const DishList = ({list, display, setFilterTags, filterTags}) => {
             <FlatList
             key={item => item.id}
             data={list}
+            extraData={refreshing}
             scrollToOverflowEnabled={true}
             scrollEnabled={true}
             renderItem={renderItemTwo}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false} 
-            numColumns={2}                  // set number of columns     
+            numColumns={2}                  // set number of columns    
+            centerContent = {true}  
+            refreshing={refreshing}
+            initialNumToRender={10}
+            
           />
         </View>
       </View>
@@ -66,6 +73,7 @@ const DishList = ({list, display, setFilterTags, filterTags}) => {
             <FlatList
             key={item => item.dishName + item.restaurant} // Have to have a different key
             data={list}
+            extraData={refreshing}
             scrollToOverflowEnabled={true}
             scrollEnabled={true}
             renderItem={renderItemThree}
@@ -73,6 +81,8 @@ const DishList = ({list, display, setFilterTags, filterTags}) => {
             showsVerticalScrollIndicator={false} 
             numColumns={3}                  // set number of columns    
             centerContent = {true} 
+            refreshing={refreshing}
+            initialNumToRender={15}
           />
         </View>
       </View>

@@ -7,6 +7,7 @@ import RecentList from '../components/RecentList';
 import SectionHeader from '../components/SectionHeader';
 import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
+import { Pressable } from 'react-native';
 
 
 const HomeScreen = ({ navigation }) => {
@@ -52,7 +53,9 @@ const HomeScreen = ({ navigation }) => {
                 onRefresh={onRefresh}
               />}
             >
+              <Pressable onPress={() => {navigation.navigate('Dishes')}}>
               <Text style={styles.heading1}>Your Top Dishes</Text>
+              </Pressable>
               {dishesDataByRating != false ?
                 <TopPlacesCarousel list={dishesDataByRating}/>
               :

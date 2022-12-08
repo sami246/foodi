@@ -31,26 +31,21 @@ const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : 'ca-app-pub-xxxxxxxxxxxxx/yyyy
 
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
   requestNonPersonalizedAdsOnly: true,
-  keywords: ['fashion', 'clothing'],
 });
 
 const AddDishScreen = ({ navigation, route }) => {
-  // if (route){
-  //     const dish = route.params.dish;
-  //     console.log("IN ADD DISH", dish)
-  // }
-
+  
   // States
   const {user} = useContext(AuthContext);
-  const [image, setImage] = useState(null);
-  const [dishName, setDishName] = useState(null);
-  const [price, setPrice] = useState(null);
-  const [restaurant, setRestaurant] = useState(null);
-  const [restaurantAdditonal, setRestaurantAdditional] = useState(null);
-  const [rating, setRating] = useState(null);
-  const [comment, setComment] = useState(null);
-  const [tags, setTags] = useState([]);
-  const [WHA, setWHA] = useState(false);
+  const [image, setImage] = useState(route.params?.dish?.image || null);
+  const [dishName, setDishName] = useState(route.params?.dish?.dishName || null);
+  const [price, setPrice] = useState(route.params?.dish?.price || null);
+  const [restaurant, setRestaurant] = useState(route.params?.dish?.restaurant || null);
+  const [restaurantAdditonal, setRestaurantAdditional] = useState(route.params?.dish?.restaurantAdditonal || null);
+  const [rating, setRating] = useState(route.params?.dish?.rating || null);
+  const [comment, setComment] = useState(route.params?.dish?.comment || null);
+  const [tags, setTags] = useState(route.params?.dish?.tags || []);
+  const [wouldHaveAgain, setWouldHaveAgain] = useState(route.params?.dish?.wouldHaveAgain || false);
   // Interstitial Ad
   const [loaded, setLoaded] = useState(false);
 
@@ -60,8 +55,8 @@ const AddDishScreen = ({ navigation, route }) => {
 
   // For Date
   // ---------------
-  const [date, setDate] = useState(new Date());
-  const [dateText, setDateText] = useState("");
+  const [date, setDate] = useState(route.params?.dish?.date || new Date());
+  const [dateText, setDateText] = useState(route.params?.dish?.dateText || "");
 
   const [mode, setMode] = useState("");
   const [show, setShow] = useState("");
@@ -83,7 +78,6 @@ const AddDishScreen = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    console.log({restaurantAdditonal})
     const unsubscribe = interstitial.addAdEventListener(AdEventType.LOADED, () => {
       setLoaded(true);
     });
@@ -101,7 +95,7 @@ const AddDishScreen = ({ navigation, route }) => {
   };
 
   const toggleSwitch = () => {
-    setWHA((previousState) => !previousState);
+    setWouldHaveAgain((previousState) => !previousState);
   };
 
   const handleCancel = () => {
@@ -112,11 +106,16 @@ const AddDishScreen = ({ navigation, route }) => {
     setRestaurantAdditional(null);
     setRating(null);
     setComment(null);
-    setWHA(false);
-    setDate(new Date());
+    setWouldHaveAgain(false);
+    setDate(null);
     setDateText("");
     setTags(null);
-    navigation.goBack();
+    if(route.params){
+      navigation.navigate('Dishes');
+    }
+    else{
+      navigation.goBack();
+    } 
   };
 
   const handleRatingColour = () => {
@@ -141,53 +140,83 @@ const AddDishScreen = ({ navigation, route }) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      setUploading(true);
-      interstitial.show();
-      var uploadUrl = null;
-      if (image != null) {
-        console.log("uploading Image");
-        uploadUrl = await uploadImageAsync(image);
-        console.log("ssssss", uploadUrl)
+    if(!restaurant && !dishName){
+      alert("Restaurant and Dish Name Required Fields Missing")
+    }
+    else if(!restaurant){
+      alert("Restaurant Required Fields Missing")
+    }
+    else if(!dishName){
+      alert("Dish Name Required Fields Missing")
+    }
+    else{
+      try {
+        setUploading(true);
+        interstitial.show();
+        var uploadUrl = null;
+        if (image != null && image != route.params?.dish?.image) {
+          console.log("uploading Image");
+          uploadUrl = await uploadImageAsync(image);
+        }
+        if(route.params){
+          console.log("Updating Doc");
+          const docRef = await setDoc(doc(firestoreDB, "dishs", route.params?.dish?.id), {
+            userId: user.uid,
+            restaurant: restaurant,
+            restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
+            dishName: dishName,
+            comment: comment,
+            rating: rating,
+            image: uploadUrl || image,
+            updatedTime: new Date(),
+            date: date,
+            dateText: dateText,
+            price: price,
+            tags: tags,
+            wouldHaveAgain: wouldHaveAgain,
+          });
+        }
+        else{
+          console.log("Adding Doc");
+          const docRef = await addDoc(collection(firestoreDB, "dishs"), {
+            userId: user.uid,
+            restaurant: restaurant,
+            restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
+            dishName: dishName,
+            comment: comment,
+            rating: rating,
+            image: uploadUrl,
+            updatedTime: new Date(),
+            date: date,
+            dateText: dateText,
+            price: price,
+            tags: tags,
+            wouldHaveAgain: wouldHaveAgain,
+          });
+        }
+        console.log("Dish Added");
+        if (restaurantAdditonal != null){
+          const docRef2 = await setDoc(doc(firestoreDB, "restaurants", restaurantAdditonal.place_id), {
+            name: restaurant,
+            address: restaurantAdditonal.address ? restaurantAdditonal.address : null,
+            url: restaurantAdditonal.url ? restaurantAdditonal.url : null,
+            lat: restaurantAdditonal.lat ? restaurantAdditonal.lat : null,
+            lng: restaurantAdditonal.lng ? restaurantAdditonal.lng : null,
+            priceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
+            website: restaurantAdditonal.website ? restaurantAdditonal.website : null,
+            rating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
+          });
+          console.log("Restaurant Added");
+        }
+        
+      } catch (e) {
+        console.log(e);
+        alert("Upload failed, sorry :(");
+      } finally {
+      //   interstitial.onAdClosed()
+        setUploading(false);
+        handleCancel();
       }
-      console.log("Adding Doc");
-      const docRef = await addDoc(collection(firestoreDB, "dishs"), {
-        userId: user.uid,
-        restaurant: restaurant,
-        restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
-        dishName: dishName,
-        comment: comment,
-        rating: rating,
-        image: uploadUrl,
-        updatedTime: new Date(),
-        date: date,
-        dateText: dateText,
-        price: price,
-        tags: tags,
-        wouldHaveAgain: WHA,
-      });
-      console.log("Dish Added");
-      if (restaurantAdditonal != null){
-        const docRef2 = await setDoc(doc(firestoreDB, "restaurants", restaurantAdditonal.place_id), {
-          name: restaurant,
-          address: restaurantAdditonal.address ? restaurantAdditonal.address : null,
-          url: restaurantAdditonal.url ? restaurantAdditonal.url : null,
-          lat: restaurantAdditonal.lat ? restaurantAdditonal.lat : null,
-          lng: restaurantAdditonal.lng ? restaurantAdditonal.lng : null,
-          priceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
-          website: restaurantAdditonal.website ? restaurantAdditonal.website : null,
-          rating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
-        });
-        console.log("Restaurant Added");
-      }
-      
-    } catch (e) {
-      console.log(e);
-      alert("Upload failed, sorry :(");
-    } finally {
-    //   interstitial.onAdClosed()
-      setUploading(false);
-      handleCancel();
     }
   };
 
@@ -298,7 +327,7 @@ const AddDishScreen = ({ navigation, route }) => {
                   "       9/10\nUnbelievable",
                   "     10/10\nMasterpiece",
                 ]}
-                defaultRating={0}
+                defaultRating={rating || 0}
                 size={20}
                 starContainerStyle={{ paddingBottom: 10, }}
                 onFinishRating={setRating}
@@ -358,11 +387,11 @@ const AddDishScreen = ({ navigation, route }) => {
             <View style={styles.switchContainer}>
               <Text style={styles.switchText}>Would have again?</Text>
               <Switch
-                trackColor={{ false: colors.lightGray, true: colors.gold }}
-                thumbColor={WHA ? colors.orange : colors.gray}
+                trackColor={{ false: colors.lightGray, true: colors.gray }}
+                thumbColor={wouldHaveAgain ? handleRatingColour(): colors.gray}
                 ios_backgroundColor="gray"
                 onValueChange={toggleSwitch}
-                value={WHA}
+                value={wouldHaveAgain}
               />
             </View>
           </View>
@@ -373,7 +402,7 @@ const AddDishScreen = ({ navigation, route }) => {
               height={45}
               width={"100%"}
               onPress={handleSubmit}
-              title="Add Dish"
+              title={route.params?.dish ? "Update Dish" : "Add Dish"}
               backgroundColor={handleRatingColour()}
               color={colors.white}
             />
@@ -389,7 +418,7 @@ const AddDishScreen = ({ navigation, route }) => {
             />
           </View>
         </View>
-        <BackButton iconColor={colors.orange} />
+        <BackButton iconColor={handleRatingColour()} />
         
       </ScrollView>
     </>

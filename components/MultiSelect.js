@@ -36,7 +36,6 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
         searchPlaceholder="Search..."
         onChange={item => {
           setSelected(item);
-          console.log(selected)
         }}
         renderLeftIcon={() => (
           <MaterialCommunityIcons
@@ -48,7 +47,7 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
         )}
         renderItem={renderItem}
         renderSelectedItem={(item, unSelect) => (
-          <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+          <TouchableOpacity onPress={() => {unSelect && unSelect(item)}}>
             <View style={styles.selectedStyle}>
               <Text style={styles.textSelectedStyle}>{item.label}</Text>
               <AntDesign color="black" name="delete" size={17} />

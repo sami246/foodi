@@ -7,13 +7,10 @@ import AppButton from '../SmallComponents/AppButton';
 
 const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaurantAdditional}) => {
     const ref = useRef();
-
-    useEffect(() => {
-    }, []);
   
     const handlePlaces = (data, details) => {
       setModalVisible(false);
-      console.log(JSON.stringify(details, null, 3));
+    //   console.log(JSON.stringify(details, null, 3));
         var restaurant = details.name
         var resAdditional = {
             address: details.formatted_address,

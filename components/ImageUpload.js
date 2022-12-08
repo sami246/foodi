@@ -163,7 +163,7 @@ export default class ImageUpload extends React.Component {
                       size={22}
                       color={colors.white}
                       />}
-                      backgroundColor={colors.orange}
+                      backgroundColor={this.props.color}
                       color={colors.white}
                   />
                   <AppButton 
@@ -179,7 +179,7 @@ export default class ImageUpload extends React.Component {
                       color={colors.white}
                       style={{flex: 0.5, alignSelf: 'center'}}
                       />}
-                      backgroundColor={colors.orange}
+                      backgroundColor={this.props.color}
                       color={colors.white}
                   />
           </View>

@@ -9,7 +9,7 @@ import { DataContext } from '../../contexts/DataContext';
 
 
 const CARD_WIDTH = sizes.width / 3 - (spacing.m);
-const CARD_HEIGHT = 150;
+const CARD_HEIGHT = sizes.height / 5.2;
 
 const ThreeDisplay = ({item}) => {
   const {handlePlaceholder} = useContext(DataContext);
@@ -20,7 +20,7 @@ const ThreeDisplay = ({item}) => {
             <View style={styles.imageBox}>
             <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder()} />
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, left: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
-                    <Rating rating={item.rating} fontSize={10} iconSize={10} fontColor={colors.gold} showText={false}/>
+                    <Rating rating={item.rating} fontSize={10} iconSize={11} fontColor={colors.gold} showText={false}/>
                 </View>
                 {item.wouldHaveAgain &&
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, right: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>

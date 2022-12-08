@@ -25,16 +25,34 @@ export const DataProvider = ({children}) => {
         setNumDishes,
         googlePlace,
         setGooglePlace,
+        handlePlaceholder: () => {
+          var randomNumber = Math.floor(Math.random() * 5)
+          if (randomNumber === 0){
+            return require(`../assets/place-holders/image-placeholder-red.png`) 
+          }
+          else if (randomNumber === 1) {
+            return require(`../assets/place-holders/image-placeholder-orange.png`) 
+          }
+          else if(randomNumber === 2){
+            return require(`../assets/place-holders/image-placeholder-gold.png`) 
+          }
+          else if(randomNumber === 3){
+            return require(`../assets/place-holders/image-placeholder-blue.png`) 
+          }
+          else if(randomNumber === 4){
+            return require(`../assets/place-holders/image-placeholder-green.png`) 
+          }
+        },
         fetchDishesData: async () => {
             try {
+              
               const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid));
               const unsubscribe = onSnapshot(q, (querySnapshot) => {
                   var dishesDataTemp = []
                   querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
-                    if (!(doc.id in dishesDataTemp)){
-                        dishesDataTemp.push({ ...doc.data(), id: doc.id, key: doc.id})
-                    }
+                    dishesDataTemp.push({ ...doc.data(), id: doc.id, key: doc.id})
+
                   });
                   setDishesData(dishesDataTemp)
                   setNumDishes(dishesDataTemp.length)
@@ -107,24 +125,7 @@ export const DataProvider = ({children}) => {
             var time2 = time.toDate()
             return `${time2.getDate()}/${time2.getMonth()}/${time2.getFullYear()}`
           },
-          handlePlaceholder: () => {
-            var randomNumber = Math.floor(Math.random() * 5)
-            if (randomNumber === 0){
-              return require(`../assets/place-holders/image-placeholder-red.png`) 
-            }
-            else if (randomNumber === 1) {
-              return require(`../assets/place-holders/image-placeholder-orange.png`) 
-            }
-            else if(randomNumber === 2){
-              return require(`../assets/place-holders/image-placeholder-gold.png`) 
-            }
-            else if(randomNumber === 3){
-              return require(`../assets/place-holders/image-placeholder-blue.png`) 
-            }
-            else if(randomNumber === 4){
-              return require(`../assets/place-holders/image-placeholder-green.png`) 
-            }
-          }
+
       }}>
       {children}
     </DataContext.Provider>

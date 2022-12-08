@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
-import { colors } from '../../constants/theme';
 
 const BackButton = ({iconColor}) => {
   const navigation = useNavigation();

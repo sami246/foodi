@@ -29,21 +29,14 @@ const MapScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
         <NavBar bgColor={colors.blue} fontColor={colors.white}/>
         <View style={styles.contentContainer}>
-          {/* <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>MAP SCREEN</Text>
-          <Text>{user.displayName} </Text>
-          <Text>{user.email} </Text>
-          <Text>{user.photoURL} </Text>
-          <Text>{user.emailVerified} </Text>
-          <Text>UID: {user.uid} </Text>
-          <Text>Created at: {user.metadata.creationTime} </Text>
-          <Text>Last Sign in Time: {user.metadata.lastSignInTime} </Text>
+          <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>MAP SCREEN</Text>
           <Pressable>
                       <Image 
                       source={{ uri: 'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg' }}
                       style={{ width: sizes.width - spacing.xl - spacing.s, height: 230, overflow: 'hidden', resizeMode: 'center' }} 
                       
                       />
-          </Pressable> */}
+          </Pressable>
         </View>
     </SafeAreaView>
   )

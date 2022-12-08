@@ -53,7 +53,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                     setTags([]);
                     setModalVisible(!modalVisible);
                 }}
-                title="Cancel"
+                title="No Tags"
                 backgroundColor={colors.white}
                 color={colors.gold}
                 buttonStyle={{
