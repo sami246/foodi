@@ -1,6 +1,6 @@
 import React, {createContext, useState, useContext, useEffect} from 'react';
 import { AuthContext } from '../contexts/AuthProvider';
-import { collection, query, where, onSnapshot, orderBy, limit, getDoc, doc,  } from "firebase/firestore";
+import { collection, query, where, onSnapshot, orderBy, limit, getDoc, doc, startAt, endAt } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
   
 export const DataContext = createContext();
@@ -12,6 +12,10 @@ export const DataProvider = ({children}) => {
     const [dishesDataByRecent, setdishesDataByRecent] = useState(false);
     const [numDishes, setNumDishes] = useState(null);
     const [googlePlace, setGooglePlace] = useState(null)
+    const [sortFilter, setSortFilter] = useState(null);
+    const [wouldHaveAgainFilter, setWouldHaveAgainFilter] = useState(false);
+    const [tagsFilter, setTagsFilter] = useState(null)
+    
     
 
   return (
@@ -25,6 +29,12 @@ export const DataProvider = ({children}) => {
         setNumDishes,
         googlePlace,
         setGooglePlace,
+        sortFilter,
+        setSortFilter,
+        wouldHaveAgainFilter,
+        setWouldHaveAgainFilter,
+        tagsFilter,
+        setTagsFilter,
         handlePlaceholder: () => {
           var randomNumber = Math.floor(Math.random() * 5)
           if (randomNumber === 0){
@@ -45,8 +55,68 @@ export const DataProvider = ({children}) => {
         },
         fetchDishesData: async () => {
             try {
+              let q = ''
+              console.log("sort", sortFilter, "tags", tagsFilter, "wha", wouldHaveAgainFilter)
+              if(sortFilter){
+                //sort.direction
+                if(wouldHaveAgainFilter){
+                    if(tagsFilter != null){
+                        console.log("1")
+                        q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
+                        orderBy(sortFilter?.name, sortFilter?.direction && sortFilter?.direction),
+                        where('tags', 'array-contains-any', tagsFilter),
+                        where('wouldHaveAgain', '==', true));
+                    }
+                    else{
+                         console.log("2")
+                        q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
+                        orderBy(sortFilter?.name, sortFilter?.direction),
+                        where('wouldHaveAgain', '==', true));
+                    }
+                }
+                else{
+                  if(tagsFilter != null){
+                    console.log("3")
+                    q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
+                    orderBy(sortFilter?.name, sortFilter?.direction),
+                    where('tags', 'array-contains-any', tagsFilter))
+
+                  }
+                  else{
+                    console.log("4")
+                    q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
+                    orderBy(sortFilter?.name, sortFilter?.direction))
+                  } 
+                }
+              }
+              else {
+                if(wouldHaveAgainFilter){
+                  if(tagsFilter != null){
+                    console.log("5")
+                    q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
+                    where('tags', 'array-contains-any', tagsFilter),
+                    where('wouldHaveAgain', '==', true));
+                  }
+                  else{
+                    console.log("6")
+                    q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
+                    where('wouldHaveAgain', '==', true));
+                  }
+                }
+                else{
+                  if(tagsFilter != null){
+                    console.log("7")
+                    q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
+                    where('tags', 'array-contains-any', tagsFilter))
+                  }
+                  else{
+                    console.log("8")
+                    q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid))
+                  }   
+                }
+              }
+
               
-              const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid));
               const unsubscribe = onSnapshot(q, (querySnapshot) => {
                   var dishesDataTemp = []
                   querySnapshot.forEach((doc) => {
@@ -60,7 +130,7 @@ export const DataProvider = ({children}) => {
               return unsubscribe;
             }
             catch (error) {
-              console.log(error)
+              console.log("Fetch Data Error -->", error)
             }
           },
           fetchRestaurantData: async (id) => {
@@ -99,7 +169,7 @@ export const DataProvider = ({children}) => {
               return unsubscribe;
             }
             catch (error) {
-              console.log(error)
+              console.log("BY RATING ERROR", error)
             }
           },
           fetchDishesDataByRecent: async () => {

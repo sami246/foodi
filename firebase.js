@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
-import { documentId, getFirestore, initializeFirestore } from 'firebase/firestore';
+import { documentId, getFirestore, initializeFirestore, connectFirestoreEmulator, setLogLevel } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 import 'firebase/storage'; 
 
@@ -18,8 +18,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 export const db = getStorage(app);
+// setLogLevel('debug');
 export const firestoreDB = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
+  experimentalAutoDetectLongPolling: true,
 });
 
 const auth = getAuth(app);

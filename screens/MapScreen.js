@@ -7,6 +7,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import NavBar from '../components/NavBar';
 import { Gooogle_API_Key } from '../config';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import { collection, query, where, onSnapshot, orderBy, limit, getDoc, doc,  } from "firebase/firestore";
+import { firestoreDB } from '../firebase';
 
 
 const MapScreen = ({ navigation }) => {
@@ -15,6 +17,7 @@ const MapScreen = ({ navigation }) => {
   const ref = useRef();
 
   useEffect(() => {
+    // test();
     ref.current?.getAddressText();
   }, []);
 
@@ -23,6 +26,30 @@ const MapScreen = ({ navigation }) => {
     // console.log(JSON.stringify(obj, null, 3));
     console.log(JSON.stringify(obj2, null, 3));
   }
+  
+
+  // const test = () => {
+  //   const dishes = collection(firestoreDB, "dishs")
+
+  //   const rating = true
+  //   let r = ''
+  //   if (rating) {
+  //     r = orderBy('rating', 'desc')
+  //   } 
+  //   const q = query(dishes, where("userId", "==", user.uid), r);
+  //         // const q = query(dishes, where("userId", "==", user.uid), r, limit(3));
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     var dishesDataTemp = []
+  //     querySnapshot.forEach((doc) => {
+  //       // doc.data() is never undefined for query doc snapshots
+  //       console.log(doc.data().rating)
+  //       dishesDataTemp.push({ ...doc.data(), id: doc.id, key: doc.id})
+  //     });
+  //     console.log({dishesDataTemp});
+  //     setData(dishesDataTemp);
+  //     return unsubscribe
+  // });
+  // }
 
 
   return (
@@ -30,13 +57,12 @@ const MapScreen = ({ navigation }) => {
         <NavBar bgColor={colors.blue} fontColor={colors.white}/>
         <View style={styles.contentContainer}>
           <Text style={{fontSize: sizes.h1, fontWeight: '800'}}>MAP SCREEN</Text>
-          <Pressable>
-                      <Image 
-                      source={{ uri: 'https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg' }}
-                      style={{ width: sizes.width - spacing.xl - spacing.s, height: 230, overflow: 'hidden', resizeMode: 'center' }} 
-                      
-                      />
-          </Pressable>
+
+          <View>
+            {data?.map((item) => {
+              <Text>{item.dishName}</Text>
+            })}
+          </View>
         </View>
     </SafeAreaView>
   )

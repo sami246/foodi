@@ -187,6 +187,7 @@ const AddDishScreen = ({ navigation, route }) => {
             rating: rating,
             image: uploadUrl,
             updatedTime: new Date(),
+            dateCreated: new Date(),
             date: date,
             dateText: dateText,
             price: price,

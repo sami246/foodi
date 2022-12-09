@@ -9,9 +9,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { Pressable } from 'react-native';
 import TagsModal from '../components/TagsModal';
 import { isEmpty } from '@firebase/util';
+import { dummydata } from '../data/Foodi Dummy';
 
 const DishesScreen = ({ navigation, route }) => {
-  const {dishesData,setDishesData, fetchDishesData} = useContext(DataContext);
+  const {dishesData,setDishesData, fetchDishesData, sortFilter, setSortFilter, wouldHaveAgainFilter, setWouldHaveAgainFilter, tagsFilter, setTagsFilter, } = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
   const [filterTags, setFilterTags] = useState([])
@@ -23,6 +24,7 @@ const DishesScreen = ({ navigation, route }) => {
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
+  
   
   // dishesData.forEach((dish) => {if(dish.id === '84SEpzGj2T6dvHRaUFq0'){console.log("Rating----", dish.rating)}});
   // filteredData?.forEach((dish) => {if(dish.id === '84SEpzGj2T6dvHRaUFq0'){console.log("Rating F----", dish.rating)}});
@@ -42,54 +44,22 @@ const DishesScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     var dataSource = dishesData
-    if(search && (!isEmpty(filterTags) && filterTags !== null)){
+    if (search){
       setFilteredData(dataSource.filter(function (item) {
         // Applying filter for the inserted text in search bar
-        const textData = search.toUpperCase();
-        if(WHAFilter){
-          return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) && item.tags?.some(r=> filterTags.indexOf(r) >= 0) 
-          && item.wouldHaveAgain;
-        }else{
-          return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) && item.tags?.some(r=> filterTags.indexOf(r) >= 0);
-        }
-        
-      }))
-    }
-    else if (search){
-      setFilteredData(dataSource.filter(function (item) {
-        // Applying filter for the inserted text in search bar
-        const textData = search.toUpperCase();
-        if(WHAFilter){
-          return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1) 
-          && item.wouldHaveAgain;
-        }else{
           return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1);
-        }
       }))
     }
-    else if ((!isEmpty(filterTags) && filterTags !== null)){
-        setFilteredData(dataSource.filter(function (item) {
-          if(WHAFilter){
-            return item.tags?.some(r=> filterTags.indexOf(r) >= 0) && item.wouldHaveAgain;
-          }else{
-            return item.tags?.some(r=> filterTags.indexOf(r) >= 0);
-          }
-        }))
-    }
-    else if (!isEmpty(dishesData)){
-      if (WHAFilter){
-        setFilteredData(dataSource.filter(function (item) {
-          return item.wouldHaveAgain
-        }))
-      }else{
+    else{
         setFilteredData(dishesData)
       }
-    }
-
-  }, [search, filterTags, WHAFilter, dishesData])
+  }, [search, dishesData])
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    setSortFilter({name: 'dishName', direction: 'desc'});
+    // await setWouldHaveAgainFilter(true)
+    setTagsFilter(null)
     wait(2000).then(() => {fetchDishesData().then(() => {
       setRefreshing(false)
     }).catch((error) => alert(error))})
@@ -113,23 +83,27 @@ const DishesScreen = ({ navigation, route }) => {
           </View>
           <View style={{alignItems:'center', marginVertical: 3, width: '100%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20}}>
               <View style={{alignItems:'center', flexDirection: 'row'}}>
-                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8, backgroundColor: !isEmpty(filterTags) ? colors.gold : colors.white}]}
+                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8, backgroundColor: tagsFilter ? colors.gold : colors.white}]}
                 onPress={() => setModalVisible(true)}
                 >
-                  <MaterialCommunityIcons name='filter' size={20} color={!isEmpty(filterTags) ? colors.white : colors.darkGray} />
-                  <Text style={{color: !isEmpty(filterTags) ? colors.white : colors.darkGray}}> Filter</Text>
-                  <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={filterTags} setTags={setFilterTags} showButton={false}/>
+                  <MaterialCommunityIcons name='filter' size={20} color={tagsFilter ? colors.white : colors.darkGray} />
+                  <Text style={{color: tagsFilter ? colors.white : colors.darkGray}}> Filter</Text>
+                  <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tagsFilter} setTags={setTagsFilter} showButton={false}/>
                 </Pressable>
                 <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8}]}
-                onPress={() => {alert("Sort By")}}
+                onPress={() => {
+                  console.log("Pressed Sort")
+                  }}
                 >
                   <MaterialCommunityIcons name='sort' size={20} color={colors.darkGray} />
-                  <Text> Sort by</Text>
+                  <Text> Sort By</Text>
                 </Pressable>
-                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, backgroundColor: WHAFilter ? colors.green : colors.white}]}
-                onPress={() => {setWHAFilter((previousState) => !previousState);}}
+                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, backgroundColor: wouldHaveAgainFilter ? colors.green : colors.white}]}
+                onPress={() => {
+                  setWouldHaveAgainFilter((previousState) => !previousState);
+                  onRefresh();}}
                 >
-                  <MaterialCommunityIcons name='repeat' size={20} color={WHAFilter ? colors.white : colors.darkGray} />
+                  <MaterialCommunityIcons name='repeat' size={20} color={wouldHaveAgainFilter ? colors.white : colors.darkGray} />
                 </Pressable>
               </View>
               <View style={{alignItems:'center', flexDirection: 'row'}}>
@@ -150,10 +124,10 @@ const DishesScreen = ({ navigation, route }) => {
                 }}/>
               </View>
           </View>
-            {refreshing && <ActivityIndicator color={colors.orange} size={'large'}/>}
+            {/* {refreshing && <ActivityIndicator color={colors.orange} size={'large'}/>} */}
             {dishesData
             ? 
-            <DishList list={filteredData === null? dishesData : filteredData} display={display} filterTags={filterTags} setFilterTags={setFilterTags} refreshing={refreshing}/> 
+            <DishList list={filteredData === null? dishesData : filteredData} display={display} filterTags={tagsFilter} setFilterTags={setTagsFilter} refreshing={refreshing} onRefresh={onRefresh}/> 
             : 
             <Text style={{fontSize: 20, marginTop: 10}}>Add some posts</Text>
             }

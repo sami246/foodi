@@ -40,7 +40,11 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                 fontSize={20}
                 height={spacing.xl}
                 width={"100%"}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => {
+                  if(isEmpty(tags)){
+                    setTags(null)
+                  }
+                  setModalVisible(!modalVisible)}}
                 title="Save"
                 backgroundColor={colors.gold}
                 color={colors.white}
@@ -50,7 +54,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                 height={spacing.xl}
                 width={"100%"}
                 onPress={() => {
-                    setTags([]);
+                    setTags(null);
                     setModalVisible(!modalVisible);
                 }}
                 title="No Tags"

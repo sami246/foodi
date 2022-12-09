@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import uuid from "uuid";
 import { useState } from 'react';
 
-const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
+const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefresh}) => {
   const [list1, setList1] = useState([...list]);
   const [list2, setList2] = useState([...list]);
   const [list3, setList3] = useState([...list]);
@@ -76,6 +76,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
             showsVerticalScrollIndicator={false} 
             refreshing={refreshing}
             initialNumToRender={4}
+            onRefresh={onRefresh}
           />
       </View>
     )
@@ -98,7 +99,8 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
             centerContent = {true}  
             refreshing={refreshing}
             initialNumToRender={10}
-            
+            maxToRenderPerBatch= {10}
+            onRefresh={onRefresh}
           />
         </View>
       </View>
@@ -110,7 +112,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
           <View style={styles.containerThree}>
             <FlatList
             key={item => item.dishName + item.restaurant || uuid.v4()} // Have to have a different key
-            data={list3}
+            data={list}
             extraData={refreshing}
             scrollToOverflowEnabled={true}
             scrollEnabled={true}
@@ -121,6 +123,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing}) => {
             centerContent = {true} 
             refreshing={refreshing}
             initialNumToRender={15}
+            onRefresh={onRefresh}
           />
         </View>
       </View>
