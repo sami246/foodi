@@ -10,21 +10,20 @@ import { Pressable } from 'react-native';
 import TagsModal from '../components/TagsModal';
 import { isEmpty } from '@firebase/util';
 import { dummydata } from '../data/Foodi Dummy';
+import { Rating } from 'react-native-ratings';
 
 const DishesScreen = ({ navigation, route }) => {
-  const {dishesData,setDishesData, fetchDishesData, sortFilter, setSortFilter, wouldHaveAgainFilter, setWouldHaveAgainFilter, tagsFilter, setTagsFilter, } = useContext(DataContext);
+  const {dishesData,setDishesData, fetchDishesData, sortFilter, setSortFilter, wouldHaveAgainFilter, setWouldHaveAgainFilter, tagsFilter, setTagsFilter, handleSort} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
-  const [filterTags, setFilterTags] = useState([])
   const [filteredData, setFilteredData] = useState(null)
   const [display, setDisplay] = useState('two')
   const [modalVisible, setModalVisible] = useState(false);
-  const [WHAFilter, setWHAFilter] = useState(false);
 
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
-  
+  console.log("DISH sort", sortFilter)
   
   // dishesData.forEach((dish) => {if(dish.id === '84SEpzGj2T6dvHRaUFq0'){console.log("Rating----", dish.rating)}});
   // filteredData?.forEach((dish) => {if(dish.id === '84SEpzGj2T6dvHRaUFq0'){console.log("Rating F----", dish.rating)}});
@@ -32,13 +31,13 @@ const DishesScreen = ({ navigation, route }) => {
   useEffect(() => {
     onRefresh();
     
-  }, [])
+  }, [wouldHaveAgainFilter])
 
   useEffect(() => {
     if(route?.params?.tag){
       console.log("Entered with Params")
       console.log(route?.params?.tag)
-      setFilterTags(route?.params?.tag);
+      setTagsFilter(route?.params?.tag);
     }
   }, [route?.params?.tag])
 
@@ -55,11 +54,28 @@ const DishesScreen = ({ navigation, route }) => {
       }
   }, [search, dishesData])
 
+  const handleWouldHaveAgain = () => {
+      console.log("111", {wouldHaveAgainFilter})
+      setWouldHaveAgainFilter((previousState) => !previousState)
+  }
+
+  // const handleSort = async () => {
+  //   console.log("Sort Pressed")
+  //   await setSortFilter((previousState) => {
+  //     if(previousState === null){
+  //       return {name: "rating", direction: "desc"}
+  //     }
+  //     else{
+  //       return null
+  //     }
+  //   })
+  // }
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    setSortFilter({name: 'dishName', direction: 'desc'});
+    // setSortFilter({name: 'dishName', direction: 'desc'});
     // await setWouldHaveAgainFilter(true)
-    setTagsFilter(null)
+    // setTagsFilter(null)
     wait(2000).then(() => {fetchDishesData().then(() => {
       setRefreshing(false)
     }).catch((error) => alert(error))})
@@ -91,17 +107,13 @@ const DishesScreen = ({ navigation, route }) => {
                   <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tagsFilter} setTags={setTagsFilter} showButton={false}/>
                 </Pressable>
                 <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8}]}
-                onPress={() => {
-                  console.log("Pressed Sort")
-                  }}
+                onPress={() => handleSort()}
                 >
                   <MaterialCommunityIcons name='sort' size={20} color={colors.darkGray} />
-                  <Text> Sort By</Text>
+                  <Text style={{ textTransform: "capitalize"}}> {sortFilter ? sortFilter.name : "Sort By"}</Text>
                 </Pressable>
                 <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, backgroundColor: wouldHaveAgainFilter ? colors.green : colors.white}]}
-                onPress={() => {
-                  setWouldHaveAgainFilter((previousState) => !previousState);
-                  onRefresh();}}
+                onPress={() => handleWouldHaveAgain()}
                 >
                   <MaterialCommunityIcons name='repeat' size={20} color={wouldHaveAgainFilter ? colors.white : colors.darkGray} />
                 </Pressable>

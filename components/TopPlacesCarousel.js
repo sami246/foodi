@@ -47,7 +47,7 @@ const TopPlacesCarousel = ({list}) => {
                   <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8}  style={[styles.title, styles.textShadow]}>{item.dishName}</Text>
                   <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.8} style={[styles.location, styles.textShadow]}>{item.restaurant}</Text>
                   <View style={[styles.textShadow, {alignItems: 'flex-start'}]}>
-                    <Rating rating={item.rating} fontSize={10} iconSize={13} fontColor={colors.gold} showText={false}/>
+                    <Rating rating={item.rating} fontSize={10} iconSize={13} fontColor={colors.gold} showText={false} iconColor={colors.gold}/>
                   </View>
                   
                 </View>

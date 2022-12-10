@@ -42,11 +42,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-evenly'
 
   },
   cardContainer: {
-    marginLeft: spacing.l,
-    marginBottom: spacing.l,
+    // marginLeft: spacing.l,
+    marginBottom: 15,
   },
   card: {
     width: CARD_WIDTH,

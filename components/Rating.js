@@ -3,7 +3,7 @@ import {Text, View, StyleSheet} from 'react-native';
 import {spacing, colors} from '../constants/theme';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Rating = ({rating, iconSize, fontSize, fontColor, showText}) => {
+const Rating = ({rating, iconSize, fontSize, fontColor, showText, iconColor}) => {
     const [ratingsArray, setRatingsArray] = useState([])
 
     useEffect(() => {
@@ -25,13 +25,13 @@ const Rating = ({rating, iconSize, fontSize, fontColor, showText}) => {
         else{
             const rows = [];
             for (let a = 0; a < wholeStar; a++) {
-                rows.push(<FontAwesome key={'W' + a} name='star' size={iconSize} color={colors.gold} />);
+                rows.push(<FontAwesome key={'W' + a} name='star' size={iconSize} color={iconColor} />);
             }
             for (let b = 0; b < halfStar; b++) {
-                rows.push(<FontAwesome key={'H' + b} name='star-half-full' size={iconSize} color={colors.gold} />);
+                rows.push(<FontAwesome key={'H' + b} name='star-half-full' size={iconSize} color={iconColor} />);
             }
             for (let c = 0; c < noStar; c++) {
-                rows.push(<FontAwesome key={'N' + c} name='star-o' size={iconSize} color={colors.gold} />);
+                rows.push(<FontAwesome key={'N' + c} name='star-o' size={iconSize} color={iconColor} />);
             }
             setRatingsArray(rows)
         }

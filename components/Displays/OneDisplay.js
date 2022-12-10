@@ -36,7 +36,7 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
         {/* Rating */}
           <View style={{flexDirection: 'row', }}>
             <View style={{flex: 1.5}}>
-                <Rating rating={item.rating} fontSize={13} iconSize={20} fontColor={colors.gold} showText={false}/>
+                <Rating rating={item.rating} fontSize={13} iconSize={20} fontColor={colors.gold} showText={false} iconColor={colors.gold}/>
             </View>
             <View style={{flex: 1, alignItems: 'center', alignSelf: 'center', borderLeftWidth: 0.7, flexDirection: 'row', paddingLeft: 10, borderColor: colors.orange}}>
               <Text style={{fontSize: 11, paddingRight: 10, fontWeight: '500'}}>Would Have Again?</Text>
@@ -51,13 +51,16 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
         {/* Dish Name */}
           <Text numberOfLines={1} style={styles.title} allowFontScaling={true} minimumFontScale={0.8}>{item.dishName}</Text>
           {/* Location + Date */}
-          <View style={{flexDirection: 'row', marginBottom: spacing.s}}>
-            {item.restaurant && 
+          <View style={{flexDirection: 'row', marginBottom: spacing.s ,}}>
             <View style={[styles.halfBox, {flex: 3}]}>
-            <FontAwesome5 name='map-marker-alt' size={13} color={colors.primary} />
-            <Text numberOfLines={1} allowFontScaling={true} minimumFontScale={0.8} style={styles.halfBoxText}>{item.restaurant}</Text>
+                      {item.restaurantPlaceId ? 
+                      <MaterialCommunityIcons name='google-maps' size={16} color={colors.green}/> 
+                      :
+                      <MaterialCommunityIcons name='map-marker' size={16} color={colors.primary} />
+                      }
+                      <Text numberOfLines={1} allowFontScaling={true} minimumFontScale={0.8} style={[styles.halfBoxText, {marginLeft: -4}]}>{item.restaurant}</Text>
             </View>
-            }
+
             {item.dateText && 
             <View style={[styles.halfBox,, {flex: 2}]}>
             <FontAwesome5 name='calendar' size={13} color={colors.primary} />

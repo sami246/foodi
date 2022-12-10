@@ -9,7 +9,7 @@ import { DataContext } from '../../contexts/DataContext';
 import AppBannerAd from "../Ads/AppBannerAd";
 
 
-const CARD_WIDTH = sizes.width / 3 - (spacing.m);
+const CARD_WIDTH = sizes.width / 3 - (19);
 const CARD_HEIGHT = sizes.height / 5.2;
 
 const ThreeDisplay = ({item}) => {
@@ -24,7 +24,7 @@ const ThreeDisplay = ({item}) => {
             <View style={styles.imageBox}>
             <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder()} />
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, left: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
-                    <Rating rating={item.rating} fontSize={10} iconSize={11} fontColor={colors.gold} showText={false}/>
+                    <Rating rating={item.rating} fontSize={10} iconSize={11} fontColor={colors.gold} showText={false} iconColor={colors.gold}/>
                 </View>
                 {item.wouldHaveAgain &&
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, right: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
@@ -43,8 +43,8 @@ const ThreeDisplay = ({item}) => {
   );  }
   else if(item.ad){
     return(
-      <View style={[styles.cardContainer, styles.card, {width: sizes.width - (spacing.l), height: 125, alignContent: 'flex-start', alignItems: 'center', alignSelf: 'stretch'}]}>
-        <AppBannerAd height={125} width={sizes.width - (spacing.m)}/>
+      <View style={[styles.cardContainer, styles.card, {width: sizes.width - (35), height: 110, alignContent: 'flex-start', alignItems: 'center', alignSelf: 'stretch',}]}>
+        <AppBannerAd height={105} width={sizes.width - (30)}/>
       </View>
     )
   }
@@ -58,7 +58,7 @@ const ThreeDisplay = ({item}) => {
 const styles = StyleSheet.create({
   cardContainer: {
     marginBottom: spacing.s,
-    marginHorizontal: spacing.s
+    marginHorizontal: spacing.xs
   },
   card: {
     width: CARD_WIDTH,

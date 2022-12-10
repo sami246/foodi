@@ -30,7 +30,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
             <View style={{ flex: 4, marginTop: spacing.l }}>
                 <MultiSelectComponent
                 data={TagsData}
-                selected={tags}
+                selected={!tags ? [] : tags}
                 setSelected={setTags}
                 />
             </View>
@@ -41,7 +41,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                 height={spacing.xl}
                 width={"100%"}
                 onPress={() => {
-                  if(isEmpty(tags)){
+                  if(tags == []){
                     setTags(null)
                   }
                   setModalVisible(!modalVisible)}}

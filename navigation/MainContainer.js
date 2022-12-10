@@ -23,7 +23,7 @@ export default function MainContainer({navigation}) {
   return (
         
         <Tab.Navigator 
-        initialRouteName={dishName}
+        initialRouteName={homeName}
         activeColor = {colors.white}
         inactiveColor = {colors.black}
         barStyle = {{

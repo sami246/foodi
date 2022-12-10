@@ -8,8 +8,8 @@ import { useContext } from 'react';
 import { DataContext } from '../../contexts/DataContext';
 import AppBannerAd from "../Ads/AppBannerAd";
 
-const CARD_WIDTH = sizes.width / 2 - (spacing.l + spacing.l / 2);
-const CARD_HEIGHT = sizes.height / 4;
+const CARD_WIDTH = sizes.width / 2 - (32);
+const CARD_HEIGHT = sizes.height / 4 + 16;
 
 const TwoDisplay = ({item}) => {
   const {handlePlaceholder} = useContext(DataContext);
@@ -21,7 +21,7 @@ const TwoDisplay = ({item}) => {
             <View style={styles.imageBox}>
             <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder()} />
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, left: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
-                    <Rating rating={item.rating} fontSize={10} iconSize={14} fontColor={colors.gold} showText={false}/>
+                    <Rating rating={item.rating} fontSize={10} iconSize={14} fontColor={colors.gold} showText={false} iconColor={colors.gold}/>
                 </View>
                 {item.wouldHaveAgain &&
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, right: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
@@ -49,8 +49,8 @@ const TwoDisplay = ({item}) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    marginLeft: spacing.l,
-    marginBottom: spacing.m,
+    // marginLeft: spacing.l,
+    marginBottom: 14,
   },
   card: {
     width: CARD_WIDTH,

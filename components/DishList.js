@@ -104,6 +104,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
             initialNumToRender={10}
             maxToRenderPerBatch= {10}
             onRefresh={onRefresh}
+            columnWrapperStyle={{justifyContent: 'space-evenly',}}
           />
         </View>
       </View>
@@ -116,7 +117,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
             <FlatList
             key={item => item.dishName + item.restaurant || uuid.v4()} // Have to have a different key
             data={list3}
-            extraData={refreshing}
+            extraData={list}
             scrollToOverflowEnabled={true}
             scrollEnabled={true}
             renderItem={renderItemThree}
@@ -127,7 +128,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
             refreshing={refreshing}
             initialNumToRender={15}
             onRefresh={onRefresh}
-            columnWrapperStyle={{justifyContent: 'flex-start'}}
+            columnWrapperStyle={{justifyContent: 'space-evenly',}}
           />
         </View>
       </View>

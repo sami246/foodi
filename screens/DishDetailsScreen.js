@@ -75,6 +75,27 @@ const DishDetailsScreen = ({ route }) => {
       navigation.navigate('Add Dish', {dish: dish})
     }
 
+    const handleRatingColour = () => {
+      if(dish.rating === 1 || dish.rating === 2){
+        return colors.red
+      }
+      else if(dish.rating === 3 || dish.rating === 4){
+        return colors.orange
+      }
+      else if(dish.rating === 5 || dish.rating === 6){
+        return colors.blue
+      }
+      else if(dish.rating === 7 || dish.rating === 8){
+        return colors.green
+      }
+      else if(dish.rating === 9 || dish.rating === 10){
+        return colors.gold
+      }
+      else{
+        return colors.blue
+      }
+    };
+
   return (
 
     <SafeAreaView style={styles.container}>
@@ -107,28 +128,32 @@ const DishDetailsScreen = ({ route }) => {
                         <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
                       </Pressable>
                       :
-                      <MaterialCommunityIcons name='map-marker' size={30} color={dish.restaurant ? colors.primary : colors.gray} />
+                      <Pressable onPress={() => {if(!dish.restaurant){handleEditPress()}}}>
+                        <MaterialCommunityIcons name='map-marker' size={30} color={dish.restaurant ? colors.primary : colors.gray} />
+                      </Pressable>
                       }
                     
                     {dish.restaurant ?
                      <Text numberOfLines={1} style={{fontSize: sizes.h3, paddingHorizontal: spacing.m}}>{dish.restaurant}</Text> 
                      :
-                     <Text style={{fontSize: sizes.h3, paddingHorizontal: spacing.m, color: colors.gray}}>Add Restaurant</Text> 
+                     <Pressable onPress={() => {if(!dish.restaurant){handleEditPress()}}}>
+                       <Text style={{fontSize: sizes.h3, paddingHorizontal: spacing.m, color: colors.gray}}>Add Restaurant</Text> 
+                     </Pressable>
                      }
                      {dish.wouldHaveAgain && <Pressable onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}><MaterialCommunityIcons name='repeat' size={30} color={colors.green} /></Pressable>}
                     
                 </View>
                 {/* <Text>{googlePlace.address}</Text> */}
                 {dish.rating ?
-                  <View style={{backgroundColor: colors.blue, borderRadius: 15, marginVertical: spacing.s}}>
-                    <Rating rating={dish.rating} fontSize={sizes.h3} iconSize={30} fontColor={colors.white} showText={true}/>
+                  <View style={{backgroundColor: handleRatingColour(), borderRadius: 15, marginVertical: spacing.s}}>
+                    <Rating rating={dish.rating} fontSize={sizes.h3} iconSize={30} fontColor={colors.white} showText={true} iconColor={dish.rating == 9 || dish.rating ==10 ? colors.white : colors.gold}/>
                   </View>
                   : 
                   <View style={{backgroundColor: colors.lightGray, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.s, paddingVertical: spacing.xs, alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => alert('Add Rating')}>
+                    <TouchableOpacity onPress={() => handleEditPress()}>
                       <FontAwesome name='star-o' size={25} color={colors.gray} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{backgroundColor: colors.lightGray, padding: 5, borderRadius: 5}} onPress={() => alert('Add Rating')}>
+                    <TouchableOpacity style={{backgroundColor: colors.lightGray, padding: 5, borderRadius: 5}} onPress={() => handleEditPress()}>
                       <Text style={{fontSize: sizes.h3, fontWeight: '500'}} >Add Rating</Text>
                     </TouchableOpacity>
                   </View>
@@ -174,14 +199,6 @@ const DishDetailsScreen = ({ route }) => {
                           </View>
                         }
                     </View>
-                   
-                      {/* <View style={{height: 50, alignItems: 'center'}}>
-                        <AppButton backgroundColor={colors.red} color={colors.white} title={'DELETE'} height={100} width={100}
-                        icon={<MaterialCommunityIcons name='delete-outline' size={20} color='white' />}
-                        onPress={() => handleDeleteDish()}
-                        fontSize={14}
-                        />
-                      </View> */}
                       {dish.updatedTime && 
                       <Text style={{position:'absolute', bottom: 2, left: 4, fontSize: 9, fontWeight: '300', color: colors.darkGray}}>
                         Last Updated: {dish.updatedTime.toDate().getDate() + "/" +  dish.updatedTime.toDate().getMonth() + "/" + dish.updatedTime.toDate().getFullYear()}
