@@ -23,6 +23,8 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
     if(display==="three"){
       var temp = [...list];
       for (let i = 1; i <= numoftimedividedby9; i++) {
+        temp.splice(9*i + (i-1), 0, {empty: 'empty'});
+        temp.splice(9*i + (i-1), 0, {empty: 'empty'});
         temp.splice(9*i + (i-1), 0, {ad: 'ad'});
       }
       setList3(temp)
@@ -37,6 +39,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
     else{
       var temp = [...list];
       for (let i = 1; i <= numoftimedividedby4; i++) {
+
         temp.splice(4*i + (i-1), 0, {ad: 'ad'});
       }
       setList1(temp)
@@ -112,7 +115,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
           <View style={styles.containerThree}>
             <FlatList
             key={item => item.dishName + item.restaurant || uuid.v4()} // Have to have a different key
-            data={list}
+            data={list3}
             extraData={refreshing}
             scrollToOverflowEnabled={true}
             scrollEnabled={true}
@@ -124,6 +127,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
             refreshing={refreshing}
             initialNumToRender={15}
             onRefresh={onRefresh}
+            columnWrapperStyle={{justifyContent: 'flex-start'}}
           />
         </View>
       </View>

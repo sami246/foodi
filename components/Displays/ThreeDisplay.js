@@ -41,11 +41,16 @@ const ThreeDisplay = ({item}) => {
         </View>
     </TouchableOpacity>
   );  }
+  else if(item.ad){
+    return(
+      <View style={[styles.cardContainer, styles.card, {width: sizes.width - (spacing.l), height: 125, alignContent: 'flex-start', alignItems: 'center', alignSelf: 'stretch'}]}>
+        <AppBannerAd height={125} width={sizes.width - (spacing.m)}/>
+      </View>
+    )
+  }
   else{
     return(
-      <View style={[styles.cardContainer, styles.card]}>
-        <AppBannerAd height={CARD_HEIGHT} width={CARD_WIDTH}/>
-      </View>
+      <View></View>
     )
   }
 };
