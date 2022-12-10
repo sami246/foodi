@@ -10,20 +10,21 @@ import { Pressable } from 'react-native';
 import TagsModal from '../components/TagsModal';
 import { isEmpty } from '@firebase/util';
 import { dummydata } from '../data/Foodi Dummy';
-import { Rating } from 'react-native-ratings';
+import SortModal from '../components/Modal/SortModal';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const DishesScreen = ({ navigation, route }) => {
-  const {dishesData,setDishesData, fetchDishesData, sortFilter, setSortFilter, wouldHaveAgainFilter, setWouldHaveAgainFilter, tagsFilter, setTagsFilter, handleSort} = useContext(DataContext);
+  const {dishesData,setDishesData, fetchDishesData, sortFilter, setSortFilter, wouldHaveAgainFilter, setWouldHaveAgainFilter, tagsFilter, setTagsFilter} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
   const [search, setSearch] = useState(null)
   const [filteredData, setFilteredData] = useState(null)
   const [display, setDisplay] = useState('two')
   const [modalVisible, setModalVisible] = useState(false);
+  const [sortModalVisible, setSortModalVisible] = useState(false);
 
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
-  console.log("DISH sort", sortFilter)
   
   // dishesData.forEach((dish) => {if(dish.id === '84SEpzGj2T6dvHRaUFq0'){console.log("Rating----", dish.rating)}});
   // filteredData?.forEach((dish) => {if(dish.id === '84SEpzGj2T6dvHRaUFq0'){console.log("Rating F----", dish.rating)}});
@@ -31,7 +32,7 @@ const DishesScreen = ({ navigation, route }) => {
   useEffect(() => {
     onRefresh();
     
-  }, [wouldHaveAgainFilter])
+  }, [])
 
   useEffect(() => {
     if(route?.params?.tag){
@@ -55,27 +56,25 @@ const DishesScreen = ({ navigation, route }) => {
   }, [search, dishesData])
 
   const handleWouldHaveAgain = () => {
-      console.log("111", {wouldHaveAgainFilter})
-      setWouldHaveAgainFilter((previousState) => !previousState)
+      setWouldHaveAgainFilter((previousState) => !previousState);
   }
 
-  // const handleSort = async () => {
-  //   console.log("Sort Pressed")
-  //   await setSortFilter((previousState) => {
-  //     if(previousState === null){
-  //       return {name: "rating", direction: "desc"}
-  //     }
-  //     else{
-  //       return null
-  //     }
-  //   })
-  // }
+  useEffect(() => {
+    fetchDishesData();
+  }, [wouldHaveAgainFilter, sortFilter, tagsFilter])
+
+
+  const handleSort = () => {
+    console.log("Sort Pressed")
+    // setSortFilter({
+    //   name: 'rating',
+    //   direction: 'desc'
+    // })
+    setSortModalVisible(true)
+  }
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    // setSortFilter({name: 'dishName', direction: 'desc'});
-    // await setWouldHaveAgainFilter(true)
-    // setTagsFilter(null)
     wait(2000).then(() => {fetchDishesData().then(() => {
       setRefreshing(false)
     }).catch((error) => alert(error))})
@@ -103,14 +102,20 @@ const DishesScreen = ({ navigation, route }) => {
                 onPress={() => setModalVisible(true)}
                 >
                   <MaterialCommunityIcons name='filter' size={20} color={tagsFilter ? colors.white : colors.darkGray} />
-                  <Text style={{color: tagsFilter ? colors.white : colors.darkGray}}> Filter</Text>
+                  <Text style={{color: tagsFilter ? colors.white : colors.darkGray, fontWeight: tagsFilter ? '500' : 'normal'}}> Filter</Text>
                   <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tagsFilter} setTags={setTagsFilter} showButton={false}/>
                 </Pressable>
-                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8}]}
+                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, backgroundColor: sortFilter ? colors.blue : colors.white}]}
                 onPress={() => handleSort()}
                 >
-                  <MaterialCommunityIcons name='sort' size={20} color={colors.darkGray} />
-                  <Text style={{ textTransform: "capitalize"}}> {sortFilter ? sortFilter.name : "Sort By"}</Text>
+                  {sortFilter ? 
+                   <FontAwesome5 name={sortFilter.direction === 'desc' ? 'sort-amount-down' : 'sort-amount-up'} size={17} color={colors.white} style={{paddingRight: 3}}/>
+                  : 
+                   <MaterialCommunityIcons name='sort' size={20} color={sortFilter ? colors.white : colors.darkGray} />
+                  }
+                  
+                  <Text style={{ textTransform: "capitalize", color: sortFilter ? colors.white : colors.primary, fontWeight: sortFilter ? '500' : 'normal'}}> {sortFilter ? sortFilter.name : "Sort By"}</Text>
+                  <SortModal modalVisible={sortModalVisible} setModalVisible={setSortModalVisible} sortFilter={sortFilter} setSortFilter={setSortFilter}/>
                 </Pressable>
                 <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, backgroundColor: wouldHaveAgainFilter ? colors.green : colors.white}]}
                 onPress={() => handleWouldHaveAgain()}

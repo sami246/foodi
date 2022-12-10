@@ -40,7 +40,7 @@ const DishDetailsScreen = ({ route }) => {
     
 
     const handleTagPress = (tag) => {
-      navigation.navigate("Dishes", {tag: tag})
+      navigation.navigate("Dishes", {tag: [tag]})
     }
 
     const handleDaysAgo = () => {

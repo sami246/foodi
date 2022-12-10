@@ -9,7 +9,7 @@ import { DataContext } from '../../contexts/DataContext';
 import AppBannerAd from "../Ads/AppBannerAd";
 
 
-const CARD_WIDTH = sizes.width / 3 - (19);
+const CARD_WIDTH = sizes.width / 3 - (21);
 const CARD_HEIGHT = sizes.height / 5.2;
 
 const ThreeDisplay = ({item}) => {
@@ -57,7 +57,7 @@ const ThreeDisplay = ({item}) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    marginBottom: spacing.s,
+    marginBottom: 12,
     marginHorizontal: spacing.xs
   },
   card: {

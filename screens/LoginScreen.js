@@ -35,6 +35,7 @@ const LoginScreen = ({ navigation }) => {
                 />
             </View>
             <View style={styles.buttonContainer}>
+                <View style={{height: 70}}>
                     <AppButton
                         fontSize={18}
                         height={45}
@@ -44,6 +45,8 @@ const LoginScreen = ({ navigation }) => {
                         backgroundColor={colors.orange}
                         color={colors.white}
                     />
+                </View>
+                <View style={{height: 70}}>
                     <AppButton
                         fontSize={18}
                         height={45}
@@ -54,6 +57,7 @@ const LoginScreen = ({ navigation }) => {
                         color={colors.lightOrange}
                         buttonStyle={{borderColor: colors.orange, borderWidth: 2}}
                     />
+                </View>
                 </View>
         </SafeAreaView>
 

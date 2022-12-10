@@ -21,7 +21,7 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
   const {handlePlaceholder} = useContext(DataContext);
   
   const handleTagPress = (tag) => {
-      setFilterTags(tag)
+      setFilterTags([tag])
   }
   
   const navigation = useNavigation();

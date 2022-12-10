@@ -15,9 +15,9 @@ export const DataProvider = ({children}) => {
     const [sortFilter, setSortFilter] = useState(null);
     const [wouldHaveAgainFilter, setWouldHaveAgainFilter] = useState(false);
     const [tagsFilter, setTagsFilter] = useState(null)
-    console.log("DataContext wouldHaveAgain --> ", wouldHaveAgainFilter)
-    console.log("DataContext tagsFilter --> ", tagsFilter)
-    console.log("DataContext sortFilter --> ", sortFilter)
+    // console.log("DataContext wouldHaveAgain --> ", wouldHaveAgainFilter)
+    // console.log("DataContext tagsFilter --> ", tagsFilter)
+    // console.log("DataContext sortFilter --> ", sortFilter)
     
 
   return (
@@ -197,17 +197,6 @@ export const DataProvider = ({children}) => {
             var time2 = time.toDate()
             return `${time2.getDate()}/${time2.getMonth()}/${time2.getFullYear()}`
           },
-          handleSort: async () => {
-            console.log("Sort Pressed")
-            await setSortFilter((previousState) => {
-              if(previousState === null){
-                return {name: "rating", direction: "desc"}
-              }
-              else{
-                return null
-              }
-            })
-          }
 
       }}>
       {children}
