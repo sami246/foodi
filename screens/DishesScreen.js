@@ -7,7 +7,7 @@ import { DataContext } from '../contexts/DataContext';
 import { colors, NAV_BAR_HEIGHT, sizes } from '../constants/theme';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Pressable } from 'react-native';
-import TagsModal from '../components/TagsModal';
+import TagsModal from '../components/Modal/TagsModal';
 import { isEmpty } from '@firebase/util';
 import { dummydata } from '../data/Foodi Dummy';
 import SortModal from '../components/Modal/SortModal';
@@ -45,6 +45,7 @@ const DishesScreen = ({ navigation, route }) => {
   useEffect(() => {
     var dataSource = dishesData
     if (search){
+      const textData = search.toUpperCase();
       setFilteredData(dataSource.filter(function (item) {
         // Applying filter for the inserted text in search bar
           return (item.dishName?.toUpperCase().indexOf(textData) > -1 || item.restaurant?.toUpperCase().indexOf(textData) > -1);

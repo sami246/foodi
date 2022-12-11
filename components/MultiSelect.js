@@ -23,6 +23,8 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
     <View style={styles.container}>
       <MultiSelect
         style={styles.dropdown}
+        maxHeight={430}
+        selectedStyle={{backgroundColor: 'red'}}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -50,7 +52,7 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
           <TouchableOpacity onPress={() => {unSelect && unSelect(item)}}>
             <View style={styles.selectedStyle}>
               <Text style={styles.textSelectedStyle}>{item.label}</Text>
-              <AntDesign color="black" name="delete" size={17} />
+              <AntDesign color={colors.white} name="delete" size={15} />
             </View>
           </TouchableOpacity>
         )}
@@ -62,7 +64,7 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
 export default MultiSelectComponent;
 
 const styles = StyleSheet.create({
-  container: { padding: 16, width: sizes.width - 10, },
+  container: { padding: 16, width: '100%', },
   dropdown: {
     height: 50,
     width: '100%',
@@ -88,6 +90,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 20,
     height: 20,
+    
   },
   inputSearchStyle: {
     height: 40,
@@ -95,6 +98,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 5,
+    
   },
   item: {
     padding: 17,
@@ -103,13 +107,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedStyle: {
+    marginTop: 4,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 14,
-    backgroundColor: 'white',
+    backgroundColor: colors.darkBlue,
     shadowColor: '#000',
-    marginTop: 8,
+    marginTop: 12,
     marginRight: 12,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -119,13 +124,14 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-    borderWidth: 1,
-    borderColor: colors.gold,
-    elevation: 2,
+    borderWidth: 2,
+    borderColor: colors.white,
+    elevation: 3,
   },
   textSelectedStyle: {
     marginRight: 5,
     fontSize: 14,
+    color: colors.white
 
   },
 });

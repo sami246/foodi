@@ -1,23 +1,24 @@
 import { StyleSheet, Text, View, Modal } from 'react-native'
 import React from 'react'
-import { colors, sizes, spacing } from '../constants/theme';
-import { TagsData } from "../data";
-import Tags from './Tags';
-import AppButton from './SmallComponents/AppButton';
-import MultiSelectComponent from "../components/MultiSelect";
+import { colors, sizes, spacing } from '../../constants/theme';
+import { TagsData } from "../../data";
+import Tags from '../Tags';
+import AppButton from '../SmallComponents/AppButton';
+import MultiSelectComponent from "../MultiSelect";
+import { ScrollView } from 'react-native-gesture-handler';
 
 const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, color}) => {
   return (
-    <View style={styles.centeredView}>
+    <View>
         <Modal
         animationType="slide"
+        transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
             setModalVisible(!modalVisible);
         }}
         >
         <View style={styles.centeredView}>
-            <View style={styles.modalView}>
             {/* <AppButton
                                     fontSize={15}
                                     height={spacing.xl}
@@ -27,18 +28,18 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                                     backgroundColor={colors.brown}
                                     color={colors.white}
                                     /> */}
-            <View style={{ flex: 4, marginTop: spacing.l }}>
+            <ScrollView style={{marginTop: spacing.l, maxHeight: 500, marginBottom: spacing.s }}>
                 <MultiSelectComponent
                 data={TagsData}
                 selected={!tags ? [] : tags}
                 setSelected={setTags}
                 />
-            </View>
+            </ScrollView>
 
-            <View style={{ flex: 1 }}>
+            <View style={{height: 60, width: 150, alignSelf: 'center'}}>
                 <AppButton
-                fontSize={20}
-                height={spacing.xl}
+                fontSize={18}
+                height={60}
                 width={"100%"}
                 onPress={() => {
                   if(tags == []){
@@ -49,9 +50,11 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                 backgroundColor={colors.gold}
                 color={colors.white}
                 />
+              </View>
+              <View style={{height: 60, width: 150, alignSelf: 'center', marginBottom: 7}} >
                 <AppButton
-                fontSize={20}
-                height={spacing.xl}
+                fontSize={18}
+                height={60}
                 width={"100%"}
                 onPress={() => {
                     setTags(null);
@@ -65,10 +68,9 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                     borderWidth: 2,
                 }}
                 />
-            </View>
-            </View>
+              </View>
         </View>
-        </Modal>
+      </Modal>
 
 
         {showButton &&
@@ -103,27 +105,27 @@ export default TagsModal
 const styles = StyleSheet.create({
       //Modal
   centeredView: {
-    justifyContent: "center",
-    alignItems: "center",
-    
-  },
-  modalView: {
-    height: sizes.height,
-    width: sizes.width,
-    margin: 10,
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
+        justifyContent: 'center',
+        // height: sizes.height,
+        top: 45,
+        margin: 10,
+        alignSelf: 'center',
+        alignContent: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        borderRadius: 20,
+        width: sizes.width - spacing.l,
+        height: sizes.height - 105,
+        backgroundColor: colors.blue,
+        borderWidth: 3,
+        borderColor: colors.white
+        },
   button: {
     borderRadius: 20,
     padding: 10,

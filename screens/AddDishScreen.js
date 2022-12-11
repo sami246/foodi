@@ -22,7 +22,7 @@ import AppLoader from "../components/AppLoader";
 import AppBannerAd from "../components/Ads/AppBannerAd";
 import { InterstitialAd, AdEventType, TestIds } from 'react-native-google-mobile-ads';
 import { AuthContext } from '../contexts/AuthProvider';
-import TagsModal from "../components/TagsModal";
+import TagsModal from "../components/Modal/TagsModal";
 import BackButton from "../components/SmallComponents/BackButton";
 import AddRestaurant from "../components/Modal/AddRestaurant";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

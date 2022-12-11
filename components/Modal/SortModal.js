@@ -19,7 +19,7 @@ const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) =
         }
         setModalVisible(!modalVisible);
     }
-    console.log("IN MIDAL", sortFilter)
+
   return (
     <View>
     <Modal
@@ -147,27 +147,26 @@ const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) =
 export default SortModal
 
 const styles = StyleSheet.create({
-      //Modal
-      centeredView: {
-        justifyContent: 'center',
-        top: 45,
-        margin: 10,
-        alignSelf: 'center',
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-        borderRadius: 20,
-        width: sizes.width - spacing.xl,
-        backgroundColor: colors.blue,
-        borderWidth: 3,
-        borderColor: colors.white
-      },
-
+    //Modal
+    centeredView: {
+    justifyContent: 'center',
+    top: 45,
+    margin: 10,
+    alignSelf: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 20,
+    width: sizes.width - spacing.xl,
+    backgroundColor: colors.blue,
+    borderWidth: 3,
+    borderColor: colors.white
+    },
     title: {
         fontSize: 27,
         fontWeight: '500',
