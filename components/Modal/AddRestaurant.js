@@ -54,8 +54,6 @@ const AddRestaurant = ({modalVisible, setModalVisible, setRestaurant, setRestaur
                     onPress={(data, details = null) => handlePlaces(data, details)}
                     query={{
                         key: Gooogle_API_Key,
-                        type: 'food',
-                        type: 'restaurant',
                         language: 'en',
                     }}
                     fetchDetails={true}

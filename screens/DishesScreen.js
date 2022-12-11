@@ -86,7 +86,7 @@ const DishesScreen = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
-        <NavBar refresh={true} onRefresh={onRefresh}/>
+        <NavBar refresh={true} onRefresh={onRefresh} refreshing={refreshing}/>
         <View style={styles.contentContainer}>
         
           <View style={{alignItems:'center', marginVertical: 2, width: '100%', }}>

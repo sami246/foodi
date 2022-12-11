@@ -5,7 +5,7 @@ import {colors, NAV_BAR_HEIGHT, shadow, sizes, spacing} from '../constants/theme
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
-const NavBar = ({refresh, onRefresh, bgColor, fontColor}) => {
+const NavBar = ({refresh, onRefresh, bgColor, fontColor, refreshing}) => {
     const navigation = useNavigation();
     
     return (
@@ -14,10 +14,9 @@ const NavBar = ({refresh, onRefresh, bgColor, fontColor}) => {
               <Text style={[styles.title, {color: fontColor}]} >Foodi</Text>
             </Pressable>
             {refresh && 
-            <Pressable onPress={() => {onRefresh()}} > 
-              {({ pressed }) => (
-                <FontAwesome name='refresh' size={26} color={pressed ? colors.white : colors.primary} style={{padding: 5}}/>
-              )}
+            <Pressable onPress={() => {onRefresh()}}> 
+                <FontAwesome name='refresh' size={26} color={refreshing ? colors.white : colors.primary} style={{padding: 5}}/>
+
             </Pressable>
             }
         </View>

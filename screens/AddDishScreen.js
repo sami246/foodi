@@ -397,7 +397,7 @@ const AddDishScreen = ({ navigation, route }) => {
             </View>
           </View>
           {/* Buttons */}
-          <View style={{ width: "75%" }}>
+          <View style={{ width: "60%" }}>
             <AppButton
               fontSize={18}
               height={45}
@@ -434,8 +434,8 @@ const styles = StyleSheet.create({
     minHeight: sizes.height,
     justifyContent: "space-evenly",
     alignItems: "center",
-    top: STATUS_BAR_HEIGHT,
-    marginBottom: STATUS_BAR_HEIGHT + 10,
+    marginTop: spacing.s,
+    marginBottom: spacing.m,
   },
   inputContainer: {
     width: "85%",

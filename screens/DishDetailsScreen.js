@@ -113,13 +113,13 @@ const DishDetailsScreen = ({ route }) => {
               </View>
               <View style={styles.detailsBox}>
                 <View style={styles.titleBox}>
-                    <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.7}>{dish.dishName}</Text>
+                    <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.7} onPress={() => {Alert.alert("Dish Name", dish.dishName)}}>{dish.dishName}</Text>
                     <TouchableOpacity style={styles.editIcon} onPress={handleEditPress}>
                         <FontAwesome5 name='edit' size={25} color='black' />
                     </TouchableOpacity>
                 </View>
                 
-                <View style={{flexDirection: 'row', justifyContent: 'space-evenly', margin: spacing.s, alignItems: 'center'}} 
+                <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: spacing.s, alignItems: 'center', width: '95%', alignSelf: 'center'}} 
                 onPress={handleEditPress}>
                       {dish.restaurantPlaceId ?
                       <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
@@ -128,19 +128,24 @@ const DishDetailsScreen = ({ route }) => {
                         <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
                       </Pressable>
                       :
-                      <Pressable onPress={() => {if(!dish.restaurant){handleEditPress()}}}>
+                      <Pressable onPress={() => {Alert.alert("📍", "If you want to get the information of the restaraunt consider editing the restaurant to be taken from the google search")}}>
                         <MaterialCommunityIcons name='map-marker' size={30} color={dish.restaurant ? colors.primary : colors.gray} />
                       </Pressable>
                       }
                     
                     {dish.restaurant ?
-                     <Text numberOfLines={1} style={{fontSize: sizes.h3, paddingHorizontal: spacing.m}}>{dish.restaurant}</Text> 
+
+                     <Text onPress={() => {Alert.alert("Restaurant", dish.restaurant)}} numberOfLines={1}
+                      style={{fontSize: sizes.h3, marginHorizontal: 15, maxWidth: '80%', alignSelf: 'center'}}>{dish.restaurant}</Text> 
                      :
                      <Pressable onPress={() => {if(!dish.restaurant){handleEditPress()}}}>
-                       <Text style={{fontSize: sizes.h3, paddingHorizontal: spacing.m, color: colors.gray}}>Add Restaurant</Text> 
+                       <Text numberOfLines={1} style={{fontSize: sizes.h3, paddingHorizontal: spacing.m, color: colors.gray}}>Add Restaurant</Text> 
                      </Pressable>
                      }
-                     {dish.wouldHaveAgain && <Pressable onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}><MaterialCommunityIcons name='repeat' size={30} color={colors.green} /></Pressable>}
+                     {dish.wouldHaveAgain && 
+                     <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
+                        <MaterialCommunityIcons name='repeat' size={28} color={colors.green} />
+                      </Pressable>}
                     
                 </View>
                 {/* <Text>{googlePlace.address}</Text> */}
@@ -163,16 +168,16 @@ const DishDetailsScreen = ({ route }) => {
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: spacing.s}}>
                       {dish.dateText && 
                       <Pressable style={styles.smallBox} onPress={handleDaysAgo}>
-                          <Text style={{paddingRight: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>Date Eaten</Text>
-                          <FontAwesome5 name='calendar' size={15} color={colors.darkGray} />
-                          <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>{dish.dateText}</Text>
+                          <Text style={{paddingRight: spacing.s, fontSize: 15, fontWeight: '400', color: colors.primary}}>Date Eaten</Text>
+                          <FontAwesome5 name='calendar' size={15} color={colors.primary} />
+                          <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.primary}}>{dish.dateText}</Text>
                       </Pressable>
                       }
                       {dish.price && 
                       <View style={styles.smallBox}>
-                          <Text style={{paddingRight: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray}}>Price</Text>
-                          <FontAwesome5 name='pound-sign' size={15} color={colors.darkGray} />
-                          <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.darkGray, overflow: 'hidden'}}>{dish.price}</Text>
+                          <Text style={{paddingRight: spacing.s, fontSize: 15, fontWeight: '400', color: colors.primary}}>Price</Text>
+                          <FontAwesome5 name='pound-sign' size={15} color={colors.primary} />
+                          <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.primary, overflow: 'hidden'}}>{dish.price}</Text>
                         </View>
                       }
                       {!dish.price && !dish.dateText && 
@@ -186,7 +191,7 @@ const DishDetailsScreen = ({ route }) => {
                       <Text style={[styles.comment, dish.comment ? {} : {color: colors.gray}]}>{dish.comment ? dish.comment : "Add a comment..."}</Text>
                     </Pressable>
                     
-                    <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 20}}>
+                    <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 15}}>
                         {dish.tags && dish.tags !== [] ?
                           <Tags tags={dish.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={false}/>
                         :
@@ -200,7 +205,7 @@ const DishDetailsScreen = ({ route }) => {
                         }
                     </View>
                       {dish.updatedTime && 
-                      <Text style={{position:'absolute', bottom: 2, left: 4, fontSize: 9, fontWeight: '300', color: colors.darkGray}}>
+                      <Text style={{position:'relative', bottom: 2, fontSize: 9, fontWeight: '300', color: colors.darkGray, textAlign: 'center'}}>
                         Last Updated: {dish.updatedTime.toDate().getDate() + "/" +  dish.updatedTime.toDate().getMonth() + "/" + dish.updatedTime.toDate().getFullYear()}
                       </Text>
                       }
@@ -228,7 +233,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: colors.blue,
     borderBottomWidth: 1.5,
-    paddingBottom: spacing.s,
+    paddingBottom: spacing.xs,
     marginBottom: spacing.s,
     justifyContent: 'space-between'
   }
