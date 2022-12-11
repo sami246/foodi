@@ -4,6 +4,7 @@ import { colors, sizes, spacing } from '../../constants/theme';
 import AppButton from '../SmallComponents/AppButton';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Pressable } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) => {
@@ -32,7 +33,10 @@ const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) =
     style={{justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)'}}
     >
         <View style={styles.centeredView}>
-
+        
+        <Pressable style={{position: 'absolute', zIndex: 1, top: 0, right: 0, padding: 15}} onPress={() => {setModalVisible(!modalVisible);}}>
+             <Ionicons name='close' size={35} color={colors.white} />
+        </Pressable>
         <Text style={styles.title}>Sort By:</Text>
         <View style={{alignItems: 'center', flexDirection: 'row', margin: 15, flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
 

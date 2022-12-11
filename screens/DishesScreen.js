@@ -8,10 +8,10 @@ import { colors, NAV_BAR_HEIGHT, sizes } from '../constants/theme';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Pressable } from 'react-native';
 import TagsModal from '../components/Modal/TagsModal';
-import { isEmpty } from '@firebase/util';
 import { dummydata } from '../data/Foodi Dummy';
 import SortModal from '../components/Modal/SortModal';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const DishesScreen = ({ navigation, route }) => {
   const {dishesData,setDishesData, fetchDishesData, sortFilter, setSortFilter, wouldHaveAgainFilter, setWouldHaveAgainFilter, tagsFilter, setTagsFilter} = useContext(DataContext);
@@ -99,47 +99,56 @@ const DishesScreen = ({ navigation, route }) => {
           </View>
           <View style={{alignItems:'center', marginVertical: 3, width: '100%', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20}}>
               <View style={{alignItems:'center', flexDirection: 'row'}}>
-                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8, backgroundColor: tagsFilter ? colors.gold : colors.white}]}
-                onPress={() => setModalVisible(true)}
-                >
-                  <MaterialCommunityIcons name='filter' size={20} color={tagsFilter ? colors.white : colors.darkGray} />
-                  <Text style={{color: tagsFilter ? colors.white : colors.darkGray, fontWeight: tagsFilter ? '500' : 'normal'}}> Filter</Text>
-                  <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tagsFilter} setTags={setTagsFilter} showButton={false}/>
-                </Pressable>
-                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, backgroundColor: sortFilter ? colors.blue : colors.white}]}
-                onPress={() => handleSort()}
-                >
-                  {sortFilter ? 
-                   <FontAwesome5 name={sortFilter.direction === 'desc' ? 'sort-amount-down' : 'sort-amount-up'} size={17} color={colors.white} style={{paddingRight: 3}}/>
-                  : 
-                   <MaterialCommunityIcons name='sort' size={20} color={sortFilter ? colors.white : colors.darkGray} />
-                  }
-                  
-                  <Text style={{ textTransform: "capitalize", color: sortFilter ? colors.white : colors.primary, fontWeight: sortFilter ? '500' : 'normal'}}> {sortFilter ? sortFilter.name : "Sort By"}</Text>
-                  <SortModal modalVisible={sortModalVisible} setModalVisible={setSortModalVisible} sortFilter={sortFilter} setSortFilter={setSortFilter}/>
-                </Pressable>
-                <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, backgroundColor: wouldHaveAgainFilter ? colors.green : colors.white}]}
-                onPress={() => handleWouldHaveAgain()}
-                >
-                  <MaterialCommunityIcons name='repeat' size={20} color={wouldHaveAgainFilter ? colors.white : colors.darkGray} />
-                </Pressable>
+                    <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingRight: 8, backgroundColor: tagsFilter ? colors.gold : colors.white}]}
+                    onPress={() => setModalVisible(true)}
+                    >
+                      <MaterialCommunityIcons name='filter' size={20} color={tagsFilter ? colors.white : colors.darkGray} />
+                      <Text style={{color: tagsFilter ? colors.white : colors.darkGray, fontWeight: tagsFilter ? '500' : 'normal'}}> Filter</Text>
+                      <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tagsFilter} setTags={setTagsFilter} showButton={false}/>
+                    </Pressable>
+                    <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 8, backgroundColor: sortFilter ? colors.blue : colors.white}]}
+                    onPress={() => handleSort()}
+                    >
+                      {sortFilter ? 
+                      <FontAwesome5 name={sortFilter.direction === 'desc' ? 'sort-amount-down' : 'sort-amount-up'} size={17} color={colors.white} style={{paddingRight: 3}}/>
+                      : 
+                      <MaterialCommunityIcons name='sort' size={20} color={sortFilter ? colors.white : colors.darkGray} />
+                      }
+                      
+                      <Text style={{ textTransform: "capitalize", color: sortFilter ? colors.white : colors.primary, fontWeight: sortFilter ? '500' : 'normal'}}> {sortFilter ? sortFilter.name : "Sort By"}</Text>
+                      <SortModal modalVisible={sortModalVisible} setModalVisible={setSortModalVisible} sortFilter={sortFilter} setSortFilter={setSortFilter}/>
+                    </Pressable>
+                    <Pressable style={[styles.smallButton, {flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, backgroundColor: wouldHaveAgainFilter ? colors.green : colors.white}]}
+                    onPress={() => handleWouldHaveAgain()}
+                    >
+                      <MaterialCommunityIcons name='repeat' size={20} color={wouldHaveAgainFilter ? colors.white : colors.darkGray} />
+                    </Pressable>
+                    {(sortFilter || wouldHaveAgainFilter || tagsFilter) && 
+                    <Pressable style={[styles.smallButton, {backgroundColor: colors.black}]} onPress={() => {
+                        setSortFilter(null)
+                        setWouldHaveAgainFilter(false)
+                        setTagsFilter(null)
+                    }}>
+                      <Ionicons name='close' size={20} color={colors.white} />
+                    </Pressable>
+                    }
               </View>
               <View style={{alignItems:'center', flexDirection: 'row'}}>
-                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'one' ? colors.lightOrange : colors.white}]}
-                name='view-day' size={25} color={display === 'one' ? colors.white : colors.darkGray} 
-                onPress={() => {
-                  setDisplay('one')
-                }}/>
-                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'two' ? colors.lightOrange : colors.white}]}
-                name='view-grid' size={25} color={display === 'two' ? colors.white : colors.darkGray} 
-                onPress={() => {
-                  setDisplay('two')
-                }}/>
-                <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'three' ? colors.lightOrange : colors.white}]}
-                name='view-parallel' size={25} color={display === 'three' ? colors.white : colors.darkGray} 
-                onPress={() => {
-                  setDisplay('three')
-                }}/>
+                    <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'one' ? colors.lightOrange : colors.white}]}
+                    name='view-day' size={22} color={display === 'one' ? colors.white : colors.darkGray} 
+                    onPress={() => {
+                      setDisplay('one')
+                    }}/>
+                    <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'two' ? colors.lightOrange : colors.white}]}
+                    name='view-grid' size={22} color={display === 'two' ? colors.white : colors.darkGray} 
+                    onPress={() => {
+                      setDisplay('two')
+                    }}/>
+                    <MaterialCommunityIcons style={[styles.smallButton, {backgroundColor: display === 'three' ? colors.lightOrange : colors.white}]}
+                    name='view-parallel' size={22} color={display === 'three' ? colors.white : colors.darkGray} 
+                    onPress={() => {
+                      setDisplay('three')
+                    }}/>
               </View>
           </View>
             {/* {refreshing && <ActivityIndicator color={colors.orange} size={'large'}/>} */}

@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View, Modal } from 'react-native'
+import { StyleSheet, View, Modal } from 'react-native'
 import React from 'react'
 import { colors, sizes, spacing } from '../../constants/theme';
-import { TagsData } from "../../data";
+import { TagsData } from "../../data/index";
 import Tags from '../Tags';
 import AppButton from '../SmallComponents/AppButton';
 import MultiSelectComponent from "../MultiSelect";
 import { ScrollView } from 'react-native-gesture-handler';
+import { Pressable } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, color}) => {
   return (
@@ -28,7 +30,11 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
                                     backgroundColor={colors.brown}
                                     color={colors.white}
                                     /> */}
+            <Pressable style={{position: 'absolute', zIndex: 1, top: 0, right: 0, paddingRight: 10, paddingTop: 5}} onPress={() => {setModalVisible(!modalVisible);}}>
+                <Ionicons name='close' size={35} color={colors.white} />
+            </Pressable>
             <ScrollView style={{marginTop: spacing.l, maxHeight: 500, marginBottom: spacing.s }}>
+
                 <MultiSelectComponent
                 data={TagsData}
                 selected={!tags ? [] : tags}

@@ -24,7 +24,6 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
       <MultiSelect
         style={styles.dropdown}
         maxHeight={430}
-        selectedStyle={{backgroundColor: 'red'}}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
