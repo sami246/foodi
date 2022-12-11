@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar';
 import DishList from '../components/DishList';
 import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
-import { colors, NAV_BAR_HEIGHT, sizes } from '../constants/theme';
+import { colors, NAV_BAR_HEIGHT, sizes, spacing } from '../constants/theme';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Pressable } from 'react-native';
 import TagsModal from '../components/Modal/TagsModal';
@@ -12,6 +12,7 @@ import { dummydata } from '../data/Foodi Dummy';
 import SortModal from '../components/Modal/SortModal';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity } from 'react-native';
 
 const DishesScreen = ({ navigation, route }) => {
   const {dishesData,setDishesData, fetchDishesData, sortFilter, setSortFilter, wouldHaveAgainFilter, setWouldHaveAgainFilter, tagsFilter, setTagsFilter} = useContext(DataContext);
@@ -152,11 +153,16 @@ const DishesScreen = ({ navigation, route }) => {
               </View>
           </View>
             {/* {refreshing && <ActivityIndicator color={colors.orange} size={'large'}/>} */}
-            {dishesData
+            {dishesData || dishesData != []
             ? 
             <DishList list={filteredData === null? dishesData : filteredData} display={display} filterTags={tagsFilter} setFilterTags={setTagsFilter} refreshing={refreshing} onRefresh={onRefresh}/> 
             : 
-            <Text style={{fontSize: 20, marginTop: 10}}>Add some posts</Text>
+            <TouchableOpacity style={styles.emptyBox} onPress={() => {navigation.navigate('Add Dish')}}>
+
+                <FontAwesome5 name='plus' size={20} color={colors.lightGray} style={{alignSelf: 'center', marginBottom: 10}}/>
+                <Text style={{color: colors.lightGray, alignSelf: 'center', fontSize: 16, fontWeight: '500'}}> Add a Dish </Text>
+
+            </TouchableOpacity>
             }
             {/* {isEmpty(filteredData) && 
             <View style={{alignSelf:'center', backgroundColor: 'red', flex: 2}}>
@@ -182,6 +188,15 @@ const styles = StyleSheet.create({
     height: sizes.height - NAV_BAR_HEIGHT,
     width: sizes.width,
     alignItems: 'center'
+  },
+  emptyBox:{
+    backgroundColor: colors.white,
+    borderRadius: sizes.radius,
+    justifyContent: 'center', borderWidth: 3, borderColor: colors.lightGray, borderStyle: 'dashed',
+    overflow: 'hidden',
+    width: 300,
+    height: 150,
+    top: 50
   },
   input: {
     backgroundColor: 'white',

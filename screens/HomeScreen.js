@@ -63,7 +63,7 @@ const HomeScreen = ({ navigation }) => {
               }
               
               <SectionHeader
-                title="Recent Updates"
+                title="Recently Eaten"
                 buttonTitle="See All"
                 onPress={() => {navigation.navigate('Dishes')}}
               />

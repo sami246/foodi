@@ -207,7 +207,7 @@ export default class ImageUpload extends React.Component {
   _takePhoto = async () => {
     // let pickerResult = await ImagePicker.launchCameraAsync({
     //   allowsEditing: true,
-    //   quality: 0.5
+    //   quality: 0.4
     // });
     // this.props.setImage(pickerResult)
 
@@ -216,7 +216,8 @@ export default class ImageUpload extends React.Component {
     if (PermissionResponse.status === 'granted'){
       let pickerResult = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        quality: 0.5
+        quality: 0.4,
+        
       });
       if (!pickerResult.canceled) {
         this.props.setImage(pickerResult.assets[0].uri)
@@ -239,7 +240,7 @@ export default class ImageUpload extends React.Component {
     if (PermissionResponse.status === 'granted'){
       let pickerResult = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true,
-        quality: 0.5
+        quality: 0.4
       });
       if (!pickerResult.canceled) {
         this.props.setImage(pickerResult.assets[0].uri)

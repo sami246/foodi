@@ -176,7 +176,7 @@ export const DataProvider = ({children}) => {
           },
           fetchDishesDataByRecent: async () => {
             try {
-              const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid), orderBy("updatedTime", "desc"), limit(4))
+              const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid), where("date", "!=", null), orderBy("date", "desc"), limit(4))
               const unsubscribe = onSnapshot(q, (querySnapshot) => {
                   var dishesDataTemp = []
                   querySnapshot.forEach((doc) => {

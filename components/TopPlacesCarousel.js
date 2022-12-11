@@ -12,26 +12,32 @@ import { useNavigation } from '@react-navigation/native';
 import Rating from './Rating';
 import { useContext } from 'react';
 import { DataContext } from '../contexts/DataContext';
+import { useEffect } from 'react';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import uuid from "uuid";
 
 
-const CARD_WIDTH = sizes.width - 80;
-const CARD_HEIGHT = 200;
+const CARD_WIDTH = sizes.width - 100;
+const CARD_HEIGHT = 185;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
 const TopPlacesCarousel = ({list}) => {
   const {handlePlaceholder} = useContext(DataContext);
   const navigation = useNavigation();
+  var temp = [...list];
+  temp.splice(list.length, 0, {ad: 'ad'});
+ 
 
   return (
     <FlatList
-      data={list}
+      data={temp}
       horizontal
       snapToInterval={CARD_WIDTH_SPACING}
       decelerationRate="fast"
       showsHorizontalScrollIndicator={false}
-      keyExtractor={i => i.id}
+      keyExtractor={i => i.id || uuid.v4()}
       renderItem={({item, index}) => {
-        if(item.rating != null){
+        if(item?.dishName){
           return (
             <TouchableOpacity
               onPress={() => {navigation.navigate('Post Detail', {dish: item})}}
@@ -49,12 +55,27 @@ const TopPlacesCarousel = ({list}) => {
                   <View style={[styles.textShadow, {alignItems: 'flex-start'}]}>
                     <Rating rating={item.rating} fontSize={10} iconSize={13} fontColor={colors.gold} showText={false} iconColor={colors.gold}/>
                   </View>
-                  
                 </View>
               </View>
             </TouchableOpacity>
           );
         }
+        else{
+          return(
+          <TouchableOpacity
+            onPress={() => {navigation.navigate('Add Dish')}}
+            style={[styles.card, shadow.dark, styles.add, {
+              marginLeft: index === 0 ? spacing.l : 0,
+              marginRight: spacing.l,
+            }]}>
+            <View style={{}}>
+                <FontAwesome5 name='plus' size={20} color={colors.lightGray} style={{alignSelf: 'center', marginBottom: 10}}/>
+                <Text style={{color: colors.lightGray, alignSelf: 'center', fontSize: 16, fontWeight: '500'}}> Add a Dish </Text>
+          </View>
+        </TouchableOpacity>
+        )
+        }
+        
        
       }}
     />
@@ -115,6 +136,13 @@ const styles = StyleSheet.create({
     fontSize: sizes.body,
     fontStyle: 'italic',
     fontWeight: 'bold'
+  },
+  add: {
+    backgroundColor: colors.white,
+    opacity: 0.9,
+    borderRadius: sizes.radius,
+    justifyContent: 'center', borderWidth: 3, borderColor: colors.lightGray, borderStyle: 'dashed',
+    overflow: 'hidden',
   }
 });
 
