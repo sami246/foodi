@@ -2,6 +2,7 @@ import React, {createContext, useState, useContext, useEffect} from 'react';
 import { AuthContext } from '../contexts/AuthProvider';
 import { collection, query, where, onSnapshot, orderBy, limit, getDoc, doc, startAt, endAt, getCountFromServer } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
+import { dummyDishesDataByRating } from '../data';
   
 export const DataContext = createContext();
 
@@ -19,6 +20,7 @@ export const DataProvider = ({children}) => {
     // console.log("DataContext wouldHaveAgain --> ", wouldHaveAgainFilter)
     // console.log("DataContext tagsFilter --> ", tagsFilter)
     // console.log("DataContext sortFilter --> ", sortFilter)
+    const useDummyDishes = true
     
 
   return (
@@ -161,16 +163,22 @@ export const DataProvider = ({children}) => {
           },
           fetchDishesDataByRating: async () => {
             try {
-              const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid), orderBy("rating", "desc"), limit(5))
-              const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                  var dishesDataTemp = []
-                  querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                      dishesDataTemp.push({ ...doc.data(), id: doc.id, key: doc.id})                   
+              if(useDummyDishes){
+                setdishesDataByRating(dummyDishesDataByRating)
+              }
+              else{
+                  const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid), orderBy("rating", "desc"), limit(5))
+                  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                      var dishesDataTemp = []
+                      querySnapshot.forEach((doc) => {
+                        // doc.data() is never undefined for query doc snapshots
+                          dishesDataTemp.push({ ...doc.data(), id: doc.id, key: doc.id})                   
+                      });
+                      console.log({dishesDataTemp})
+                      setdishesDataByRating(dishesDataTemp)
                   });
-                  setdishesDataByRating(dishesDataTemp)
-              });
-              return unsubscribe;
+                  return unsubscribe;
+                  }
             }
             catch (error) {
               console.log("BY RATING ERROR", error)

@@ -57,7 +57,7 @@ const AddDishScreen = ({ navigation, route }) => {
   // For Date
   // ---------------
   const [date, setDate] = useState(route.params?.dish?.date || null);
-  const [dateText, setDateText] = useState(route.params?.dish?.dateText || "");
+  const [dateText, setDateText] = useState(route.params?.dish?.dateText || null);
 
   const [mode, setMode] = useState("");
   const [show, setShow] = useState("");

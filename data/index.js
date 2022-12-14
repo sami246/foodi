@@ -93,3 +93,121 @@ export const TOP_PLACES = [
     { label: 'Value for Money', value: 'Value for Money', icon: <AntDesign color="black" name="delete" size={17} /> },
     { label: 'Vegetarian', value: 'Vegetarian', icon: <AntDesign color="black" name="delete" size={17} /> },
   ];
+
+  const Images = [
+    { image: require("../assets/place-holders/image-placeholder-blue.png") },
+    { image: require("../assets/place-holders/image-placeholder-gold.png") },
+    { image: require("../assets/place-holders/image-placeholder-green.png") },
+    { image: require("../assets/place-holders/image-placeholder-red.png") },
+];
+
+export const markers = [
+    {
+      id: 'ChIJ490zYTwbdkgRn-Nq3Dq5t6g',
+      coordinate: {
+        latitude: 51.5412934,
+        longitude: -0.1463145,
+      },
+      name: "KHAAO - CAMDEN LOCK",
+      description: "This is the best food place",
+      url: 'https://maps.google.com/?cid=12157389381567177631',
+      website: 'http://www.khaaokarachi.com/',
+      address: 'Camden Lock Market Unit WY21, London NW1 8AF, UK',
+      image: Images[0].image,
+      rating: 4.1,
+      priceLevel: null,
+    },
+    {
+      id: 'ChIJBS8tKT8bdkgRlUzYr3nKauU',
+      coordinate: {
+        latitude: 51.5311021,
+        longitude: -0.1198515,
+      },
+      name: "Pizza Union King's Cross",
+      description: "This is the second best food place",
+      url: 'https://maps.google.com/?cid=16531248006206868629',
+      website: 'http://www.pizzaunion.com/',
+      address: '246-250 Pentonville Rd, London N1 9JY, UK',
+      image: Images[1].image,
+      rating: 4.6,
+      priceLevel: 1,
+    },
+    {
+      id: 'ChIJiZRSWuQadkgRtNhKUxpQV5s',
+      coordinate: {
+        latitude: 51.543277,
+        longitude: -0.1488976,
+      },
+      name: "BUK - CAMDEN",
+      description: "This is the third best food place",
+      url: 'https://maps.google.com/?cid=11193503472849442996',
+      website: 'http://www.bukburger.com/',
+      address: '8 Ferdinand new Date(), Chalk Farm, London NW1 8ER, UK',
+      image: Images[2].image,
+      rating: 4.3,
+      priceLevel: null,
+    },
+    {
+      id: 'ChIJw9BFM8gbdkgRYIc2RQikaMs',
+      coordinate: {
+        latitude: 51.53035689999999,
+        longitude: -0.1214034,
+      },
+      name: "KFC London - Kings Cross",
+      description: "This is the fourth best food place",
+      url: 'https://maps.google.com/?cid=14657145342705174368',
+      website: 'https://www.kfc.co.uk/kfc-near-me/london-kings-cross?utm_term=London&utm_medium=organic&utm_source=uberall',
+      address: '323 Grays Inn Rd, London WC1X 8PX, UK',
+      image: Images[3].image,
+      rating: 1,
+      priceLevel: 1,
+    },
+    {
+      id: 'ChIJB2ELl8scdkgR3x_68FAD5VE',
+      coordinate: {
+        latitude: 51.5184071,
+        longitude: -0.0656871,
+      },
+      name: "The Urban Chocolatier Whitechapel",
+      description: "This is the fifth best food place",
+      url: 'https://maps.google.com/?cid=5901126532914094047',
+      website: 'https://urbanchocolatier.com/',
+      address: '9 Davenant new Date(), London E1 5NB, UK',
+      image: Images[3].image,
+      rating: 4.3,
+      priceLevel: 2,
+    },
+    {
+      id: 'ChIJFXPozbkFdkgRDXyH1C-H_gM',
+      coordinate: {
+        latitude: 51.51421079999999,
+        longitude: -0.1369016,
+      },
+      name: "Kasa and Kin",
+      description: "This is the fifth best food place",
+      url: 'https://maps.google.com/?cid=5901126532914094047',
+      website: 'https://urbanchocolatier.com/',
+      address: '52-53 Poland St, London W1F 7NQ, UK',
+      image: Images[3].image,
+      rating: 4.3,
+      priceLevel: null,
+    },
+];
+
+export const dummyDishesDataByRating = [
+  {
+    "comment": null, "date": [new Date()], "dateCreated": [new Date()], "dateText": "9/8/2022", "dishName": "Dummy Basil Pasta", "id": "kvy6I6vRB8IDUegsrLbO", "image": "https://firebasestorage.googleapis.com/v0/b/foodi-562d0.appspot.com/o/dish_pictures%2F86a76751-ffc5-4d0d-9794-5c7f5ba8715c?alt=media&token=547d5e22-a03c-47fb-8319-24620214f6c2", "imagePlaceholder": "gold", "key": "kvy6I6vRB8IDUegsrLbO", "price": null, "rating": 8, "restaurant": "Pizzeria Sa Cova", "restaurantPlaceId": "ChIJvTOU0VGSlxIRlic9Kya9KyM", "tags": [Array], "updatedTime": [new Date()], "userId": "MLtw1ar0jBORPslhwd7aOzCuU9u2", "wouldHaveAgain": true
+  },
+  {
+    "comment": null, "date": [new Date()], "dateText": "14/9/2022", "dishName": "White Chocolate Cookie Dough", "id": "7WKZE7F9vwX4wYAv1RHz", "image": "https://firebasestorage.googleapis.com/v0/b/foodi-562d0.appspot.com/o/dish_pictures%2F48021484-34eb-4d54-9b42-481b209ea02c?alt=media&token=ff6a7bbe-400f-4a83-bc60-24b89e1028a5", "key": "7WKZE7F9vwX4wYAv1RHz", "price": "£12", "rating": 8, "restaurant": "The Urban Chocolatier Whitechapel", "restaurantPlaceId": "ChIJB2ELl8scdkgR3x_68FAD5VE", "tags": [Array], "updatedTime": [new Date()], "userId": "MLtw1ar0jBORPslhwd7aOzCuU9u2", "wouldHaveAgain": true
+ },
+ {
+  "comment": "Better in single", "date": [new Date()], "dateText": "18/10/2022", "dishName": "Beef Special Double", "id": "rBdTdKkXln8VgebFgsiN", "image": "https://firebasestorage.googleapis.com/v0/b/foodi-562d0.appspot.com/o/dish_pictures%2F3fce933c-35f2-48ce-a69d-3f71d17497bd?alt=media&token=844569b1-54bb-4254-adb7-bc1ded737f4d", "key": "rBdTdKkXln8VgebFgsiN", "price": "£7 ", "rating": 7, "restaurant": "BUK - CAMDEN", "restaurantPlaceId": "ChIJiZRSWuQadkgRtNhKUxpQV5s", "tags": [Array], "updatedTime": [new Date()], "userId": "MLtw1ar0jBORPslhwd7aOzCuU9u2", "wouldHaveAgain": true
+},
+ {
+  "comment": null, "date": [new Date()], "dateText": "25/10/2022", "dishName": "Mexican Burger", "id": "Ci5PQORzpmDnY75ITWdz", "image": null, "imagePlaceholder": "orange", "key": "Ci5PQORzpmDnY75ITWdz", "price": "£7", "rating": 7, "restaurant": "Cheat Meals", "restaurantPlaceId": null, "tags": [Array], "updatedTime": [new Date()], "userId": "MLtw1ar0jBORPslhwd7aOzCuU9u2", "wouldHaveAgain": true
+},
+ {
+  "comment": "Bit too tangy and rich", "date": [new Date()], "dateText": "10/10/2022", "dishName": "Mediterranean Chicken Pizza", "id": "M7VRmfatTPzUeQvZtKg6", "image": "https://firebasestorage.googleapis.com/v0/b/foodi-562d0.appspot.com/o/dish_pictures%2Fdbae096c-3caf-45db-944d-08ecb3355078?alt=media&token=dc0f4540-cc4e-4c5f-8728-e9ad5f6c6df9", "key": "M7VRmfatTPzUeQvZtKg6", "price": "£14", "rating": 4, "restaurant": "Gallio", "tags": [Array], "updatedTime": [new Date()], "userId": "MLtw1ar0jBORPslhwd7aOzCuU9u2", "wouldHaveAgain": false
+}
+]
