@@ -19,7 +19,7 @@ const TwoDisplay = ({item}) => {
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
         <View style={[styles.card, shadow.light]} >
             <View style={styles.imageBox}>
-            <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder()} />
+            <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder(item.imagePlaceholder)} />
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, left: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
                     <Rating rating={item.rating} fontSize={10} iconSize={14} fontColor={colors.gold} showText={false} iconColor={colors.gold}/>
                 </View>
@@ -31,7 +31,7 @@ const TwoDisplay = ({item}) => {
             <View style={styles.footer}>
             <View style={styles.titleBox}>
                 <Text numberOfLines={1} style={styles.title}>{item.dishName}</Text>
-                <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.85} style={styles.restaurant}>{item.restaurant ? item.restaurant : "N/A"}</Text>
+                <Text numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.9} style={styles.restaurant}>{item.restaurant ? item.restaurant : "N/A"}</Text>
             </View>
             {/* <FavoriteButton /> */}
             </View>

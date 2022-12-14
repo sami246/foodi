@@ -24,6 +24,11 @@
       "bundleIdentifier": "com.sami246.foodi"
     },
     "android": {
+      "config": {
+        "googleMaps":{
+          "apiKey": "AIzaSyA7z64jjslm9Z7R85NUp6K7FqWQSKyLPn4"
+        }
+      },
       "googleServicesFile": "./android/app/google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

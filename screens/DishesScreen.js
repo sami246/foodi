@@ -44,6 +44,14 @@ const DishesScreen = ({ navigation, route }) => {
   }, [route?.params?.tag])
 
   useEffect(() => {
+    if(route?.params?.sentFilter){
+      console.log("Entered with sent filter Params")
+      console.log(route?.params?.sentFilter)
+      setSortFilter(route?.params?.sentFilter);
+    }
+  }, [route?.params?.sentFilter])
+
+  useEffect(() => {
     var dataSource = dishesData
     if (search){
       const textData = search.toUpperCase();

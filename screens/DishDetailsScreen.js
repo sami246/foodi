@@ -103,7 +103,7 @@ const DishDetailsScreen = ({ route }) => {
                     <MaterialCommunityIcons name='delete-outline' size={30} color={colors.white} />
                 </Pressable>
               <View style={styles.imageBox}>
-                    <ImagePreviewer source={dish.image ? {uri: dish.image} : handlePlaceholder()} style={styles.image} resizeMode="cover" />
+                    <ImagePreviewer source={dish.image ? {uri: dish.image} : handlePlaceholder(dish.imagePlaceholder)} style={styles.image} resizeMode="cover" />
                     {/* <ImageView
                         images={[{source: {uri: dish.image}}]}
                         imageIndex={0}

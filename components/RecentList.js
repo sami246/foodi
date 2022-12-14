@@ -32,7 +32,7 @@ const RecentList = ({list}) => {
           <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
             <View style={[styles.card, shadow.light]} >
               <View style={styles.imageBox}>
-                <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder()} />
+                <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder(item.imagePlaceholder)} />
                 <View style={{borderRadius: 8 ,position: 'absolute', top: 5, left: 5, backgroundColor: 'rgba(0,0,0,0.6)', padding: 5, flexDirection: 'row', alignItems: 'center'}}>
                      {/* <MaterialCommunityIcons name='repeat' size={20} color={colors.green} /> */}
                      <FontAwesome5 name='calendar' size={11} color={colors.white} />

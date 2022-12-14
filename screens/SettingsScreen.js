@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, StatusBar, Pressable } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../constants/theme'
 import NavBar from '../components/NavBar'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,8 +12,13 @@ import { AuthContext } from '../contexts/AuthProvider';
 
 
 const SettingsScreen = ({ navigation }) => {
-  const {numDishes} = useContext(DataContext);
+  const {numDishes, fetchCount, numRestaurants} = useContext(DataContext);
   const {user} = useContext(AuthContext);
+
+  useEffect(() => {
+    fetchCount();
+  }, [])
+  
 
   function handleSignOut(){
     signOut(auth).then(() => {
@@ -45,7 +50,7 @@ const SettingsScreen = ({ navigation }) => {
             </View>
             <View style={styles.infoLine}>
               <Text style={styles.infoText}>Number of Map Places: </Text>
-              <Text style={styles.infoText}> sss 4</Text>
+              <Text style={styles.infoText}> {numRestaurants}</Text>
             </View>
             <View style={styles.infoLine}>
               <Text style={styles.infoText}>Account Created: </Text>

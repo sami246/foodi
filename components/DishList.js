@@ -71,16 +71,19 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
   if(display === 'one'){
     return(
       <View style={styles.container}>
+        <View style={styles.containerWhole}> 
           <FlatList
             data={list1}
             extraData={refreshing}
             renderItem={renderItemFull}
             keyExtractor={item => item.id || uuid.v4()}
-            showsVerticalScrollIndicator={false} 
+            showsVerticalScrollIndicator={true} 
             refreshing={refreshing}
             initialNumToRender={4}
             onRefresh={onRefresh}
+            centerContent = {true}
           />
+          </View>
       </View>
     )
 
@@ -97,7 +100,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
             scrollEnabled={true}
             renderItem={renderItemTwo}
             keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false} 
+            showsVerticalScrollIndicator={true} 
             numColumns={2}                  // set number of columns    
             centerContent = {true}  
             refreshing={refreshing}
@@ -122,7 +125,7 @@ const DishList = ({list, display, setFilterTags, filterTags, refreshing, onRefre
             scrollEnabled={true}
             renderItem={renderItemThree}
             keyExtractor={item => item.dishName + item.restaurant}
-            showsVerticalScrollIndicator={false} 
+            showsVerticalScrollIndicator={true} 
             numColumns={3}                  // set number of columns    
             centerContent = {true} 
             refreshing={refreshing}
@@ -141,6 +144,11 @@ const styles = StyleSheet.create({
     flex: 1,
     // marginBottom: spacing.s,
     marginTop: spacing.s,
+    
+  },
+  containerWhole: {
+    width: sizes.width,
+    alignItems: 'center'
   },
   containerHalf: {
     width: sizes.width,

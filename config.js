@@ -1,1 +1,2 @@
 export const Gooogle_API_Key = "AIzaSyCPaMzVgum3WSIZbgARJMlwqmA8tKXgoqw"
+export const Gooogle_MAPS_ANDROID_API_Key = "AIzaSyA7z64jjslm9Z7R85NUp6K7FqWQSKyLPn4"

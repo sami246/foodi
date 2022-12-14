@@ -44,6 +44,7 @@ const AddDishScreen = ({ navigation, route }) => {
   const [restaurantAdditonal, setRestaurantAdditional] = useState(route.params?.dish?.restaurantAdditonal || null);
   const [rating, setRating] = useState(route.params?.dish?.rating || null);
   const [comment, setComment] = useState(route.params?.dish?.comment || null);
+  const [imagePlaceholder, setImagePlaceholder] = useState(route.params?.dish?.imagePlaceholder || null);
   const [tags, setTags] = useState(route.params?.dish?.tags || []);
   const [wouldHaveAgain, setWouldHaveAgain] = useState(route.params?.dish?.wouldHaveAgain || false);
   // Interstitial Ad
@@ -55,7 +56,7 @@ const AddDishScreen = ({ navigation, route }) => {
 
   // For Date
   // ---------------
-  const [date, setDate] = useState(route.params?.dish?.date || new Date());
+  const [date, setDate] = useState(route.params?.dish?.date || null);
   const [dateText, setDateText] = useState(route.params?.dish?.dateText || "");
 
   const [mode, setMode] = useState("");
@@ -139,6 +140,25 @@ const AddDishScreen = ({ navigation, route }) => {
     }
   };
 
+  const randomPlaceholder = () => {
+    var randomNumber = Math.floor(Math.random() * 5)
+    if (randomNumber === 0){
+      return "red" 
+    }
+    else if (randomNumber === 1) {
+      return "orange" 
+    }
+    else if(randomNumber === 2){
+      return "gold" 
+    }
+    else if(randomNumber === 3){
+      return "blue"
+    }
+    else if(randomNumber === 4){
+      return "green"
+    }
+  }
+
   const handleSubmit = async () => {
     if(!restaurant && !dishName){
       alert("Restaurant and Dish Name Required Fields Missing")
@@ -168,6 +188,7 @@ const AddDishScreen = ({ navigation, route }) => {
             comment: comment,
             rating: rating,
             image: uploadUrl || image,
+            imagePlaceholder: imagePlaceholder ? imagePlaceholder : randomPlaceholder(),
             updatedTime: new Date(),
             date: date,
             dateText: dateText,
@@ -186,6 +207,7 @@ const AddDishScreen = ({ navigation, route }) => {
             comment: comment,
             rating: rating,
             image: uploadUrl,
+            imagePlaceholder: randomPlaceholder(),
             updatedTime: new Date(),
             dateCreated: new Date(),
             date: date,
