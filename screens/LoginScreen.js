@@ -5,13 +5,14 @@ import AppButton from '../components/SmallComponents/AppButton';
 import { colors, sizes } from '../constants/theme';
 import { AuthContext } from '../contexts/AuthProvider';
 import { auth } from '../firebase';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const {user, setUser, SignIn} = useContext(AuthContext);
+    const {user, setUser, SignIn, SignInWithPopup, GoogleSignIn} = useContext(AuthContext);
      
   return (
         <SafeAreaView style={styles.container} behavior='padding'>
@@ -35,7 +36,7 @@ const LoginScreen = ({ navigation }) => {
                 />
             </View>
             <View style={styles.buttonContainer}>
-                <View style={{height: 70}}>
+                <View style={{height: 60}}>
                     <AppButton
                         fontSize={18}
                         height={45}
@@ -46,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
                         color={colors.white}
                     />
                 </View>
-                <View style={{height: 70}}>
+                <View style={{height: 60}}>
                     <AppButton
                         fontSize={18}
                         height={45}
@@ -58,6 +59,12 @@ const LoginScreen = ({ navigation }) => {
                         buttonStyle={{borderColor: colors.orange, borderWidth: 2}}
                     />
                 </View>
+                    <GoogleSigninButton
+                        style={{ width: '103%', height: 57, borderRadius: 10, }}
+                        size={GoogleSigninButton.Size.Wide}
+                        color={GoogleSigninButton.Color.Light}
+                        onPress={() => GoogleSignIn()}
+                    />
                 </View>
         </SafeAreaView>
 
@@ -90,7 +97,8 @@ const styles = StyleSheet.create({
         width: '60%',
         justifyContent: 'center',
         alignContent: 'center',
-        marginTop: 40
+        // marginTop: 40,
+        marginBottom: 70
     },
     button: {
         backgroundColor: '#CC9767',

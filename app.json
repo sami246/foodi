@@ -21,7 +21,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.sami246.foodi"
+      "bundleIdentifier": "com.sami246.foodi",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "config": {
@@ -59,7 +60,9 @@
             "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }"
           }
         }
-      ]
+      ],
+      ["@react-native-google-signin/google-signin"]
+
     ],
     "extra": {
       "eas": {
