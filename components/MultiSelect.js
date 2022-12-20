@@ -14,7 +14,7 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
     return (
       <View style={styles.item}>
         <Text numberOfLines={1} style={styles.selectedTextStyle}>{item.label}</Text>
-        {/* {item.icon} */}
+        {item.icon}
       </View>
     );
   };

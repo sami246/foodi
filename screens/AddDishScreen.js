@@ -180,6 +180,7 @@ const AddDishScreen = ({ navigation, route }) => {
         }
         if(route.params){
           console.log("Updating Doc");
+          // TODO: Add delete for if image changed/deleted to save storage
           const docRef = await setDoc(doc(firestoreDB, "dishs", route.params?.dish?.id), {
             userId: user.uid,
             restaurant: restaurant,

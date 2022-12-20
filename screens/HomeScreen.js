@@ -8,10 +8,11 @@ import SectionHeader from '../components/SectionHeader';
 import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
 import { Pressable } from 'react-native';
+import WantToGoList from '../components/WantToGoList';
 
 
 const HomeScreen = ({ navigation }) => {
-  const {dishesDataByRating, fetchDishesDataByRating, dishesDataByRecent, fetchDishesDataByRecent, isLoading} = useContext(DataContext);
+  const {dishesDataByRating, fetchDishesDataByRating, dishesDataByRecent, fetchDishesDataByRecent, isLoading, fetchRestaurantDataByRecent, restaurantDataByRecent} = useContext(DataContext);
   const [refreshing, setRefreshing] = React.useState(false);
 
   useEffect(() => {
@@ -28,6 +29,8 @@ const HomeScreen = ({ navigation }) => {
     wait(2000).then(() => {
       fetchDishesDataByRating()
       fetchDishesDataByRecent()
+      fetchRestaurantDataByRecent()
+      console.log({dishesDataByRating})
     })
     .then(() => 
     {
@@ -61,7 +64,7 @@ const HomeScreen = ({ navigation }) => {
               :
               <ActivityIndicator color={colors.orange} size={'large'} />
               }
-              
+              {/* TODO: Add a random generated restaurant for user to visit from list of want to go */}
               <SectionHeader
                 title="Recently Eaten"
                 buttonTitle="See All"
@@ -73,7 +76,16 @@ const HomeScreen = ({ navigation }) => {
                :
                <ActivityIndicator color={colors.orange} size={'large'} />
                }
-              
+              <SectionHeader
+                title="Recently Wanted to Go"
+                buttonTitle="See All"
+                onPress={() => {navigation.navigate('Dishes', {sentFilter: {name: 'date', direction: 'desc'}})}}
+              />
+              {restaurantDataByRecent != false ?
+              <WantToGoList list={restaurantDataByRecent} />
+               :
+               <ActivityIndicator color={colors.orange} size={'large'} />
+               }
           </ScrollView>
         </View>
         <AddOverlayButton />

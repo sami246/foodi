@@ -11,6 +11,7 @@ export const DataProvider = ({children}) => {
     const [dishesData, setDishesData] = useState([]);
     const [dishesDataByRating, setdishesDataByRating] = useState(false);
     const [dishesDataByRecent, setdishesDataByRecent] = useState(false);
+    const [restaurantDataByRecent, setRestaurantDataByRecent] = useState(false);
     const [numDishes, setNumDishes] = useState(null);
     const [numRestaurants, setNumRestaurants] = useState(null);
     const [googlePlace, setGooglePlace] = useState(null)
@@ -42,6 +43,8 @@ export const DataProvider = ({children}) => {
         setTagsFilter,
         numRestaurants,
         setNumRestaurants,
+        restaurantDataByRecent,
+        setRestaurantDataByRecent,
         handlePlaceholder: (color) => {
           if (color === "red"){
             return require(`../assets/place-holders/image-placeholder-red.png`) 
@@ -63,19 +66,16 @@ export const DataProvider = ({children}) => {
         fetchDishesData: async () => {
             try {
               let q = ''
-              console.log("sort", sortFilter, "tags", tagsFilter, "wha", wouldHaveAgainFilter)
               if(sortFilter){
                 //sort.direction
                 if(wouldHaveAgainFilter){
                     if(tagsFilter != null){
-                        console.log("1")
                         q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
                         orderBy(sortFilter?.name, sortFilter?.direction && sortFilter?.direction),
                         where('tags', 'array-contains-any', tagsFilter),
                         where('wouldHaveAgain', '==', true));
                     }
                     else{
-                         console.log("2")
                         q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
                         orderBy(sortFilter?.name, sortFilter?.direction),
                         where('wouldHaveAgain', '==', true));
@@ -83,14 +83,12 @@ export const DataProvider = ({children}) => {
                 }
                 else{
                   if(tagsFilter != null){
-                    console.log("3")
                     q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
                     orderBy(sortFilter?.name, sortFilter?.direction),
                     where('tags', 'array-contains-any', tagsFilter))
 
                   }
                   else{
-                    console.log("4")
                     q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
                     orderBy(sortFilter?.name, sortFilter?.direction))
                   } 
@@ -99,25 +97,21 @@ export const DataProvider = ({children}) => {
               else {
                 if(wouldHaveAgainFilter){
                   if(tagsFilter != null){
-                    console.log("5")
                     q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
                     where('tags', 'array-contains-any', tagsFilter),
                     where('wouldHaveAgain', '==', true));
                   }
                   else{
-                    console.log("6")
                     q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
                     where('wouldHaveAgain', '==', true));
                   }
                 }
                 else{
                   if(tagsFilter != null){
-                    console.log("7")
                     q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid),
                     where('tags', 'array-contains-any', tagsFilter))
                   }
                   else{
-                    console.log("8")
                     q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid))
                   }   
                 }
@@ -174,7 +168,6 @@ export const DataProvider = ({children}) => {
                         // doc.data() is never undefined for query doc snapshots
                           dishesDataTemp.push({ ...doc.data(), id: doc.id, key: doc.id})                   
                       });
-                      console.log({dishesDataTemp})
                       setdishesDataByRating(dishesDataTemp)
                   });
                   return unsubscribe;
@@ -200,7 +193,7 @@ export const DataProvider = ({children}) => {
           },
           fetchDishesDataByRecent: async () => {
             try {
-              const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid), where("date", "!=", null), orderBy("date", "desc"), limit(4))
+              const q = query(collection(firestoreDB, "dishs"), where("userId", "==", user.uid), where("date", "!=", null), orderBy("date", "desc"), limit(5))
               const unsubscribe = onSnapshot(q, (querySnapshot) => {
                   var dishesDataTemp = []
                   querySnapshot.forEach((doc) => {
@@ -210,6 +203,25 @@ export const DataProvider = ({children}) => {
                     }
                   });
                   setdishesDataByRecent(dishesDataTemp)
+              });
+              return unsubscribe;
+            }
+            catch (error) {
+              console.log("fetch", error)
+            }
+          },
+          fetchRestaurantDataByRecent: async () => {
+            try {
+              const q = query(collection(firestoreDB, "restaurants"), limit(5))
+              const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                  var dishesDataTemp = []
+                  querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    if (!(doc.id in dishesDataTemp)){
+                        dishesDataTemp.push({ ...doc.data(), id: doc.id, key: doc.id})
+                    }
+                  });
+                  setRestaurantDataByRecent(dishesDataTemp)
               });
               return unsubscribe;
             }

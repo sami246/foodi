@@ -115,10 +115,11 @@ const styles = StyleSheet.create({
     },
 
     titleImage: {
-        width: 200,
+        width: 180,
         resizeMode: 'cover',
         height: 100,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        borderRadius: 12
     }
     
 })

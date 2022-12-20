@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     inputContainer: {
-        flex: 1,
+        marginVertical: 20,
         width: '80%'
     },
     input: {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     buttonContainer: {
-        flex: 1,
+        marginVertical: 20,
         width: '60%',
         justifyContent: 'center',
         alignContent: 'center',
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     titleContainer : {
-        flex: 1.5,
+        marginVertical: 20,
         width: '80%',
         justifyContent: 'center',
         alignContent: 'center',

@@ -2,8 +2,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { colors, sizes, spacing } from '../constants/theme'
 import { ScrollView } from 'react-native-gesture-handler'
+import { TagsData } from '../data'
 
-const Tags = ({tags, bColor, fColor, handleTagPress, wrap, filterTags}) => {
+const Tags = ({tags, bColor, fColor, handleTagPress, wrap, filterTags, tagIconColor}) => {
   const handleBColour = (tag) => {
     if (filterTags){
       if(filterTags.includes(tag)){
@@ -36,13 +37,19 @@ const Tags = ({tags, bColor, fColor, handleTagPress, wrap, filterTags}) => {
                   handleTagPress(tag)
                 }              
                 }} key={index} style={[styles.selectedStyle, {backgroundColor: handleBColour(tag)}]}>
+                  {
+                  TagsData.map((element) => {
+                    if(element.value == tag){
+                      return (<element.type name={element.name} size={element.size} color={tagIconColor} />)
+                    }
+                  })}
               <Text
                   numberOfLines={1}
                   style={[styles.textSelectedStyle, {color: fColor}]}
               >
-                  {tag}
+                  {tag} 
               </Text>
-              {/* <AntDesign color={colors.darkGray} name="star" size={15} /> */}
+              
               </Pressable>
           ))
           ) : (
@@ -70,6 +77,12 @@ const Tags = ({tags, bColor, fColor, handleTagPress, wrap, filterTags}) => {
                   handleTagPress(tag)
                 }              
                 }} key={index} style={[styles.selectedStyle, {backgroundColor: bColor, elevation: 0}]}>
+                  {
+                  TagsData.map((element) => {
+                    if(element.value == tag){
+                      return (<element.type name={element.name} size={element.size} color='white' />)
+                    }
+                  })}
               <Text
                   numberOfLines={1}
                   style={[styles.textSelectedStyle, {color: fColor}]}
@@ -111,6 +124,7 @@ const styles = StyleSheet.create({
       },
       textSelectedStyle: {
         marginRight: 5,
+        paddingLeft: 5,
         fontSize: sizes.body,
       },
 })
