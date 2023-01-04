@@ -8,7 +8,6 @@ import { colors, NAV_BAR_HEIGHT, sizes, spacing } from '../constants/theme';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Pressable } from 'react-native';
 import TagsModal from '../components/Modal/TagsModal';
-import { dummydata } from '../data/Foodi Dummy';
 import SortModal from '../components/Modal/SortModal';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';

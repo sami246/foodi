@@ -10,7 +10,6 @@ export const AuthContext = createContext();
 export const AuthProvider = ({children}) => {
   const navigation = useNavigation();
   const [user, setUser] = useState(null);
-
   return (
     <AuthContext.Provider
       value={{
@@ -22,6 +21,7 @@ export const AuthProvider = ({children}) => {
               .then((userCredential) => {
                   // Signed in 
                   const user = userCredential.user;
+                  console.log({user})
                   setUser(user)
                   navigation.navigate('MainContainer')
               })

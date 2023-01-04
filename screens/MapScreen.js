@@ -154,17 +154,17 @@ const _scrollView = useRef(null);
 
     </MapView>
     {/* Search Bar */}
-    <View style={styles.searchBox}>
+    {/* <View style={styles.searchBox}>
       <TextInput placeholder='Search Here' placeholderTextColor={'black'} autoCapitalize="none" style={{flex:1, padding:0}} />
       <Ionicons name='ios-search' size={20}/>
-    </View>
+    </View> */}
     {/* Chip Tags */}
     <ScrollView horizontal scrollEventThrottle={1} showsHorizontalScrollIndicator={false} height={50} 
     style={styles.chipsScrollView} contentContainerStyle={{paddingRight: spacing.m, paddingLeft: spacing.s}}>
         {TagsData.map((item, index) => (
           <TouchableOpacity style={styles.chipsItem} key={index}>
-            {item.icon}
-            <Text> {item.label}</Text>
+            <View style={styles.chipsIcon}>{item.icon}</View>
+            <Text style={{textAlignVertical: 'top'}}> {item.label}</Text>
           </TouchableOpacity>
         ))}
     </ScrollView>
@@ -220,11 +220,12 @@ const styles = StyleSheet.create({
   },
   searchBox: {
     position:'absolute', 
-    marginTop: Platform.OS === 'ios' ? 40 : 20, 
+    marginTop: Platform.OS === 'ios' ? 40 : 8, 
+    marginLeft: 10,
     flexDirection:"row",
     backgroundColor: '#fff',
-    width: '90%',
-    alignSelf:'center',
+    width: '82%',
+    alignSelf:'flex-start',
     borderRadius: 5,
     padding: 10,
     shadowColor: '#ccc',
@@ -232,15 +233,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   chipsScrollView: {
     position:'absolute', 
-    top:Platform.OS === 'ios' ? 90 : 80, 
-    paddingHorizontal:10
+    top:Platform.OS === 'ios' ? 90 : 60, 
+    paddingHorizontal: 5
   },
   chipsIcon: {
-    marginRight: 5,
+    marginRight: 3,
   },
   chipsItem: {
     flexDirection:"row",

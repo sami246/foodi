@@ -184,6 +184,7 @@ const AddDishScreen = ({ navigation, route }) => {
             userId: user.uid,
             restaurant: restaurant,
             restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
+            url: restaurantAdditonal ? restaurantAdditonal.url : null,
             dishName: dishName,
             comment: comment,
             rating: rating,
@@ -192,7 +193,7 @@ const AddDishScreen = ({ navigation, route }) => {
             updatedTime: new Date(),
             date: date,
             dateText: dateText,
-            price: price,
+            price: Number(price).toFixed(2),
             tags: tags,
             wouldHaveAgain: wouldHaveAgain,
           });
@@ -203,6 +204,7 @@ const AddDishScreen = ({ navigation, route }) => {
             userId: user.uid,
             restaurant: restaurant,
             restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
+            url: restaurantAdditonal ? restaurantAdditonal.url : null,
             dishName: dishName,
             comment: comment,
             rating: rating,
@@ -212,14 +214,15 @@ const AddDishScreen = ({ navigation, route }) => {
             dateCreated: new Date(),
             date: date,
             dateText: dateText,
-            price: price,
+            price: Number(price).toFixed(2),
             tags: tags,
             wouldHaveAgain: wouldHaveAgain,
           });
         }
         console.log("Dish Added");
         if (restaurantAdditonal != null){
-          const docRef2 = await setDoc(doc(firestoreDB, "restaurants", restaurantAdditonal.place_id), {
+          //TODO Change TEST
+          const docRef2 = await setDoc(doc(firestoreDB, "users", user.uid, "restaurants", restaurantAdditonal.place_id), {
             name: restaurant,
             address: restaurantAdditonal.address ? restaurantAdditonal.address : null,
             url: restaurantAdditonal.url ? restaurantAdditonal.url : null,
@@ -294,13 +297,6 @@ const AddDishScreen = ({ navigation, route }) => {
               color={handleRatingColour()}
             />
             {/* Restaurant */}
-
-            {/* <TextInput
-              placeholder="Restaurant"
-              value={restaurant}
-              style={[styles.input, styles.inputShadow]}
-              onChangeText={(text) => setRestaurant(text)}
-            /> */}
             <View style={{width: "100%", flexDirection: 'row', justifyContent: 'center'}}>
               <Text 
               numberOfLines={1}
@@ -395,13 +391,14 @@ const AddDishScreen = ({ navigation, route }) => {
                   onChange={onChangeDate}
                 />
               )}
-
+              {/* LONGTODO: Add Currency Chooser */}
               <TextInput
                 placeholder="Price £"
                 value={price}
                 style={[styles.smallInput, styles.inputShadow]}
                 onChangeText={(text) => setPrice(text)}
-                maxLength={7}
+                maxLength={8}
+                keyboardType="number-pad"
               />
             </View>
             {/* Tags */}

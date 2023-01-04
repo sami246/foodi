@@ -3,6 +3,7 @@ import { AuthContext } from '../contexts/AuthProvider';
 import { collection, query, where, onSnapshot, orderBy, limit, getDoc, doc, startAt, endAt, getCountFromServer } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
 import { dummyDishesDataByRating } from '../data';
+import { dummydata } from '../data/FoodiDummy';
   
 export const DataContext = createContext();
 
@@ -16,11 +17,10 @@ export const DataProvider = ({children}) => {
     const [googlePlace, setGooglePlace] = useState(null)
     const [sortFilter, setSortFilter] = useState(null);
     const [wouldHaveAgainFilter, setWouldHaveAgainFilter] = useState(false);
-    const [tagsFilter, setTagsFilter] = useState(null)
-    // console.log("DataContext wouldHaveAgain --> ", wouldHaveAgainFilter)
-    // console.log("DataContext tagsFilter --> ", tagsFilter)
-    // console.log("DataContext sortFilter --> ", sortFilter)
-    const useDummyDishes = true
+    const [tagsFilter, setTagsFilter] = useState(null);
+
+    // const useDummyDishes = true
+    const useDummyDishesByRating = true
     
 
   return (
@@ -163,7 +163,7 @@ export const DataProvider = ({children}) => {
           },
           fetchDishesDataByRating: async () => {
             try {
-              if(useDummyDishes){
+              if(useDummyDishesByRating){
                 setdishesDataByRating(dummyDishesDataByRating)
               }
               else{
