@@ -21,6 +21,14 @@ export default function RandomPlace() {
         website: "https://urbanchocolatier.com/"
     }
 
+    const handlePriceLevel = (level) => {
+        const rows = [];
+        for(let index = 0; index < level; index++) {
+              rows.push(<FontAwesome5 style={{marginHorizontal: 2}} name='pound-sign' size={13} color={colors.green} />)  
+        }
+        return rows
+    }
+
   return (
     // TODO Add Link
     <TouchableOpacity key={item.id} onPress={() => {}} style={styles.cardContainer}>
@@ -32,8 +40,7 @@ export default function RandomPlace() {
             <View style={styles.additionalBox}>
                 {item.priceLevel && 
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <FontAwesome5 name='pound-sign' size={13} color={colors.green} />
-                <Text style={[styles.additionalText, {color: colors.green}]}> Level: {item.priceLevel}</Text>
+                    {handlePriceLevel(item?.priceLevel)}
                 </View>
                 }
                 {item.rating && 

@@ -5,13 +5,11 @@ import ImagePreviewer from 'rc-image-previewer';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Rating from '../components/Rating';
 import { useNavigation } from '@react-navigation/native';
 import Tags from '../components/Tags';
 import AppButton from '../components/SmallComponents/AppButton';
 import { Pressable } from 'react-native';
-import ImageView from 'react-native-image-view';
 import BackButton from '../components/SmallComponents/BackButton';
 import { doc, deleteDoc } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
@@ -22,7 +20,7 @@ import { isEmpty } from '@firebase/util';
 const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
     const navigation = useNavigation();
-    const {fetchRestaurantData, handlePlaceholder, googlePlace, setGooglePlace, fetchDishesData} = useContext(DataContext);
+    const {fetchRestaurantData, handlePlaceholder, fetchDishesData} = useContext(DataContext);
     
     if(isEmpty(dish.tags)){
       dish.tags = null;
@@ -32,9 +30,6 @@ const DishDetailsScreen = ({ route }) => {
       fetchDishesData()
       fetchRestaurantData(dish?.restaurantPlaceId).then(() => {
       })
-      if(!dish?.restaurantPlaceId){
-        setGooglePlace(null)
-      }
 
     }, [])
     
@@ -123,7 +118,7 @@ const DishDetailsScreen = ({ route }) => {
                 onPress={handleEditPress}>
                       {dish.restaurantPlaceId ?
                       <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
-                       onPress={() => { Linking.openURL(googlePlace.url);}}>
+                       onPress={() => { Linking.openURL(dish.url);}}>
                       {/* onPress={() => { console.log(googlePlace);}}> */}
                         <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
                       </Pressable>

@@ -19,6 +19,15 @@ const WantToGoList = ({list}) => {
   // list = [list[0], list[1], list[2]]
   const {handlePlaceholder} = useContext(DataContext);
   const navigation = useNavigation();
+
+  const handlePriceLevel = (level) => {
+    const rows = [];
+    for(let index = 0; index < level; index++) {
+          rows.push(<FontAwesome5 style={{marginHorizontal: 1}} name='pound-sign' size={13} color={colors.green} />)  
+    }
+    return rows
+  }
+
   return (
     <ScrollView horizontal  snapToInterval={CARD_WIDTH_SPACING} decelerationRate="fast" style={styles.container} showsHorizontalScrollIndicator={false}>
       {list?.map((item, index) => {
@@ -34,8 +43,7 @@ const WantToGoList = ({list}) => {
                 <View style={styles.additionalBox}>
                     {item.priceLevel && 
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <FontAwesome5 name='pound-sign' size={13} color={colors.green} />
-                    <Text style={[styles.additionalText, {color: colors.green}]}> Level: {item.priceLevel}</Text>
+                      {handlePriceLevel(item?.priceLevel)}
                     </View>
                     }
                     {item.rating && 
@@ -78,7 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
     borderWidth: 1.5,
-    borderColor: colors.lightOrange
+    borderColor: colors.lightGray
 
     // marginHorizontal: 7
     

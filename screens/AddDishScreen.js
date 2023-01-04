@@ -56,8 +56,7 @@ const AddDishScreen = ({ navigation, route }) => {
 
   // For Date
   // ---------------
-  console.log(route.params?.dish?.date)
-  const [date, setDate] = useState(route.params?.dish?.date || new Date());
+  const [date, setDate] = useState(route.params?.dish?.date.toDate() || new Date());
   const [dateText, setDateText] = useState(route.params?.dish?.dateText || null);
 
   const [mode, setMode] = useState("");
@@ -233,7 +232,8 @@ const AddDishScreen = ({ navigation, route }) => {
             priceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
             website: restaurantAdditonal.website ? restaurantAdditonal.website : null,
             rating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
-          });
+            alreadyHad: true
+          }, { merge: true });
           console.log("Restaurant Added");
         }
         

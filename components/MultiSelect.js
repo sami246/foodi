@@ -35,6 +35,7 @@ const MultiSelectComponent = ({data, selected, setSelected}) => {
         value={selected}
         search
         searchPlaceholder="Search..."
+        activeColor={colors.darkBlue}
         onChange={item => {
           setSelected(item);
         }}

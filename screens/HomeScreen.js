@@ -31,7 +31,6 @@ const HomeScreen = ({ navigation }) => {
       fetchDishesDataByRating()
       fetchDishesDataByRecent()
       fetchRestaurantDataByRecent()
-      console.log({dishesDataByRating})
     })
     .then(() => 
     {

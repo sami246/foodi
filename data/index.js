@@ -82,7 +82,7 @@ export const TOP_PLACES = [
     { label: 'Chicken', value: 'Chicken', icon: <MaterialCommunityIcons color="black" name="food-drumstick" size={17} />, type: MaterialCommunityIcons, name: 'food-drumstick', size:17 },
     { label: 'Chinese', value: 'Chinese', icon: <MaterialCommunityIcons color="black" name="food-takeout-box" size={17} />, type: MaterialCommunityIcons, name: 'food-takeout-box', size:17 },
     { label: 'Dessert', value: 'Dessert', icon: <Entypo color="black" name="cake" size={17} />, type: Entypo, name: 'cake', size:17 },
-    { label: 'Drink', value: 'Drink', icon: <FontAwesome5 color="black" name="mug-hot" size={17} />, type: FontAwesome5, name: 'mug-hot', size:17 },
+    { label: 'Drink', value: 'Drink', icon: <MaterialCommunityIcons color="black" name="cup" size={17} />, type: MaterialCommunityIcons, name: 'cup', size:17 },
     { label: 'Fish', value: 'Fish', icon: <FontAwesome5 color="black" name="fish" size={17} />, type: FontAwesome5, name: 'fish', size:17 },
     { label: 'Gluten Free', value: 'Gluten Free', icon: <FontAwesome5 color="black" name="ban" size={17} />, type: FontAwesome5, name: 'ban', size:17 },
     { label: 'Halal', value: 'Halal', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} />, type: MaterialCommunityIcons, name: 'food-halal', size:17 },
