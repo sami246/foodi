@@ -14,7 +14,6 @@ const CARD_HEIGHT = 80;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.m;
 
 const WantToGoList = ({list}) => {
-    console.log({list})
 
   // Test Empty List
   // list = [list[0], list[1], list[2]]
@@ -53,9 +52,9 @@ const WantToGoList = ({list}) => {
       })}
           {list?.length < 5 && 
             <TouchableOpacity style={styles.cardContainer} key={uuid.v4()} onPress={() => {console.log("TODO: Add edit to restauarnts")}}>
-              <View style={[styles.card, shadow.light, {justifyContent: 'center', borderWidth: 3, borderColor: colors.lightGray, borderStyle: 'dashed'}]} >
-                <FontAwesome5 name='plus' size={20} color={colors.lightGray} style={{alignSelf: 'center', marginBottom: 10}}/>
-                <Text style={{color: colors.lightGray, alignSelf: 'center', fontSize: 16, fontWeight: '500'}}> Add a place you want to go </Text>
+              <View style={[styles.card, shadow.light, {justifyContent: 'center', borderWidth: 2, borderColor: colors.lightGray, borderStyle: 'dashed', marginRight: spacing.m}]} >
+                <FontAwesome5 name='plus' size={18} color={colors.lightGray} style={{alignSelf: 'center', marginBottom: 5}}/>
+                <Text style={{color: colors.lightGray, alignSelf: 'center', fontSize: 14, fontWeight: '500', textAlign: 'center'}}> Add a place you want to go </Text>
               </View>
             </TouchableOpacity>
           }
@@ -68,6 +67,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginTop: spacing.xs
   },
   cardContainer: {
     marginBottom: 15,
@@ -77,6 +77,9 @@ const styles = StyleSheet.create({
     height: CARD_HEIGHT,
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
+    borderWidth: 1.5,
+    borderColor: colors.lightOrange
+
     // marginHorizontal: 7
     
   },

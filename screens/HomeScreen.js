@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView,StatusBar, RefreshControl, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, SafeAreaView,StatusBar, RefreshControl, ActivityIndicator, Pressable } from 'react-native'
 import React, { useContext, useEffect } from 'react'
 import NavBar from '../components/NavBar';
 import TopPlacesCarousel from '../components/TopPlacesCarousel';
@@ -7,8 +7,9 @@ import RecentList from '../components/RecentList';
 import SectionHeader from '../components/SectionHeader';
 import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
 import { DataContext } from '../contexts/DataContext';
-import { Pressable } from 'react-native';
 import WantToGoList from '../components/WantToGoList';
+import RandomPlace from '../components/RandomPlace';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 
 const HomeScreen = ({ navigation }) => {
@@ -57,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
               />}
             >
               <Pressable onPress={() => {navigation.navigate('Dishes')}}>
-              <Text style={styles.heading1}>Your Top Dishes</Text>
+              <Text style={[styles.titles, {marginTop: 5, marginBottom: 0, marginLeft: spacing.l,}]}>Your Top Dishes</Text>
               </Pressable>
               {dishesDataByRating != false ?
                 <TopPlacesCarousel list={dishesDataByRating}/>
@@ -65,6 +66,14 @@ const HomeScreen = ({ navigation }) => {
               <ActivityIndicator color={colors.orange} size={'large'} />
               }
               {/* TODO: Add a random generated restaurant for user to visit from list of want to go */}
+              <View style={styles.randomTitleBox}>
+                <Text style={styles.titles}>Random Pick to try out!</Text>
+                <Pressable onPress={() => {onRefresh()}}> 
+                  <FontAwesome name='refresh' size={26} color={refreshing ? colors.orange : colors.primary} style={{padding: 0}}/>
+                </Pressable>
+              </View>
+              
+              <RandomPlace />
               <SectionHeader
                 title="Recently Eaten"
                 buttonTitle="See All"
@@ -104,11 +113,17 @@ const styles = StyleSheet.create({
   contentContainer : {
     flex: 10
   },
-  heading1 : {
-    fontSize: sizes.title,
+  titles: {
+    fontSize: sizes.h3 + 4,
     fontWeight: 'bold',
+  },
+  randomTitleBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginLeft: spacing.l,
-    color: colors.black
+    marginRight: spacing.m,
+    marginTop: spacing.s,
+    marginBottom: spacing.s,
   }
 
 })

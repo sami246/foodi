@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginTop: spacing.xs
   },
   cardContainer: {
     // marginBottom: 15,

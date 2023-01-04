@@ -18,7 +18,7 @@ import uuid from "uuid";
 
 
 const CARD_WIDTH = sizes.width - 100;
-const CARD_HEIGHT = 185;
+const CARD_HEIGHT = 165;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
 const TopPlacesCarousel = ({list}) => {

@@ -56,7 +56,8 @@ const AddDishScreen = ({ navigation, route }) => {
 
   // For Date
   // ---------------
-  const [date, setDate] = useState(route.params?.dish?.date || null);
+  console.log(route.params?.dish?.date)
+  const [date, setDate] = useState(route.params?.dish?.date || new Date());
   const [dateText, setDateText] = useState(route.params?.dish?.dateText || null);
 
   const [mode, setMode] = useState("");
@@ -377,7 +378,7 @@ const AddDishScreen = ({ navigation, route }) => {
             >
               <Text
                 placeholder="Add Date"
-                value={dateText}
+                value={dateText ? dateText : date}
                 style={[styles.smallInput, styles.inputShadow]}
                 onPress={() => showMode("date")}
               >
