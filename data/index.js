@@ -1,5 +1,7 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export const TOP_PLACES = [
     {
@@ -73,25 +75,26 @@ export const TOP_PLACES = [
   ];
 
   export const TagsData = [
-    { label: 'American', value: 'American', icon: <MaterialCommunityIcons color="black" name="food-hot-dog" size={17} /> },
-    { label: 'Breakfast', value: 'Breakfast', icon: <MaterialCommunityIcons color="black" name="food-croissant" size={17} /> },
-    { label: 'Brunch', value: 'Brunch', icon: <AntDesign color="black" name="delete" size={17} /> },
-    { label: 'Burger', value: 'Burger', icon: <MaterialCommunityIcons color="black" name="hamburger" size={17} /> },
-    { label: 'Chicken', value: 'Chicken', icon: <MaterialCommunityIcons color="black" name="food-drumstick" size={17} /> },
-    { label: 'Chinese', value: 'Chinese', icon: <MaterialCommunityIcons color="black" name="food-takeout-box" size={17} /> },
-    { label: 'Dessert', value: 'Dessert', icon: <AntDesign color="black" name="delete" size={17} /> },
-    { label: 'Fish', value: 'Fish', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
-    { label: 'Gluten Free', value: 'Gluten Free', icon: <AntDesign color="black" name="delete" size={17} /> },
-    { label: 'Halal', value: 'Halal', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
-    { label: 'Italian', value: 'Italian', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
-    { label: 'Meat', value: 'Meat', icon: <MaterialCommunityIcons color="black" name="food-steak" size={17} /> },
-    { label: 'Mexican', value: 'Mexican', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
-    { label: 'Pizza', value: 'Pizza', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
-    { label: 'Snack', value: 'Snack', icon: <AntDesign color="black" name="delete" size={17} /> },
-    { label: 'Spicy', value: 'Spicy', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
-    { label: 'Sushi', value: 'Sushi', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
-    { label: 'Value for Money', value: 'Value for Money', icon: <AntDesign color="black" name="delete" size={17} /> },
-    { label: 'Vegetarian', value: 'Vegetarian', icon: <AntDesign color="black" name="delete" size={17} /> },
+    { label: 'American', value: 'American', icon: <MaterialCommunityIcons color="black" name="food-hot-dog" size={17} />, type: MaterialCommunityIcons, name: 'food-hot-dog', size:17 },
+    { label: 'Breakfast', value: 'Breakfast', icon: <MaterialCommunityIcons color="black" name="food-variant" size={17} />, type: MaterialCommunityIcons, name: 'food-variant', size:17 },
+    { label: 'Brunch', value: 'Brunch', icon: <MaterialCommunityIcons color="black" name="food-croissant" size={17} />, type: MaterialCommunityIcons, name: 'food-croissant', size:17 },
+    { label: 'Burger', value: 'Burger', icon: <MaterialCommunityIcons color="black" name="hamburger" size={17} />, type: MaterialCommunityIcons, name: 'hamburger', size:17 },
+    { label: 'Chicken', value: 'Chicken', icon: <MaterialCommunityIcons color="black" name="food-drumstick" size={17} />, type: MaterialCommunityIcons, name: 'food-drumstick', size:17 },
+    { label: 'Chinese', value: 'Chinese', icon: <MaterialCommunityIcons color="black" name="food-takeout-box" size={17} />, type: MaterialCommunityIcons, name: 'food-takeout-box', size:17 },
+    { label: 'Dessert', value: 'Dessert', icon: <Entypo color="black" name="cake" size={17} />, type: Entypo, name: 'cake', size:17 },
+    { label: 'Drink', value: 'Drink', icon: <FontAwesome5 color="black" name="mug-hot" size={17} />, type: FontAwesome5, name: 'mug-hot', size:17 },
+    { label: 'Fish', value: 'Fish', icon: <FontAwesome5 color="black" name="fish" size={17} />, type: FontAwesome5, name: 'fish', size:17 },
+    { label: 'Gluten Free', value: 'Gluten Free', icon: <FontAwesome5 color="black" name="ban" size={17} />, type: FontAwesome5, name: 'ban', size:17 },
+    { label: 'Halal', value: 'Halal', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} />, type: MaterialCommunityIcons, name: 'food-halal', size:17 },
+    { label: 'Italian', value: 'Italian', icon: <FontAwesome5 color="black" name="globe-europe" size={17} />, type: FontAwesome5, name: 'globe-europe', size:16 },
+    { label: 'Meat', value: 'Meat', icon: <MaterialCommunityIcons color="black" name="food-steak" size={17} />, type: MaterialCommunityIcons, name: 'food-steak', size:17 },
+    { label: 'Mexican', value: 'Mexican', icon: <FontAwesome5 color="black" name="globe-americas" size={17} />, type: FontAwesome5, name: 'globe-americas', size:16 },
+    { label: 'Pizza', value: 'Pizza', icon: <FontAwesome5 color="black" name="pizza-slice" size={17} />, type: FontAwesome5, name: 'pizza-slice', size:16 },
+    { label: 'Snack', value: 'Snack', icon: <FontAwesome5 color="black" name="cookie-bite" size={17} />, type: FontAwesome5, name: 'cookie-bite', size:17 },
+    { label: 'Spicy', value: 'Spicy', icon: <FontAwesome5 color="black" name="burn" size={17} />, type: FontAwesome5, name: 'burn', size:17 },
+    // { label: 'Sushi', value: 'Sushi', icon: <MaterialCommunityIcons color="black" name="food-halal" size={17} /> },
+    { label: 'Value for Money', value: 'Value for Money', icon: <FontAwesome5 color="black" name="money-bill-alt" size={17} />, type: FontAwesome5, name: 'money-bill-alt', size:17 },
+    { label: 'Vegetarian', value: 'Vegetarian', icon: <FontAwesome color="black" name="envira" size={17} />, type: FontAwesome, name: 'envira', size:17 },
   ];
 
   const Images = [
@@ -196,7 +199,7 @@ export const markers = [
 
 export const dummyDishesDataByRating = [
   {
-    "comment": null, "date": [new Date()], "dateCreated": [new Date()], "dateText": "9/8/2022", "dishName": "Dummy Basil Pasta", "id": "kvy6I6vRB8IDUegsrLbO", "image": "https://firebasestorage.googleapis.com/v0/b/foodi-562d0.appspot.com/o/dish_pictures%2F86a76751-ffc5-4d0d-9794-5c7f5ba8715c?alt=media&token=547d5e22-a03c-47fb-8319-24620214f6c2", "imagePlaceholder": "gold", "key": "kvy6I6vRB8IDUegsrLbO", "price": null, "rating": 8, "restaurant": "Pizzeria Sa Cova", "restaurantPlaceId": "ChIJvTOU0VGSlxIRlic9Kya9KyM", "tags": [Array], "updatedTime": [new Date()], "userId": "MLtw1ar0jBORPslhwd7aOzCuU9u2", "wouldHaveAgain": true
+    "comment": null, "date": [new Date()], "dateCreated": [new Date()], "dateText": "9/8/2022", "dishName": "Dummyyyyyyyyyy Data", "id": "kvy6I6vRB8IDUegsrLbO", "image": "https://firebasestorage.googleapis.com/v0/b/foodi-562d0.appspot.com/o/dish_pictures%2F86a76751-ffc5-4d0d-9794-5c7f5ba8715c?alt=media&token=547d5e22-a03c-47fb-8319-24620214f6c2", "imagePlaceholder": "gold", "key": "kvy6I6vRB8IDUegsrLbO", "price": null, "rating": 8, "restaurant": "Pizzeria Sa Cova", "restaurantPlaceId": "ChIJvTOU0VGSlxIRlic9Kya9KyM", "tags": [Array], "updatedTime": [new Date()], "userId": "MLtw1ar0jBORPslhwd7aOzCuU9u2", "wouldHaveAgain": true
   },
   {
     "comment": null, "date": [new Date()], "dateText": "14/9/2022", "dishName": "White Chocolate Cookie Dough", "id": "7WKZE7F9vwX4wYAv1RHz", "image": "https://firebasestorage.googleapis.com/v0/b/foodi-562d0.appspot.com/o/dish_pictures%2F48021484-34eb-4d54-9b42-481b209ea02c?alt=media&token=ff6a7bbe-400f-4a83-bc60-24b89e1028a5", "key": "7WKZE7F9vwX4wYAv1RHz", "price": "£12", "rating": 8, "restaurant": "The Urban Chocolatier Whitechapel", "restaurantPlaceId": "ChIJB2ELl8scdkgR3x_68FAD5VE", "tags": [Array], "updatedTime": [new Date()], "userId": "MLtw1ar0jBORPslhwd7aOzCuU9u2", "wouldHaveAgain": true

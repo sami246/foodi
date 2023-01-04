@@ -69,6 +69,7 @@ const DishesScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
+    console.log("sort", sortFilter, "tags", tagsFilter, "wha", wouldHaveAgainFilter)
     fetchDishesData();
   }, [wouldHaveAgainFilter, sortFilter, tagsFilter])
 

@@ -33,8 +33,7 @@ const TagsModal = ({modalVisible, setModalVisible, tags, setTags, showButton, co
             <Pressable style={{position: 'absolute', zIndex: 1, top: 0, right: 0, paddingRight: 10, paddingTop: 5}} onPress={() => {setModalVisible(!modalVisible);}}>
                 <Ionicons name='close' size={35} color={colors.white} />
             </Pressable>
-            <ScrollView style={{marginTop: spacing.l, maxHeight: 500, marginBottom: spacing.s }}>
-
+            <ScrollView style={{marginTop: spacing.l, maxHeight: 500, marginBottom: spacing.s }} showsVerticalScrollIndicator={true}>
                 <MultiSelectComponent
                 data={TagsData}
                 selected={!tags ? [] : tags}

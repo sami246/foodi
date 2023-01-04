@@ -50,8 +50,6 @@ const MapScreen = ({ navigation }) => {
       clearTimeout(regionTimeout);
 
       const regionTimeout = setTimeout(() => {
-        console.log({index})
-        console.log({mapIndex})
         if(mapIndex !== index){
           mapIndex = index
           const {coordinate} = markers[index]
@@ -224,8 +222,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flexDirection:"row",
     backgroundColor: '#fff',
-    width: '82%',
-    alignSelf:'flex-start',
+    width: '90%',
+    alignSelf:'center',
     borderRadius: 5,
     padding: 10,
     shadowColor: '#ccc',
@@ -237,8 +235,8 @@ const styles = StyleSheet.create({
   },
   chipsScrollView: {
     position:'absolute', 
-    top:Platform.OS === 'ios' ? 90 : 60, 
-    paddingHorizontal: 5
+    top:Platform.OS === 'ios' ? 90 : 80, 
+    paddingHorizontal:10
   },
   chipsIcon: {
     marginRight: 3,

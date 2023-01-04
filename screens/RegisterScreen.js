@@ -77,9 +77,10 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flex: 1,
         width: '60%',
+        maxHeight: 70,
         justifyContent: 'center',
         alignContent: 'center',
-        marginTop: 40,
+        marginBottom: 60,
         height: 70
     },
     button: {
@@ -114,10 +115,11 @@ const styles = StyleSheet.create({
     },
 
     titleImage: {
-        width: 200,
+        width: 180,
         resizeMode: 'cover',
         height: 100,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        borderRadius: 12
     }
     
 })

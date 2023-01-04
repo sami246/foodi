@@ -75,7 +75,7 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
             }
           </View>
           <View style={{flexDirection: 'row', marginBottom: spacing.s, justifyContent: 'space-around'}}>
-              <Tags tags={item.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={true} filterTags={filterTags}/>
+              <Tags tags={item.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={true} filterTags={filterTags} tagIconColor={colors.white}/>
           </View>
         {/* <FavoriteButton /> */}
       </View>

@@ -198,7 +198,7 @@ const DishDetailsScreen = ({ route }) => {
                           <View style={{alignItems: 'center', width: 120, height: 50, textAlignVertical: 'center'}}>
                             <AppButton backgroundColor={colors.gray} color={colors.white} title={'ADD TAGS'} height={100} width={120}
                             icon={<FontAwesome name='plus' size={21} color='white' />}
-                            onPress={() => {alert("DELETE")}}
+                            onPress={() => {handleEditPress()}}
                             fontSize={13}
                             />
                           </View>
