@@ -5,12 +5,14 @@ import {colors, shadow, sizes, spacing} from '../constants/theme';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { useContext } from 'react';
 import { DataContext } from '../contexts/DataContext';
+import uuid from "uuid";
 
 const CARD_WIDTH = sizes.width - 40
 const CARD_HEIGHT = 100
 
 export default function RandomPlace() {
     const item =  {
+        id: 1212331,
         address: "9 Davenant St, London E1 5NB, UK",
         lat: 51.5184071,
         lng: -0.0656871,
@@ -24,7 +26,7 @@ export default function RandomPlace() {
     const handlePriceLevel = (level) => {
         const rows = [];
         for(let index = 0; index < level; index++) {
-              rows.push(<FontAwesome5 style={{marginHorizontal: 2}} name='pound-sign' size={13} color={colors.green} />)  
+              rows.push(<FontAwesome5 key={uuid.v4()} style={{marginHorizontal: 2}} name='pound-sign' size={13} color={colors.green} />)  
         }
         return rows
     }

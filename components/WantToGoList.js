@@ -6,8 +6,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import uuid from "uuid";
 
 // import FavoriteButton from './FavoriteButton';
-import { useContext } from 'react';
-import { DataContext } from '../contexts/DataContext';
 
 const CARD_WIDTH = sizes.width / 2.5;
 const CARD_HEIGHT = 80;
@@ -17,13 +15,12 @@ const WantToGoList = ({list}) => {
 
   // Test Empty List
   // list = [list[0], list[1], list[2]]
-  const {handlePlaceholder} = useContext(DataContext);
   const navigation = useNavigation();
 
   const handlePriceLevel = (level) => {
     const rows = [];
     for(let index = 0; index < level; index++) {
-          rows.push(<FontAwesome5 style={{marginHorizontal: 1}} name='pound-sign' size={13} color={colors.green} />)  
+          rows.push(<FontAwesome5 key={uuid.v4()} style={{marginHorizontal: 1}} name='pound-sign' size={13} color={colors.green} />)  
     }
     return rows
   }

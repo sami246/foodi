@@ -97,6 +97,12 @@ export const TOP_PLACES = [
     { label: 'Vegetarian', value: 'Vegetarian', icon: <FontAwesome color="black" name="envira" size={17} />, type: FontAwesome, name: 'envira', size:17 },
   ];
 
+  export const CategoriesData = [
+    { label: 'Want to Go', value: 'Want to Go', icon: <MaterialCommunityIcons color="black" name="food-hot-dog" size={17} />, type: MaterialCommunityIcons, name: 'food-hot-dog', size:17 },
+    { label: 'Already Been', value: 'Already Been', icon: <MaterialCommunityIcons color="black" name="food-variant" size={17} />, type: MaterialCommunityIcons, name: 'food-variant', size:17 },
+    { label: 'Favourite', value: 'Favourite', icon: <MaterialCommunityIcons color="black" name="food-croissant" size={17} />, type: MaterialCommunityIcons, name: 'food-croissant', size:17 },
+  ];
+
   const Images = [
     { image: require("../assets/place-holders/image-placeholder-blue.png") },
     { image: require("../assets/place-holders/image-placeholder-gold.png") },
@@ -119,6 +125,7 @@ export const markers = [
       image: Images[0].image,
       rating: 4.1,
       priceLevel: null,
+      beenToCategory: "Want to Go"
     },
     {
       id: 'ChIJBS8tKT8bdkgRlUzYr3nKauU',
@@ -134,6 +141,7 @@ export const markers = [
       image: Images[1].image,
       rating: 4.6,
       priceLevel: 1,
+      beenToCategory: "Already Been"
     },
     {
       id: 'ChIJiZRSWuQadkgRtNhKUxpQV5s',
@@ -149,6 +157,7 @@ export const markers = [
       image: Images[2].image,
       rating: 4.3,
       priceLevel: null,
+      beenToCategory: "Favourite"
     },
     {
       id: 'ChIJw9BFM8gbdkgRYIc2RQikaMs',
@@ -164,6 +173,7 @@ export const markers = [
       image: Images[3].image,
       rating: 1,
       priceLevel: 1,
+      beenToCategory: "Want to Go"
     },
     {
       id: 'ChIJB2ELl8scdkgR3x_68FAD5VE',
@@ -179,6 +189,7 @@ export const markers = [
       image: Images[3].image,
       rating: 4.3,
       priceLevel: 2,
+      beenToCategory: "Already Been"
     },
     {
       id: 'ChIJFXPozbkFdkgRDXyH1C-H_gM',
@@ -194,6 +205,7 @@ export const markers = [
       image: Images[3].image,
       rating: 4.3,
       priceLevel: null,
+      beenToCategory: "Already Been"
     },
 ];
 

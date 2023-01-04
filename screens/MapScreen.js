@@ -14,7 +14,7 @@ import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps'; /
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import { markers, TagsData } from '../data';
+import { CategoriesData, markers, TagsData } from '../data';
 
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = sizes.width * 0.8;
@@ -100,7 +100,7 @@ const MapScreen = ({ navigation }) => {
       x = x - SPACING_FOR_CARD_INSET;
     }
     
-    _scrollView.current.scrollTo({x: x, y: 0, animated: true});
+    // _scrollView.current.scrollTo({x: x, y: 0, animated: true});
   }
   
 
@@ -118,7 +118,18 @@ const _scrollView = useRef(null);
       userInterfaceStyle='dark'
       showsUserLocation={true}
     >
-      {markers.map((marker, index) => (
+      {markers.map((marker, index) => {
+        let mapIconColor = colors.darkBlue
+        if (marker.beenToCategory == "Already Been"){
+          mapIconColor = colors.darkBlue
+        }
+        else if (marker.beenToCategory === "Want to Go"){
+          mapIconColor = colors.darkGreen
+        }
+        else if (marker.beenToCategory === "Favourite"){
+          mapIconColor = colors.yellow
+        }
+        return (
               <Marker
               key={markerFocused.id === marker.id ? "," + index : index}
               coordinate={marker.coordinate}
@@ -128,7 +139,7 @@ const _scrollView = useRef(null);
               style={styles.marker}
               focusable={true}
               // image={require('../assets/foodIcons/dish-pin-icon.png')}
-              pinColor={markerFocused.id === marker.id ? colors.orange : colors.blue}
+              pinColor={markerFocused.id === marker.id ? colors.orange : mapIconColor}
               >
                       
                   <Callout 
@@ -148,7 +159,7 @@ const _scrollView = useRef(null);
                     </View>
                   </Callout>
               </Marker>
-      ))}
+      )})}
 
     </MapView>
     {/* Search Bar */}
@@ -156,18 +167,35 @@ const _scrollView = useRef(null);
       <TextInput placeholder='Search Here' placeholderTextColor={'black'} autoCapitalize="none" style={{flex:1, padding:0}} />
       <Ionicons name='ios-search' size={20}/>
     </View> */}
+    {/* Chip Categories */}
+    <ScrollView horizontal scrollEventThrottle={1} showsHorizontalScrollIndicator={false} height={50} 
+    style={styles.chipsCatScrollView} contentContainerStyle={{paddingRight: spacing.m, paddingLeft: spacing.s}}>
+
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.darkGreen}]} key={"Want to Go"}>
+            <Text style={{textAlignVertical: 'top', fontSize: 15}}>Want to Go</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.darkBlue}]} key={"Already Been"}>
+            <Text style={{textAlignVertical: 'top', fontSize: 15}}>Already Been</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.yellow}]} key={"Favourite"}>
+            <Text style={{textAlignVertical: 'top', fontSize: 15}}>Favourite</Text>
+          </TouchableOpacity>
+
+    </ScrollView>
     {/* Chip Tags */}
     <ScrollView horizontal scrollEventThrottle={1} showsHorizontalScrollIndicator={false} height={50} 
-    style={styles.chipsScrollView} contentContainerStyle={{paddingRight: spacing.m, paddingLeft: spacing.s}}>
+    style={styles.chipsTagsScrollView} contentContainerStyle={{paddingRight: spacing.m, paddingLeft: spacing.s}}>
         {TagsData.map((item, index) => (
-          <TouchableOpacity style={styles.chipsItem} key={index}>
+          <TouchableOpacity style={styles.chipsTagItem} key={index}>
             <View style={styles.chipsIcon}>{item.icon}</View>
-            <Text style={{textAlignVertical: 'top'}}> {item.label}</Text>
+            <Text style={{textAlignVertical: 'top', fontSize: 13}}> {item.label}</Text>
           </TouchableOpacity>
         ))}
     </ScrollView>
     {/* Card Items */}
-    <Animated.ScrollView 
+    {/* <Animated.ScrollView 
       horizontal scrollEventThrottle={1} showsHorizontalScrollIndicator={false} style={styles.scrollView} ref={_scrollView}
       pagingEnabled snapToInterval={CARD_WIDTH + 20} snapToAlignment='center'  onMomentumScrollEnd={Animated.event(
         [
@@ -192,7 +220,6 @@ const _scrollView = useRef(null);
               <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>{marker.name}</Text>
                   <Rating rating={marker.rating * 2} showText={true} fontColor={colors.gold} iconColor={colors.gold}/>
-                  {/* <Text numberOfLines={1} style={styles.cardDescription}>{marker.website}</Text> */}
                   <View style={styles.button}>
                       <TouchableOpacity onPress={() => {}} style={[styles.signIn, {borderColor: '#FF6247', borderWidth: 1}]}>
                         <Text style={[styles.textSign, {color: '#FF6347'}]}>ORDER NOW </Text>
@@ -202,7 +229,7 @@ const _scrollView = useRef(null);
               </View>
             </View>
         ))}
-    </Animated.ScrollView>
+    </Animated.ScrollView> */}
   </View>
   )
 }
@@ -233,22 +260,26 @@ const styles = StyleSheet.create({
     elevation: 10,
     alignItems: 'center',
   },
-  chipsScrollView: {
+  chipsTagsScrollView: {
     position:'absolute', 
-    top:Platform.OS === 'ios' ? 90 : 80, 
+    top:Platform.OS === 'ios' ? 90 : 60, 
     paddingHorizontal:10
+  },
+  chipsCatScrollView: {
+    position:'absolute', 
+    top:Platform.OS === 'ios' ? 90 : 15, 
+    paddingHorizontal:10,
   },
   chipsIcon: {
     marginRight: 3,
   },
-  chipsItem: {
+  chipsTagItem: {
     flexDirection:"row",
     backgroundColor:'#fff', 
     borderRadius:20,
-    padding:8,
-    paddingHorizontal:15, 
+    paddingHorizontal: 9, 
     marginRight: spacing.s,
-    height:35,
+    height: 35,
     shadowColor: '#ccc',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
@@ -256,7 +287,27 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderColor: colors.blue,
     borderWidth: 1.5,
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
+    paddingVertical: 2,
+    alignItems: 'center'
+  },
+  chipsCatItem: {
+    flexDirection:"row",
+    backgroundColor:'#fff', 
+    borderRadius:20,
+    paddingHorizontal: 10, 
+    marginRight: spacing.xs,
+    height: 35,
+    shadowColor: '#ccc',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+    borderColor: colors.green,
+    borderWidth: 2,
+    textAlignVertical: 'center',
+    paddingVertical: 2,
+    alignItems: 'center'
   },
   scrollView: {
     position: "absolute",

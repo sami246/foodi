@@ -134,9 +134,10 @@ export const DataProvider = ({children}) => {
             }
           },
           fetchRestaurantData: async (id) => {
+            // TODO change to get more info, not just set GooglePlace
             try {
               if(id){
-                const docRef  = doc(firestoreDB, "restaurants", id);
+                const docRef  = doc(firestoreDB, "users", user.uid, "restaurants", id);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
@@ -212,7 +213,7 @@ export const DataProvider = ({children}) => {
           },
           fetchRestaurantDataByRecent: async () => {
             try {
-              const q = query(collection(firestoreDB, "restaurants"), limit(5))
+              const q = query(collection(firestoreDB, "users", user.uid, "restaurants"), limit(5))
               const unsubscribe = onSnapshot(q, (querySnapshot) => {
                   var dishesDataTemp = []
                   querySnapshot.forEach((doc) => {

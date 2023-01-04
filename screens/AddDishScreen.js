@@ -227,8 +227,10 @@ const AddDishScreen = ({ navigation, route }) => {
             name: restaurant,
             address: restaurantAdditonal.address ? restaurantAdditonal.address : null,
             url: restaurantAdditonal.url ? restaurantAdditonal.url : null,
-            lat: restaurantAdditonal.lat ? restaurantAdditonal.lat : null,
-            lng: restaurantAdditonal.lng ? restaurantAdditonal.lng : null,
+            coordinate: {
+              latitude: restaurantAdditonal.lat ? restaurantAdditonal.lat : null,
+              longitude: restaurantAdditonal.lng ? restaurantAdditonal.lng : null,
+            },
             priceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
             website: restaurantAdditonal.website ? restaurantAdditonal.website : null,
             rating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,

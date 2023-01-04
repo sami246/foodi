@@ -13,13 +13,14 @@ export const colors = {
   black: '#000',
   blue: '#11A8E4',
   darkBlue: '#0e75c9',
-  yellow: '#F8E639',
+  yellow: '#edca1c',
   gold: '#F5C229',
   red: '#CA2C1E',
   brown: '#AE7218',
   lightOrange: '#E9974A',
   orange: '#EE8A2C',
-  green: '#03C03C'
+  green: '#03C03C',
+  darkGreen: '#0b9c37'
 };
 
 export const shadow = {
