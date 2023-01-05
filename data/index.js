@@ -97,12 +97,6 @@ export const TOP_PLACES = [
     { label: 'Vegetarian', value: 'Vegetarian', icon: <FontAwesome color="black" name="envira" size={17} />, type: FontAwesome, name: 'envira', size:17 },
   ];
 
-  export const CategoriesData = [
-    { label: 'Want to Go', value: 'Want to Go', icon: <MaterialCommunityIcons color="black" name="food-hot-dog" size={17} />, type: MaterialCommunityIcons, name: 'food-hot-dog', size:17 },
-    { label: 'Already Been', value: 'Already Been', icon: <MaterialCommunityIcons color="black" name="food-variant" size={17} />, type: MaterialCommunityIcons, name: 'food-variant', size:17 },
-    { label: 'Favourite', value: 'Favourite', icon: <MaterialCommunityIcons color="black" name="food-croissant" size={17} />, type: MaterialCommunityIcons, name: 'food-croissant', size:17 },
-  ];
-
   const Images = [
     { image: require("../assets/place-holders/image-placeholder-blue.png") },
     { image: require("../assets/place-holders/image-placeholder-gold.png") },

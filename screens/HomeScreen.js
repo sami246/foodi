@@ -87,6 +87,7 @@ const HomeScreen = ({ navigation }) => {
               <SectionHeader
                 title="Recently Wanted to Go"
                 buttonTitle="See All"
+                // TODO Change NAv to want to go list
                 onPress={() => {navigation.navigate('Dishes', {sentFilter: {name: 'date', direction: 'desc'}})}}
               />
               {restaurantDataByRecent != false ?

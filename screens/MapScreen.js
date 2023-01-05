@@ -1,20 +1,17 @@
-import { StyleSheet, View, Text, Image, PermissionsAndroid, Alert, Button, Location, TextInput, ScrollView, TouchableOpacity, Animated } from 'react-native'
-import React, { useCallback, useEffect, useRef } from 'react';
+import { StyleSheet, View, Text, Image, PermissionsAndroid, Alert, Button, TextInput, ScrollView, TouchableOpacity, Animated } from 'react-native'
+import React, {  useEffect, useRef } from 'react';
 import { colors, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/theme'
 import { auth } from '../firebase';
 import { useState } from 'react';
-import NavBar from '../components/NavBar';
 import Rating from '../components/Rating';
-import { Gooogle_API_Key } from '../config';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import { collection, query, where, onSnapshot, orderBy, limit, getDoc, doc,  } from "firebase/firestore";
-import { firestoreDB } from '../firebase';
-import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import { CategoriesData, markers, TagsData } from '../data';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+
+
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { markers, TagsData } from '../data';
 
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = sizes.width * 0.8;
@@ -22,9 +19,11 @@ const SPACING_FOR_CARD_INSET = (sizes.width * 0.1) - 10;
 
 
 const MapScreen = ({ navigation }) => {
-  const [user, setUser] = useState(auth.currentUser)
-  const [data, setData] = useState(null)
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [mapRegion, setMapRegion] = useState(null);
   const [markerFocused, setMarkerFocused] = useState(0);
+  const [filterCategory, setFilterCategory] = useState(null);
 
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
@@ -35,6 +34,24 @@ const MapScreen = ({ navigation }) => {
           longitudeDelta: 0.150,
         }
 
+        // useEffect(() => {
+        //   (async () => {
+        //     let { status } = await Location.requestPermissionsAsync();
+        //     if (status !== "granted") {
+        //       setErrorMsg("Permission to access location was denied");
+        //     }
+      
+        //     let location = await Location.getCurrentPositionAsync({});
+        //     setLocation(location);
+      
+        //     setMapRegion({
+        //       longitude: location.coords.longitude,
+        //       latitude: location.coords.latitude,
+        //       longitudeDelta: 0.0922,
+        //       latitudeDelta: 0.0421
+        //     });
+        //   })();
+        // }, []);
 
   useEffect(() => {
     mapAnimation.addListener(({value}) => {
@@ -86,6 +103,7 @@ const MapScreen = ({ navigation }) => {
   // }, [markers]);
 
   const onMarkerPress = (marker, index) => {
+    console.log(marker)
     setMarkerFocused(marker)
     _map.current.animateToRegion(
       {
@@ -95,12 +113,6 @@ const MapScreen = ({ navigation }) => {
       },
       350 //millisecond time
     )
-    let x = (index * CARD_WIDTH) + (index * 20); 
-    if (Platform.OS === 'ios') {
-      x = x - SPACING_FOR_CARD_INSET;
-    }
-    
-    // _scrollView.current.scrollTo({x: x, y: 0, animated: true});
   }
   
 
@@ -118,48 +130,40 @@ const _scrollView = useRef(null);
       userInterfaceStyle='dark'
       showsUserLocation={true}
     >
-      {markers.map((marker, index) => {
-        let mapIconColor = colors.darkBlue
-        if (marker.category == 2){
+      {markers.map((item, index) => {
+        let mapIconColor = colors.blue
+        if (item.category == 2){
           mapIconColor = colors.darkBlue
         }
-        else if (marker.category === 1){
+        else if (item.category === 1){
           mapIconColor = colors.darkGreen
         }
-        else if (marker.category === 3){
-          mapIconColor = colors.yellow
+        else if (item.category === 3){
+          mapIconColor = colors.gold
         }
         return (
-              <Marker
-              key={markerFocused.id === marker.id ? "," + index : index}
-              coordinate={marker.coordinate}
-              title={marker.name}
-              description={marker.address}
-              onPress={() => {onMarkerPress(marker, index)}}
-              style={styles.marker}
-              focusable={true}
-              // image={require('../assets/foodIcons/dish-pin-icon.png')}
-              pinColor={markerFocused.id === marker.id ? colors.orange : mapIconColor}
-              >
-                      
-                  <Callout 
-                  tooltip
-                  style={styles.plainView}>
-                    <View>
-                      <View style={styles.bubble}>
-                        <Text style={styles.name}>{marker.name}</Text>
-                        <Text>{marker.address}</Text>
-                        <Image 
-                          style= {styles.image}
-                          source = {marker.image}
-                        />
-                        <View style={styles.arrowBorder} />
-                        <View style={styles.arrow} />
-                      </View>
-                    </View>
-                  </Callout>
-              </Marker>
-      )})}
+          <Marker
+          key={item.id}
+          onPress={() => {onMarkerPress(item, index)}}
+          coordinate={{
+            longitude: item.coordinate.longitude,
+            latitude: item.coordinate.latitude
+          }}
+          title={item.name}
+          description={item.address}
+          >
+            <View style={styles.circle}>
+              
+              <View style={[styles.core, {backgroundColor: mapIconColor}]} >
+              {item.category == 1 && <AntDesign name='pushpin' size={11} color={colors.white} style={{alignSelf: 'center'}}/>}
+              {item.category == 2 && <MaterialIcons name='done-outline' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
+              {item.category == 3 && <FontAwesome name='star' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
+              </View>
+              <View style={styles.stroke} />
+            </View>
+          </Marker>
+        )    
+      })}
 
     </MapView>
     {/* Search Bar */}
@@ -169,24 +173,60 @@ const _scrollView = useRef(null);
     </View> */}
     {/* Chip Categories */}
     <ScrollView horizontal scrollEventThrottle={1} showsHorizontalScrollIndicator={false} height={50} 
-    style={styles.chipsCatScrollView} contentContainerStyle={{paddingRight: spacing.m, paddingLeft: spacing.s}}>
-
-          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.darkGreen}]} key={"Want to Go"}>
-            <Text style={{textAlignVertical: 'top', fontSize: 15}}>Want to Go</Text>
+    style={styles.chipsCatScrollView} contentContainerStyle={{paddingRight: spacing.m}}>
+          {filterCategory === 1
+          ?
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.white, backgroundColor: colors.darkGreen}]} key={"Want to Go"}
+          onPress={() => {setFilterCategory(null)}}
+          >
+          <AntDesign name='pushpin' size={11} color={colors.white} style={{alignSelf: 'center'}}/>
+          <Text style={{textAlignVertical: 'top', fontSize: 13, color: colors.white, fontWeight: 'bold'}}> Want to Go</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.darkBlue}]} key={"Already Been"}>
-            <Text style={{textAlignVertical: 'top', fontSize: 15}}>Already Been</Text>
+          :
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.darkGreen}]} key={"Want to Go"}
+          onPress={() => {setFilterCategory(1)}}
+          >
+          <AntDesign name='pushpin' size={11} color={colors.darkGreen} style={{alignSelf: 'center'}}/>
+          <Text style={{textAlignVertical: 'top', fontSize: 13}}> Want to Go</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.yellow}]} key={"Favourite"}>
-            <Text style={{textAlignVertical: 'top', fontSize: 15}}>Favourite</Text>
+          }
+          {filterCategory === 2
+          ?
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.white, backgroundColor: colors.darkBlue,}]} key={"Already Been"}
+          onPress={() => {setFilterCategory(null)}}
+          >
+            <MaterialIcons name='bookmark' size={12} color={colors.white} style={{alignSelf: 'center'}}/>
+            <Text style={{textAlignVertical: 'top', fontSize: 13, color: colors.white, fontWeight: 'bold'}}> Already Been</Text>
           </TouchableOpacity>
+          :
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.darkBlue}]} key={"Already Been"}
+          onPress={() => {setFilterCategory(2)}}
+          >
+            <MaterialIcons name='bookmark' size={12} color={colors.darkBlue} style={{alignSelf: 'center'}}/>
+            <Text style={{textAlignVertical: 'top', fontSize: 13}}> Already Been</Text>
+           </TouchableOpacity>
+          }
+          {filterCategory === 3
+          ?
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.white, backgroundColor: colors.gold}]} key={"Favourite"}
+          onPress={() => {setFilterCategory(null)}}
+          >
+            <FontAwesome name='star' size={12} color={colors.white} style={{alignSelf: 'center'}}/>
+            <Text style={{textAlignVertical: 'top', fontSize: 13, color: colors.white, fontWeight: 'bold'}}> Favourite</Text>
+           </TouchableOpacity>
+          :
+          <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.gold}]} key={"Favourite"}
+          onPress={() => {setFilterCategory(3)}}
+          >
+            <FontAwesome name='star' size={12} color={colors.gold} style={{alignSelf: 'center'}}/>
+            <Text style={{textAlignVertical: 'top', fontSize: 13}}> Favourite</Text>
+          </TouchableOpacity>
+          }
 
     </ScrollView>
     {/* Chip Tags */}
     <ScrollView horizontal scrollEventThrottle={1} showsHorizontalScrollIndicator={false} height={50} 
-    style={styles.chipsTagsScrollView} contentContainerStyle={{paddingRight: spacing.m, paddingLeft: spacing.s}}>
+    style={styles.chipsTagsScrollView} contentContainerStyle={{paddingRight: spacing.m}}>
         {TagsData.map((item, index) => (
           <TouchableOpacity style={styles.chipsTagItem} key={index}>
             <View style={styles.chipsIcon}>{item.icon}</View>
@@ -275,7 +315,7 @@ const styles = StyleSheet.create({
   },
   chipsTagItem: {
     flexDirection:"row",
-    backgroundColor:'#fff', 
+    backgroundColor:colors.white,  
     borderRadius:20,
     paddingHorizontal: 9, 
     marginRight: spacing.s,
@@ -293,7 +333,7 @@ const styles = StyleSheet.create({
   },
   chipsCatItem: {
     flexDirection:"row",
-    backgroundColor:'#fff', 
+    backgroundColor: colors.white, 
     borderRadius:20,
     paddingHorizontal: 10, 
     marginRight: spacing.xs,
@@ -378,6 +418,32 @@ const styles = StyleSheet.create({
   textSign: {
       fontSize: 14,
       fontWeight: 'bold'
-  }
+  },
+circle: {
+  width: 22,
+  height: 22,
+  borderRadius: 50
+},
+stroke: {
+  backgroundColor: "#ffffff",
+  borderRadius: 50,
+  width: "100%",
+  height: "100%",
+  zIndex: 1
+},
+core: {
+  backgroundColor: colors.blue,
+  width: 20,
+  height: 20,
+  position: "absolute",
+  top: 1,
+  left: 1,
+  right: 1,
+  bottom: 1,
+  borderRadius: 50,
+  zIndex: 2,
+  justifyContent: 'center'
+}
+
 
 })
