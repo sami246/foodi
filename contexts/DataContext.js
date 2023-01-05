@@ -263,8 +263,8 @@ export const DataProvider = ({children}) => {
             }
           },
           firebaseTimetoString: (time) => {
-            var time2 = time.toDate()
-            return `${time2.getDate()}/${time2.getMonth()}/${time2.getFullYear()}`
+            let time2 = time.toDate()
+            return `${time2.getDate().toString().padStart(2,0)}/${(Number(time2.getMonth()) + 1).toString().padStart(2,0)}/${time2.getFullYear()}`
           },
 
       }}>

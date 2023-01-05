@@ -20,7 +20,7 @@ import { isEmpty } from '@firebase/util';
 const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
     const navigation = useNavigation();
-    const {fetchRestaurantData, handlePlaceholder, fetchDishesData} = useContext(DataContext);
+    const {fetchRestaurantData, handlePlaceholder, fetchDishesData, firebaseTimetoString} = useContext(DataContext);
     
     if(isEmpty(dish.tags)){
       dish.tags = null;
@@ -201,7 +201,7 @@ const DishDetailsScreen = ({ route }) => {
                     </View>
                       {dish.updatedTime && 
                       <Text style={{position:'relative', bottom: 2, fontSize: 9, fontWeight: '300', color: colors.darkGray, textAlign: 'center'}}>
-                        Last Updated: {dish.updatedTime.toDate().getDate() + "/" +  dish.updatedTime.toDate().getMonth() + "/" + dish.updatedTime.toDate().getFullYear()}
+                        Last Updated: {firebaseTimetoString(dish.updatedTime)}
                       </Text>
                       }
                       

@@ -152,9 +152,11 @@ const _scrollView = useRef(null);
       ref={_map}
       style={styles.map}
       region={region}
-      customMapStyle={[]}
       userInterfaceStyle='dark'
       showsUserLocation={true}
+      followsUserLocation={true}
+      showsPointsOfInterest={false}
+      showsBuildings={false}
     >
       {mapData.map((item, index) => {
         let mapIconColor = colors.brown

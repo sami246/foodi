@@ -70,9 +70,9 @@ const AddDishScreen = ({ navigation, route }) => {
       const currentDate = selectedDate || date;
       setDate(currentDate);
       var dateT =
-        currentDate.getDate() +
+        currentDate.getDate().toString().padStart(2,0) +
         "/" +
-        currentDate.getMonth() + 1 +
+        (Number(currentDate.getMonth()) + 1).toString().padStart(2,0) +
         "/" +
         currentDate.getFullYear();
       console.log("T", dateT);
