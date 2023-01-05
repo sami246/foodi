@@ -125,7 +125,7 @@ export const markers = [
       image: Images[0].image,
       rating: 4.1,
       priceLevel: null,
-      beenToCategory: "Want to Go"
+      category: 1
     },
     {
       id: 'ChIJBS8tKT8bdkgRlUzYr3nKauU',
@@ -141,7 +141,7 @@ export const markers = [
       image: Images[1].image,
       rating: 4.6,
       priceLevel: 1,
-      beenToCategory: "Already Been"
+      category: 2
     },
     {
       id: 'ChIJiZRSWuQadkgRtNhKUxpQV5s',
@@ -157,7 +157,7 @@ export const markers = [
       image: Images[2].image,
       rating: 4.3,
       priceLevel: null,
-      beenToCategory: "Favourite"
+      category: 3
     },
     {
       id: 'ChIJw9BFM8gbdkgRYIc2RQikaMs',
@@ -173,7 +173,7 @@ export const markers = [
       image: Images[3].image,
       rating: 1,
       priceLevel: 1,
-      beenToCategory: "Want to Go"
+      category: 1
     },
     {
       id: 'ChIJB2ELl8scdkgR3x_68FAD5VE',
@@ -189,7 +189,7 @@ export const markers = [
       image: Images[3].image,
       rating: 4.3,
       priceLevel: 2,
-      beenToCategory: "Already Been"
+      category: 2
     },
     {
       id: 'ChIJFXPozbkFdkgRDXyH1C-H_gM',
@@ -205,7 +205,7 @@ export const markers = [
       image: Images[3].image,
       rating: 4.3,
       priceLevel: null,
-      beenToCategory: "Already Been"
+      category: 3
     },
 ];
 

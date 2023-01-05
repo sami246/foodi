@@ -120,13 +120,13 @@ const _scrollView = useRef(null);
     >
       {markers.map((marker, index) => {
         let mapIconColor = colors.darkBlue
-        if (marker.beenToCategory == "Already Been"){
+        if (marker.category == 2){
           mapIconColor = colors.darkBlue
         }
-        else if (marker.beenToCategory === "Want to Go"){
+        else if (marker.category === 1){
           mapIconColor = colors.darkGreen
         }
-        else if (marker.beenToCategory === "Favourite"){
+        else if (marker.category === 3){
           mapIconColor = colors.yellow
         }
         return (

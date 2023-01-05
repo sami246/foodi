@@ -45,7 +45,7 @@ const WantToGoList = ({list}) => {
                     }
                     {item.rating && 
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <FontAwesome5 name='star' size={13} color={colors.gold} />
+                    <FontAwesome5 name='star' size={14} color={colors.gold} />
                     <Text style={[styles.additionalText, {color: colors.gold}]}> {item.rating}</Text>
                     </View>
                     }
@@ -83,7 +83,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
     borderWidth: 1.5,
-    borderColor: colors.lightGray
+    borderColor: colors.lightGray,
+    elevation: 3,
+    shadowColor: '#52006A',
 
     // marginHorizontal: 7
     
@@ -91,7 +93,8 @@ const styles = StyleSheet.create({
   titleBox: {
     alignItems: 'flex-start',
     marginHorizontal: 10,
-    marginTop: 10
+    marginTop: 10,
+    width: '90%'
   },
   title: {
     marginBottom: 2,

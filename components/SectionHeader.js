@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: spacing.l,
     marginRight: spacing.m,
-    marginTop: spacing.m,
+    marginTop: spacing.s,
     marginBottom: 10,
   },
   title: {

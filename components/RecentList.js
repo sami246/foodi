@@ -76,16 +76,19 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: spacing.xs
+    marginTop: spacing.xs,
+    marginBottom: spacing.xs,
   },
   cardContainer: {
-    // marginBottom: 15,
+    marginBottom: 5,
   },
   card: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
+    elevation: 3,
+    shadowColor: '#52006A',
     // marginHorizontal: 7
     
   },

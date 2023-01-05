@@ -213,7 +213,7 @@ export const DataProvider = ({children}) => {
           },
           fetchRestaurantDataByRecent: async () => {
             try {
-              const q = query(collection(firestoreDB, "users", user.uid, "restaurants"), limit(5))
+              const q = query(collection(firestoreDB, "users", user.uid, "restaurants"),  where("category", "==", 1), orderBy("updatedDate", "desc"), limit(5))
               const unsubscribe = onSnapshot(q, (querySnapshot) => {
                   var dishesDataTemp = []
                   querySnapshot.forEach((doc) => {

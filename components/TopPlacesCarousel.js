@@ -41,10 +41,10 @@ const TopPlacesCarousel = ({list}) => {
           return (
             <TouchableOpacity
               onPress={() => {navigation.navigate('Post Detail', {dish: item})}}
-              style={{
+              style={[styles.cardContainer, {
                 marginLeft: index === 0 ? spacing.l : 0,
                 marginRight: spacing.l,
-              }}>
+              }]}>
               <View style={[styles.card, shadow.dark]}>
                 <View style={styles.imageBox}>
                   <Image source={item.image ? {uri: item.image} : handlePlaceholder(item.imagePlaceholder)} style={[styles.image, {}]} />
@@ -83,12 +83,15 @@ const TopPlacesCarousel = ({list}) => {
 };
 
 const styles = StyleSheet.create({
+  cardContainer: {
+    marginBottom: 5,
+    elevation: 3,
+    shadowColor: '#52006A',
+  },
   card: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
     marginTop: 10,
-    elevation: 10,
-    shadowColor: '#52006A',
   },
   favorite: {
     position: 'absolute',

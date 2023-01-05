@@ -68,9 +68,11 @@ const styles = StyleSheet.create({
         height: CARD_HEIGHT,
         backgroundColor: colors.white,
         borderRadius: sizes.radius,
-        borderWidth: 2,
-        borderColor: colors.lightOrange
-    
+        elevation: 3,
+        shadowColor: '#52006A',
+        // borderWidth: 2,
+        // borderColor: colors.lightOrange
+        
         // marginHorizontal: 7
         
       },
