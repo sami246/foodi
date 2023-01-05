@@ -63,7 +63,7 @@ export default class ImageUpload extends React.Component {
         shadowOpacity: 0.2,
         shadowOffset: { width: 4, height: 4 },
         shadowRadius: 5,
-        marginBottom: 5,
+        marginVertical: 5,
         }}>
         <View style={{ }}>
             

@@ -65,17 +65,23 @@ const AddDishScreen = ({ navigation, route }) => {
   // ---------------
 
   const onChangeDate = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
-    setDate(currentDate);
-    var dateT =
-      currentDate.getDate() +
-      "/" +
-      currentDate.getMonth() +
-      "/" +
-      currentDate.getFullYear();
-    console.log("T", dateT);
-    setDateText(dateT);
+    if(event.type === "set"){
+      const currentDate = selectedDate || date;
+      setDate(currentDate);
+      var dateT =
+        currentDate.getDate() +
+        "/" +
+        currentDate.getMonth() + 1 +
+        "/" +
+        currentDate.getFullYear();
+      console.log("T", dateT);
+      setDateText(dateT);
+    }
+    else if(event.type === "dismissed"){
+      setDateText(null)
+      setDate(new Date())
+    }
   };
 
   useEffect(() => {
@@ -108,8 +114,8 @@ const AddDishScreen = ({ navigation, route }) => {
     setRating(null);
     setComment(null);
     setWouldHaveAgain(false);
-    setDate(null);
-    setDateText("");
+    setDate(new Date());
+    setDateText(null);
     setTags(null);
     if(route.params){
       navigation.navigate('Dishes');
@@ -192,7 +198,7 @@ const AddDishScreen = ({ navigation, route }) => {
             image: uploadUrl || image,
             imagePlaceholder: imagePlaceholder ? imagePlaceholder : randomPlaceholder(),
             updatedTime: new Date(),
-            date: date,
+            date: dateText != null ? date : null,
             dateText: dateText,
             price: Number(price).toFixed(2),
             tags: tags,
@@ -213,7 +219,7 @@ const AddDishScreen = ({ navigation, route }) => {
             imagePlaceholder: randomPlaceholder(),
             updatedTime: new Date(),
             dateCreated: new Date(),
-            date: date,
+            date: dateText != null ? date : null,
             dateText: dateText,
             price: Number(price).toFixed(2),
             tags: tags,
@@ -291,8 +297,10 @@ const AddDishScreen = ({ navigation, route }) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}
         >
+          
           <View style={styles.inputContainer}>
             {/* Image */}
+            {/* <Text style={styles.label}>Image:</Text> */}
             <ImageUpload
               image={image}
               setImage={setImage}
@@ -301,6 +309,7 @@ const AddDishScreen = ({ navigation, route }) => {
               color={handleRatingColour()}
             />
             {/* Restaurant */}
+            <Text style={styles.label}>Restaurant:</Text>
             <View style={{width: "100%", flexDirection: 'row', justifyContent: 'center'}}>
               <Text 
               numberOfLines={1}
@@ -311,13 +320,15 @@ const AddDishScreen = ({ navigation, route }) => {
             </View>
 
             {/* Dish Name */}
+            <Text style={styles.label}>Dish Name:</Text>
             <TextInput
-              placeholder="Dish Name"
+              placeholder="Chicken Burger"
               value={dishName}
               style={[styles.input, styles.inputShadow]}
               onChangeText={(text) => setDishName(text)}
             />
             {/* Rating */}
+            <Text style={styles.label}>Rating:</Text>
             <View
               style={[
                 {
@@ -357,13 +368,14 @@ const AddDishScreen = ({ navigation, route }) => {
               />
             </View>
             {/* Comments */}
+            <Text style={styles.label}>Comments:</Text>
             <TextInput
-              placeholder="Comments"
+              placeholder="E.g. Loved it! Only thing I would change is the pickles for next time"
               value={comment}
               style={[
                 styles.input,
                 styles.inputShadow,
-                { textAlignVertical: "top", height: spacing.xl * 3 },
+                { textAlignVertical: "top", height: spacing.xl * 3, color: comment === null ? colors.lightGray : colors.gray },
               ]}
               onChangeText={(text) => setComment(text)}
               multiline={true}
@@ -375,9 +387,24 @@ const AddDishScreen = ({ navigation, route }) => {
                 flexDirection: "row",
                 width: "100%",
                 margin: 5,
+              }}
+            >
+            <View style={{flex:1}}>
+               <Text style={styles.label}>Date:</Text>
+            </View>
+            <View style={{flex:1}}>
+               <Text style={styles.label}>Price:</Text>
+            </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                width: "100%",
+                marginBottom: 5,
                 justifyContent: "space-between",
               }}
             >
+              
               <Text
                 placeholder="Add Date"
                 value={dateText ? dateText : date}
@@ -406,6 +433,7 @@ const AddDishScreen = ({ navigation, route }) => {
               />
             </View>
             {/* Tags */}
+            <Text style={styles.label}>Tags:</Text>
             <TagsModal modalVisible={modalVisible} setModalVisible={setModalVisible} tags={tags} setTags={setTags} showButton={true} color={handleRatingColour()}/>
             {/* Would Have Again Switch */}
             <View style={styles.switchContainer}>
@@ -481,6 +509,12 @@ const styles = StyleSheet.create({
   },
 
   //Inputs
+  label: {
+    alignSelf: 'flex-start',
+    marginLeft: 5,
+    padding: 0,
+    fontWeight: '500',
+  },
   input: {
     backgroundColor: "white",
     paddingHorizontal: 10,
