@@ -52,7 +52,7 @@ const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) =
                 <Text style={[styles.filterText, {
                     color: sortFilter?.name == 'rating' && sortFilter?.direction == 'asc' ? colors.white : colors.primary,
                     fontWeight: sortFilter?.name == 'rating' && sortFilter?.direction == 'asc' ? '600' : 'normal',
-                    }]}> Rating</Text>
+                    }]}> Rating Asc</Text>
             </Pressable>
 
 
@@ -68,7 +68,7 @@ const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) =
                     <Text style={[styles.filterText, {
                     color: sortFilter?.name == 'rating' && sortFilter?.direction == 'desc' ? colors.white : colors.primary,
                     fontWeight: sortFilter?.name == 'rating' && sortFilter?.direction == 'desc' ? '600' : 'normal',
-                    }]}> Rating</Text>
+                    }]}> Rating Desc</Text>
             </Pressable>
 
 
@@ -84,7 +84,7 @@ const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) =
                     <Text style={[styles.filterText, {
                     color: sortFilter?.name == 'date' && sortFilter?.direction == 'asc' ? colors.white : colors.primary,
                     fontWeight: sortFilter?.name == 'date' && sortFilter?.direction == 'asc' ? '600' : 'normal',
-                    }]}> Date</Text>
+                    }]}> Date Asc</Text>
             </Pressable>
 
 
@@ -100,8 +100,10 @@ const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) =
                     <Text style={[styles.filterText, {
                     color: sortFilter?.name == 'date' && sortFilter?.direction == 'desc' ? colors.white : colors.primary,
                     fontWeight: sortFilter?.name == 'date' && sortFilter?.direction == 'desc' ? '600' : 'normal',
-                    }]}> Date</Text>
+                    }]}> Date Desc</Text>
             </Pressable>
+
+            {/* TODO Add Sort Price */}
         
         </View>
         <View style= {{height: 55, width: 150, alignSelf: 'center', marginBottom: spacing.xs}}>
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
         marginTop: spacing.m,
     },
     filterText: {
-        fontSize: 22,
+        fontSize: 17,
         textAlign: 'center',
         textAlignVertical: 'center'
     },

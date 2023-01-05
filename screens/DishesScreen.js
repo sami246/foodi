@@ -177,7 +177,7 @@ const DishesScreen = ({ navigation, route }) => {
             <Text>No Dishes Matching Your Search.</Text>
             </View>} */}
         </View>
-        <AddOverlayButton />
+        <AddOverlayButton dish={true} buttonColor={colors.gold}/>
     </SafeAreaView>
   )
 }

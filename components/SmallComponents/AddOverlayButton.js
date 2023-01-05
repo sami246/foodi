@@ -1,23 +1,34 @@
 import React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 import { colors, sizes, spacing, STATUS_BAR_HEIGHT } from '../../constants/theme';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
 
-const AddOverlayButton = () => {
+const AddOverlayButton = ({dish, buttonColor}) => {
     const navigation = useNavigation();
     const handlePress = () => {
-      navigation.navigate('Add Dish')
+      if(dish){
+        navigation.navigate('Add Dish')
+      }
+      else{
+        // TODO Navigate to Add Restaurant
+        navigation.navigate('Settings')
+      }
+       
     }
 
     return(    
       <View style={styles.appButtonContainer}>
     <TouchableOpacity
-        activeOpacity={0.7}
+        // activeOpacity={0.7}
         onPress={handlePress}
+        
     >
-        <Ionicons style={[styles.addButton, {}]} color={colors.gold} name="add-circle" size={80}/>
+        <MaterialCommunityIcons style={[styles.addButton, {}]} color={buttonColor} name="plus-circle" size={80}/>
+        <View style={{backgroundColor: colors.white, width: 40, height: 40,       position: 'absolute',
+      right: 20,
+      bottom: 20,}} />
     </TouchableOpacity>
     </View>)
 

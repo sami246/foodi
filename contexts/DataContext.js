@@ -10,6 +10,7 @@ export const DataContext = createContext();
 export const DataProvider = ({children}) => {
     const {user} = useContext(AuthContext);
     const [dishesData, setDishesData] = useState([]);
+    const [mapData, setMapData] = useState([]);
     const [dishesDataByRating, setdishesDataByRating] = useState(false);
     const [dishesDataByRecent, setdishesDataByRecent] = useState(false);
     const [restaurantDataByRecent, setRestaurantDataByRecent] = useState(false);
@@ -19,6 +20,8 @@ export const DataProvider = ({children}) => {
     const [sortFilter, setSortFilter] = useState(null);
     const [wouldHaveAgainFilter, setWouldHaveAgainFilter] = useState(false);
     const [tagsFilter, setTagsFilter] = useState(null);
+    const [mapFilterCategory, setMapFilterCategory] = useState(null); 
+    // 1 = Want to go  2 = Already Been  3 = Favourite
 
     // const useDummyDishes = true
     const useDummyDishesByRating = true
@@ -29,6 +32,8 @@ export const DataProvider = ({children}) => {
       value={{
         dishesData,
         setDishesData,
+        mapData,
+        setMapData,
         dishesDataByRating,
         dishesDataByRecent,
         numDishes,
@@ -45,6 +50,8 @@ export const DataProvider = ({children}) => {
         setNumRestaurants,
         restaurantDataByRecent,
         setRestaurantDataByRecent,
+        mapFilterCategory,
+        setMapFilterCategory,
         handlePlaceholder: (color) => {
           if (color === "red"){
             return require(`../assets/place-holders/image-placeholder-red.png`) 
@@ -126,6 +133,31 @@ export const DataProvider = ({children}) => {
 
                   });
                   setDishesData(dishesDataTemp)                 
+              });
+              return unsubscribe;
+            }
+            catch (error) {
+              console.log("Fetch Data Error -->", error)
+            }
+          },
+          fetchAllMapData: async () => {
+            try {
+              let q = ''
+              if(mapFilterCategory != null){
+                q = query(collection(firestoreDB, "users", user.uid, "restaurants"), where("category", "==", mapFilterCategory))
+                }
+              else{
+                q = query(collection(firestoreDB, "users", user.uid, "restaurants"))
+              }
+              
+              const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                  var dishesDataTemp = []
+                  querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    dishesDataTemp.push({ ...doc.data(), id: doc.id, key: doc.id})
+
+                  });
+                  setMapData(dishesDataTemp)                 
               });
               return unsubscribe;
             }

@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, Image, PermissionsAndroid, Alert, Button, TextInput, ScrollView, TouchableOpacity, Animated } from 'react-native'
-import React, {  useEffect, useRef } from 'react';
+import React, {  useEffect, useRef, useContext, useCallback } from 'react';
 import { colors, sizes, spacing, STATUS_BAR_HEIGHT} from '../constants/theme'
 import { auth } from '../firebase';
 import { useState } from 'react';
@@ -10,8 +10,11 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { markers, TagsData } from '../data';
+import { DataContext } from '../contexts/DataContext';
+import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
 
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = sizes.width * 0.8;
@@ -19,14 +22,37 @@ const SPACING_FOR_CARD_INSET = (sizes.width * 0.1) - 10;
 
 
 const MapScreen = ({ navigation }) => {
+  const {mapFilterCategory, setMapFilterCategory, fetchAllMapData, mapData} = useContext(DataContext);
+  const [refreshing, setRefreshing] = React.useState(false);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [mapRegion, setMapRegion] = useState(null);
   const [markerFocused, setMarkerFocused] = useState(0);
-  const [filterCategory, setFilterCategory] = useState(null);
+
+  useEffect(() => {
+    onRefresh();
+  }, [])
+
+  useEffect(() => {
+    fetchAllMapData();
+  }, [mapFilterCategory])
+
+  const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => {fetchAllMapData().then(() => {
+      setRefreshing(false)
+    }).catch((error) => alert(error))})
+
+  }, []);
+
 
   let mapIndex = 0;
   let mapAnimation = new Animated.Value(0);
+  // TODO Add Initial Region based on user Location
   let region = {
           latitude: 51.537430,
           longitude: -0.125250,
@@ -86,9 +112,9 @@ const MapScreen = ({ navigation }) => {
   }, [mapAnimation])
 
   // const centerMap = useCallback(() => {
-  //   if (markers) {
+  //   if (mapData) {
   //     _map.current?.fitToSuppliedMarkers(
-  //       markers.map(m => m.id || ''),
+  //       mapData.map(m => m.id || ''),
   //       {
   //         animated: false,
   //         edgePadding: {
@@ -100,7 +126,7 @@ const MapScreen = ({ navigation }) => {
   //       },
   //     );
   //   }
-  // }, [markers]);
+  // }, [mapData]);
 
   const onMarkerPress = (marker, index) => {
     console.log(marker)
@@ -130,8 +156,8 @@ const _scrollView = useRef(null);
       userInterfaceStyle='dark'
       showsUserLocation={true}
     >
-      {markers.map((item, index) => {
-        let mapIconColor = colors.blue
+      {mapData.map((item, index) => {
+        let mapIconColor = colors.brown
         if (item.category == 2){
           mapIconColor = colors.darkBlue
         }
@@ -145,19 +171,19 @@ const _scrollView = useRef(null);
           <Marker
           key={item.id}
           onPress={() => {onMarkerPress(item, index)}}
+          onDeselect={() => {setMarkerFocused(null)}}
           coordinate={{
             longitude: item.coordinate.longitude,
             latitude: item.coordinate.latitude
           }}
-          title={item.name}
-          description={item.address}
           >
             <View style={styles.circle}>
               
               <View style={[styles.core, {backgroundColor: mapIconColor}]} >
               {item.category == 1 && <AntDesign name='pushpin' size={11} color={colors.white} style={{alignSelf: 'center'}}/>}
-              {item.category == 2 && <MaterialIcons name='done-outline' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
+              {item.category == 2 && <MaterialCommunityIcons name='check-bold' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
               {item.category == 3 && <FontAwesome name='star' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
+              {item.category == null && <MaterialCommunityIcons name='minus-thick' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
               </View>
               <View style={styles.stroke} />
             </View>
@@ -174,49 +200,49 @@ const _scrollView = useRef(null);
     {/* Chip Categories */}
     <ScrollView horizontal scrollEventThrottle={1} showsHorizontalScrollIndicator={false} height={50} 
     style={styles.chipsCatScrollView} contentContainerStyle={{paddingRight: spacing.m}}>
-          {filterCategory === 1
+          {mapFilterCategory === 1
           ?
           <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.white, backgroundColor: colors.darkGreen}]} key={"Want to Go"}
-          onPress={() => {setFilterCategory(null)}}
+          onPress={() => {setMapFilterCategory(null)}}
           >
           <AntDesign name='pushpin' size={11} color={colors.white} style={{alignSelf: 'center'}}/>
           <Text style={{textAlignVertical: 'top', fontSize: 13, color: colors.white, fontWeight: 'bold'}}> Want to Go</Text>
           </TouchableOpacity>
           :
           <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.darkGreen}]} key={"Want to Go"}
-          onPress={() => {setFilterCategory(1)}}
+          onPress={() => {setMapFilterCategory(1)}}
           >
           <AntDesign name='pushpin' size={11} color={colors.darkGreen} style={{alignSelf: 'center'}}/>
           <Text style={{textAlignVertical: 'top', fontSize: 13}}> Want to Go</Text>
           </TouchableOpacity>
           }
-          {filterCategory === 2
+          {mapFilterCategory === 2
           ?
           <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.white, backgroundColor: colors.darkBlue,}]} key={"Already Been"}
-          onPress={() => {setFilterCategory(null)}}
+          onPress={() => {setMapFilterCategory(null)}}
           >
-            <MaterialIcons name='bookmark' size={12} color={colors.white} style={{alignSelf: 'center'}}/>
+            <MaterialCommunityIcons name='check-bold' size={12} color={colors.white} style={{alignSelf: 'center'}}/>
             <Text style={{textAlignVertical: 'top', fontSize: 13, color: colors.white, fontWeight: 'bold'}}> Already Been</Text>
           </TouchableOpacity>
           :
           <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.darkBlue}]} key={"Already Been"}
-          onPress={() => {setFilterCategory(2)}}
+          onPress={() => {setMapFilterCategory(2)}}
           >
-            <MaterialIcons name='bookmark' size={12} color={colors.darkBlue} style={{alignSelf: 'center'}}/>
+            <MaterialCommunityIcons name='check-bold' size={12} color={colors.darkBlue} style={{alignSelf: 'center'}}/>
             <Text style={{textAlignVertical: 'top', fontSize: 13}}> Already Been</Text>
            </TouchableOpacity>
           }
-          {filterCategory === 3
+          {mapFilterCategory === 3
           ?
           <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.white, backgroundColor: colors.gold}]} key={"Favourite"}
-          onPress={() => {setFilterCategory(null)}}
+          onPress={() => {setMapFilterCategory(null)}}
           >
             <FontAwesome name='star' size={12} color={colors.white} style={{alignSelf: 'center'}}/>
             <Text style={{textAlignVertical: 'top', fontSize: 13, color: colors.white, fontWeight: 'bold'}}> Favourite</Text>
            </TouchableOpacity>
           :
           <TouchableOpacity style={[styles.chipsCatItem, {borderColor: colors.gold}]} key={"Favourite"}
-          onPress={() => {setFilterCategory(3)}}
+          onPress={() => {setMapFilterCategory(3)}}
           >
             <FontAwesome name='star' size={12} color={colors.gold} style={{alignSelf: 'center'}}/>
             <Text style={{textAlignVertical: 'top', fontSize: 13}}> Favourite</Text>
@@ -270,6 +296,7 @@ const _scrollView = useRef(null);
             </View>
         ))}
     </Animated.ScrollView> */}
+    <AddOverlayButton dish={false} buttonColor={colors.darkBlue}/>
   </View>
   )
 }

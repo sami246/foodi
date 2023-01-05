@@ -97,7 +97,7 @@ const HomeScreen = ({ navigation }) => {
                }
           </ScrollView>
         </View>
-        <AddOverlayButton />
+        <AddOverlayButton dish={true} buttonColor={colors.gold}/>
     </SafeAreaView>
   )
 }

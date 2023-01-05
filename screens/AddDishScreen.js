@@ -235,7 +235,6 @@ const AddDishScreen = ({ navigation, route }) => {
             website: restaurantAdditonal.website ? restaurantAdditonal.website : null,
             rating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
             updatedDate: new Date(),
-            alreadyHad: true
           }, { merge: true });
           console.log("Restaurant Added");
         }
