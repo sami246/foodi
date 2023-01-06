@@ -18,7 +18,7 @@ const IMAGE_HEIGHT = 160;
 
 const OneDisplay = ({item, setFilterTags, filterTags}) => {
 
-  const {handlePlaceholder} = useContext(DataContext);
+  const {handlePlaceholder, tagsFilter} = useContext(DataContext);
   
   const handleTagPress = (tag) => {
       setFilterTags([tag])
@@ -28,7 +28,7 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
   if(item.id){
   return (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}}>
-    <View style={[styles.card, shadow.light]} >
+    <View style={[styles.card, shadow.light, {borderColor: tagsFilter ? colors.gold : colors.orange}]} >
       <View style={styles.imageBox}>
         <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder(item.imagePlaceholder)} />
       </View>

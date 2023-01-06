@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         marginBottom: 2,
         fontSize: sizes.h3,
         fontWeight: 'bold',
-        color: colors.orange,
+        color: colors.darkGray,
       },
       address: {
         fontSize: sizes.h3 - 3,

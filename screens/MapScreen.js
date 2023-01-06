@@ -258,7 +258,8 @@ const _scrollView = useRef(null);
         {TagsData.map((item, index) => (
           <TouchableOpacity style={styles.chipsTagItem} key={index}>
             <View style={styles.chipsIcon}>{item.icon}</View>
-            <Text style={{textAlignVertical: 'top', fontSize: 13}}> {item.label}</Text>
+            {/* TODO If pressed then show label */}
+            {/* <Text style={{textAlignVertical: 'top', fontSize: 13, marginLeft: 3}}> {item.label}</Text> */}
           </TouchableOpacity>
         ))}
     </ScrollView>
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
     paddingHorizontal:10,
   },
   chipsIcon: {
-    marginRight: 3,
+    
   },
   chipsTagItem: {
     flexDirection:"row",
