@@ -28,7 +28,8 @@ export default function RandomPlace() {
         userRating: 9,
         tags: ['Dessert'],
         links: ['https://www.instagram.com/reel/CldjP5DjITc/?igshid=YmMyMTA2M2Y='],
-        updatedTime: null
+        updatedTime: null,
+        wouldHaveAgain: false
     }
 
     const handlePriceLevel = (level) => {
@@ -55,8 +56,8 @@ export default function RandomPlace() {
                 }
                 {item.googleRating && 
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <FontAwesome5 name='star' size={13} color={colors.green} />
-                <Text style={[styles.additionalText, {color: colors.green}]}> {item.googleRating}</Text>
+                <FontAwesome5 name='star' size={13} color={colors.gold} />
+                <Text style={[styles.additionalText, {color: colors.gold}]}> {item.googleRating}</Text>
                 </View>
                 }
                 

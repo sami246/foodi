@@ -293,7 +293,7 @@ const AddDishScreen = ({ navigation, route }) => {
        setRestaurantAdditional = {setRestaurantAdditional}
        />}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <AppBannerAd height={100} width={sizes.width- 5}/>
+        <AppBannerAd height={100} width={sizes.width}/>
         <View
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}

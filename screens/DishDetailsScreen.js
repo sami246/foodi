@@ -118,10 +118,15 @@ const DishDetailsScreen = ({ route }) => {
                        <Text numberOfLines={1} style={{fontSize: sizes.h3, paddingHorizontal: spacing.m, color: colors.gray}}>Add Restaurant</Text> 
                      </Pressable>
                      }
-                     {dish.wouldHaveAgain && 
-                     <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
-                        <MaterialCommunityIcons name='repeat' size={28} color={colors.green} />
-                      </Pressable>}
+                    {dish.wouldHaveAgain ?
+                          <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 15, borderColor: colors.green, height: 42}} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
+                            <MaterialCommunityIcons name='repeat' size={30} color={colors.green} />
+                          </Pressable>
+                          :
+                          <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 15, borderColor: colors.gray, height: 42}} onPress={() => {Alert.alert("Nope! ","You wouldn't have this again")}}>
+                            <MaterialCommunityIcons name='repeat' size={30} color={colors.gray} />
+                          </Pressable>
+                    }
                     
                 </View>
 
