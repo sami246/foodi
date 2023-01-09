@@ -110,7 +110,7 @@ import {
         return colors.gold
       }
       else{
-        return colors.orange
+        return colors.darkBlue
       }
     };
   
@@ -203,7 +203,7 @@ import {
               googlePriceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
               googleWebsite: restaurantAdditonal.website ? restaurantAdditonal.website : null,
               googleRating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
-              updatedDate: new Date(),
+              updatedTime: new Date(),
             }, { merge: true });
             console.log("Restaurant Added");
           }

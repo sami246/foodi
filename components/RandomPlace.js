@@ -15,17 +15,20 @@ export default function RandomPlace() {
     const item =  {
         id: 1212331,
         address: "9 Davenant St, London E1 5NB, UK",
-        lat: 51.5184071,
-        lng: -0.0656871,
+        coordinate: {
+          latitude: 51.5184071,
+          longitude: -0.0656871,
+        },
         name: "The Urban Chocolatier Whitechapel",
         googlePriceLevel: 2,
         googleRating: 4.3,
         googleUrl: "https://maps.google.com/?cid=5901126532914094047",
         googleWebsite: "https://urbanchocolatier.com/",
         category: 3,
-        userRating: 4,
+        userRating: 9,
         tags: ['Dessert'],
-        links: ['https://www.instagram.com/reel/CldjP5DjITc/?igshid=YmMyMTA2M2Y=']
+        links: ['https://www.instagram.com/reel/CldjP5DjITc/?igshid=YmMyMTA2M2Y='],
+        updatedTime: null
     }
 
     const handlePriceLevel = (level) => {
@@ -52,8 +55,8 @@ export default function RandomPlace() {
                 }
                 {item.googleRating && 
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <FontAwesome5 name='star' size={13} color={colors.gold} />
-                <Text style={[styles.additionalText, {color: colors.gold}]}> {item.googleRating}</Text>
+                <FontAwesome5 name='star' size={13} color={colors.green} />
+                <Text style={[styles.additionalText, {color: colors.green}]}> {item.googleRating}</Text>
                 </View>
                 }
                 
@@ -80,6 +83,9 @@ const styles = StyleSheet.create({
         
         // marginHorizontal: 7
         
+      },
+      map: {
+        ...StyleSheet.absoluteFillObject,
       },
       titleBox: {
         alignItems: 'flex-start',

@@ -16,12 +16,12 @@ export const DataProvider = ({children}) => {
     const [restaurantDataByRecent, setRestaurantDataByRecent] = useState(false);
     const [numDishes, setNumDishes] = useState(null);
     const [numRestaurants, setNumRestaurants] = useState(null);
-    const [googlePlace, setGooglePlace] = useState(null)
     const [sortFilter, setSortFilter] = useState(null);
     const [wouldHaveAgainFilter, setWouldHaveAgainFilter] = useState(false);
     const [tagsFilter, setTagsFilter] = useState(null);
     const [mapFilterCategory, setMapFilterCategory] = useState(null); 
     // 1 = Want to go  2 = Already Been  3 = Favourite
+    const [mapFilterTags, setMapFilterTags] = useState(null);
 
     // const useDummyDishes = true
     const useDummyDishesByRating = true
@@ -38,20 +38,13 @@ export const DataProvider = ({children}) => {
         dishesDataByRecent,
         numDishes,
         setNumDishes,
-        googlePlace,
-        setGooglePlace,
-        sortFilter,
-        setSortFilter,
-        wouldHaveAgainFilter,
-        setWouldHaveAgainFilter,
-        tagsFilter,
-        setTagsFilter,
-        numRestaurants,
-        setNumRestaurants,
-        restaurantDataByRecent,
-        setRestaurantDataByRecent,
-        mapFilterCategory,
-        setMapFilterCategory,
+        sortFilter, setSortFilter,
+        wouldHaveAgainFilter, setWouldHaveAgainFilter,
+        tagsFilter, setTagsFilter,
+        numRestaurants, setNumRestaurants,
+        restaurantDataByRecent, setRestaurantDataByRecent,
+        mapFilterCategory, setMapFilterCategory,
+        mapFilterTags, setMapFilterTags,
         handlePlaceholder: (color) => {
           if (color === "red"){
             return require(`../assets/place-holders/image-placeholder-red.png`) 
@@ -173,15 +166,16 @@ export const DataProvider = ({children}) => {
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
-                  setGooglePlace(docSnap.data());
+                  console.log("setGooglePlace(docSnap.data());")
+                  
                 } else {
                   // doc.data() will be undefined in this case
                   console.log("No such document!");
-                  setGooglePlace(null)
+                  console.log("setGooglePlace(null)")
                 }
               }
               else{
-                setGooglePlace(null)
+                console.log("setGooglePlace(null)")
               }
             }
             catch (error) {
@@ -245,7 +239,7 @@ export const DataProvider = ({children}) => {
           },
           fetchRestaurantDataByRecent: async () => {
             try {
-              const q = query(collection(firestoreDB, "users", user.uid, "restaurants"),  where("category", "==", 1), orderBy("updatedDate", "desc"), limit(5))
+              const q = query(collection(firestoreDB, "users", user.uid, "restaurants"),  where("category", "==", 1), orderBy("updatedTime", "desc"), limit(5))
               const unsubscribe = onSnapshot(q, (querySnapshot) => {
                   var dishesDataTemp = []
                   querySnapshot.forEach((doc) => {

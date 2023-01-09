@@ -15,19 +15,19 @@ import { doc, deleteDoc } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
 import { DataContext } from '../contexts/DataContext';
 import { isEmpty } from '@firebase/util';
+import AppBannerAd from '../components/Ads/AppBannerAd';
+import DeleteButton from '../components/SmallComponents/DeleteButton';
 
 
 const DishDetailsScreen = ({ route }) => {
     const dish = route.params.dish;
     const navigation = useNavigation();
-    const {fetchRestaurantData, handlePlaceholder, fetchDishesData, firebaseTimetoString} = useContext(DataContext);
-    
+    const {fetchRestaurantData, handlePlaceholder, firebaseTimetoString} = useContext(DataContext);
     if(isEmpty(dish.tags)){
       dish.tags = null;
     }
 
     useEffect(() => {
-      fetchDishesData()
       fetchRestaurantData(dish?.restaurantPlaceId).then(() => {
       })
 
@@ -46,24 +46,6 @@ const DishDetailsScreen = ({ route }) => {
       // To calculate the no. of days between two dates
       var Difference_In_Days = Math.floor((Difference_In_Time / (1000 * 3600 * 24)));
       Alert.alert("Time Flies!", `You had this ${Difference_In_Days} days ago! ⏳`)
-    }
-
-    const handleDeleteDish = () => {
-      Alert.alert(  
-        'Delete',  
-        'Are you sure you want to delete?',  
-        [  
-            {  
-                text: 'No',  
-                onPress: () => console.log('Cancel Delete'),  
-                style: 'cancel',  
-            },  
-            {text: 'Yes', onPress: async () => {
-              await deleteDoc(doc(firestoreDB, "dishs", dish.id));
-              navigation.goBack()
-            }},  
-        ]  
-    );  
     }
 
     const handleEditPress = () => {
@@ -91,12 +73,11 @@ const DishDetailsScreen = ({ route }) => {
       }
     };
 
+    
+
   return (
 
-    <SafeAreaView style={styles.container}>
-                <Pressable style={{position: 'absolute', zIndex: 1, top: 0, right: 0, padding: 15}} onPress={() => {handleDeleteDish()}}>
-                    <MaterialCommunityIcons name='delete-outline' size={30} color={colors.white} />
-                </Pressable>
+    <SafeAreaView style={styles.container}>               
               <View style={styles.imageBox}>
                     <ImagePreviewer source={dish.image ? {uri: dish.image} : handlePlaceholder(dish.imagePlaceholder)} style={styles.image} resizeMode="cover" />
                     {/* <ImageView
@@ -119,7 +100,7 @@ const DishDetailsScreen = ({ route }) => {
                       {dish.restaurantPlaceId ?
                       <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
                        onPress={() => { Linking.openURL(dish.googleUrl);}}>
-                      {/* onPress={() => { console.log(googlePlace);}}> */}
+
                         <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
                       </Pressable>
                       :
@@ -143,7 +124,7 @@ const DishDetailsScreen = ({ route }) => {
                       </Pressable>}
                     
                 </View>
-                {/* <Text>{googlePlace.address}</Text> */}
+
                 {dish.rating ?
                   <View style={{backgroundColor: handleRatingColour(), borderRadius: 15, marginVertical: spacing.s}}>
                     <Rating rating={dish.rating} fontSize={sizes.h3} iconSize={30} fontColor={colors.white} showText={true} iconColor={dish.rating == 9 || dish.rating ==10 ? colors.white : colors.gold}/>
@@ -206,7 +187,8 @@ const DishDetailsScreen = ({ route }) => {
                       }
                       
               </View>
-              <BackButton iconColor={colors.white}/>
+              <BackButton iconColor={colors.orange}/>
+              <DeleteButton iconColor={colors.orange} item={dish}/>
 
     </SafeAreaView>
 

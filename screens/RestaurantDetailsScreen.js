@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, Linking  } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, Linking, Image  } from 'react-native'
 import React, {useContext, useEffect, useState} from 'react'
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import Rating from '../components/Rating';
@@ -11,26 +11,30 @@ import { doc, deleteDoc } from "firebase/firestore";
 import { firestoreDB } from '../firebase';
 import { DataContext } from '../contexts/DataContext';
 import { isEmpty } from '@firebase/util';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MapPlaceholder from '../assets/place-holders/map-placeholder.png'
+import AppBannerAd from '../components/Ads/AppBannerAd';
+import uuid from "uuid";
+import DeleteButton from '../components/SmallComponents/DeleteButton';
 
 
 const RestaurantDetailsScreen = ({ route }) => {
     const item = route.params.restaurant;
     const navigation = useNavigation();
-    const {fetchRestaurantData, handlePlaceholder, fetchDishesData, firebaseTimetoString} = useContext(DataContext);
+    const {fetchRestaurantData, handlePlaceholder, firebaseTimetoString} = useContext(DataContext);
     
     if(isEmpty(item.tags)){
       item.tags = null;
     }
 
     useEffect(() => {
-      fetchDishesData()
-      fetchRestaurantData(item?.restaurantPlaceId).then(() => {
-      })
+      // fetchRestaurantData(item?.restaurantPlaceId).then(() => {
+      // })
 
     }, [])
     
@@ -39,38 +43,25 @@ const RestaurantDetailsScreen = ({ route }) => {
       navigation.navigate("Map", {tag: [tag]})
     }
 
-    const handleDaysAgo = () => {
-      // To calculate the time difference of two dates
-      // console.log(new Date(item.date.seconds * 1000), new Date())
-      var Difference_In_Time = new Date() - new Date(item.date.seconds * 1000);
-
-      // To calculate the no. of days between two dates
-      var Difference_In_Days = Math.floor((Difference_In_Time / (1000 * 3600 * 24)));
-      Alert.alert("Time Flies!", `You had this ${Difference_In_Days} days ago! ⏳`)
-    }
-
-    const handleDeleteDish = () => {
-      Alert.alert(  
-        'Delete',  
-        'Are you sure you want to delete?',  
-        [  
-            {  
-                text: 'No',  
-                onPress: () => console.log('Cancel Delete'),  
-                style: 'cancel',  
-            },  
-            {text: 'Yes', onPress: async () => {
-              await deleteDoc(doc(firestoreDB, "dishs", item.id));
-              navigation.goBack()
-            }},  
-        ]  
-    );  
+    const handlePriceLevel = (level) => {
+      const rows = [];
+      for(let index = 0; index < level; index++) {
+            rows.push(<FontAwesome5 key={uuid.v4()} style={{marginHorizontal: 1}} name='pound-sign' size={13} color={colors.green} />)  
+      }
+      return rows
     }
 
     const handleEditPress = () => {
       navigation.navigate('Add Restaurant', {item: item})
     }
 
+    let region = {
+      latitude: 51.537430,
+      longitude: -0.125250,
+      latitudeDelta: 0.150,
+      longitudeDelta: 0.150,
+    }
+    
     const handleRatingColour = () => {
       if(item.userRating === 1 || item.userRating === 2){
         return colors.red
@@ -95,43 +86,16 @@ const RestaurantDetailsScreen = ({ route }) => {
   return (
 
     <SafeAreaView style={styles.container}>
-                <Pressable style={{position: 'absolute', zIndex: 1, top: 0, right: 0, padding: 15, backgroundColor: colors.blue}} onPress={() => {handleDeleteDish()}}>
-                    <MaterialCommunityIcons name='delete-outline' size={30} color={colors.white} />
-                </Pressable>
+                <View>
+                <AppBannerAd height={80} width={sizes.width}/>
+                </View>
+                
               <View style={styles.detailsBox}>
                 <View style={styles.titleBox}>
                     <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.7} onPress={() => {Alert.alert("Restaurant Name", item.name)}}>{item.name}</Text>
                     <TouchableOpacity style={styles.editIcon} onPress={handleEditPress}>
                         <FontAwesome5 name='edit' size={25} color='black' />
                     </TouchableOpacity>
-                </View>
-                
-                <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: spacing.s, alignItems: 'center', width: '95%', alignSelf: 'center'}} >
-                      {item.googleUrl ?
-                      <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
-                       onPress={() => { Linking.openURL(item.googleUrl);}}>
-                      {/* onPress={() => { console.log(googlePlace);}}> */}
-                        <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
-                      </Pressable>
-                      :
-                      <Pressable onPress={() => {Alert.alert("📍", "If you want to get the information of the restaraunt consider editing the restaurant to be taken from the google search")}}>
-                        <MaterialCommunityIcons name='map-marker' size={30} color={item.restaurant ? colors.primary : colors.gray} />
-                      </Pressable>
-                      }
-                    
-                     <Text onPress={() => {Alert.alert("Address", item.address)}} numberOfLines={1}
-                      style={{fontSize: sizes.h3, marginHorizontal: 15, maxWidth: '80%', alignSelf: 'center'}}>{item.address}</Text> 
-
-                     {item.wouldHaveAgain ?
-                     <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
-                        <MaterialCommunityIcons name='repeat' size={28} color={colors.green} />
-                      </Pressable> 
-                      :
-                      <View style={{padding: spacing.xs}}>
-                      <MaterialCommunityIcons name='repeat' size={28} color={colors.gray} />
-                      </View>
-                      }
-                    
                 </View>
                 {item.userRating ?
                   <View style={{backgroundColor: handleRatingColour(), borderRadius: 15, marginVertical: spacing.s}}>
@@ -147,28 +111,62 @@ const RestaurantDetailsScreen = ({ route }) => {
                     </TouchableOpacity>
                   </View>
                 }
+                
+                {/* <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: spacing.s, alignItems: 'center', width: '95%', alignSelf: 'center'}} >
+                      {item.googleUrl ?
+                      <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
+                       onPress={() => { Linking.openURL(item.googleUrl);}}>
+
+                        <MaterialCommunityIcons name='google-maps' size={25} color={colors.green}/>
+                      </Pressable>
+                      :
+                      <Pressable onPress={() => {Alert.alert("📍", "If you want to get the information of the restaraunt consider editing the restaurant to be taken from the google search")}}>
+                        <MaterialCommunityIcons name='map-marker' size={25} color={item.restaurant ? colors.primary : colors.gray} />
+                      </Pressable>
+                      }
+                    
+                     <Text onPress={() => {Alert.alert("Address", item.address)}} numberOfLines={1}
+                      style={{fontSize: sizes.body, marginHorizontal: 15, maxWidth: '80%', alignSelf: 'center'}}>Address: {item.address}
+                     </Text> 
+                   
+                </View> */}
                 </View>
-                <View style={styles.additionalBox}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', marginBottom: spacing.s}}>
-                      {item.price && 
-                      <View style={styles.smallBox}>
-                          <Text style={{paddingRight: spacing.s, fontSize: 15, fontWeight: '400', color: colors.primary}}>Price</Text>
-                          <FontAwesome5 name='pound-sign' size={15} color={colors.primary} />
-                          <Text style={{paddingLeft: spacing.s, fontSize: 15, fontWeight: '400', color: colors.primary, overflow: 'hidden'}}>{item.price}</Text>
+                <View style={styles.googleContainer}>
+                  <Text>Google Details</Text>
+                  <View style={styles.whiteBox}>
+                      <Text>Address: {item.address}</Text>
+                      <Text>Website: {item.googleWebsite}</Text>
+                        <View style={styles.googleAdditionalBox}>
+                              {item.googlePriceLevel && 
+                              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                {handlePriceLevel(item?.googlePriceLevel)}
+                              </View>
+                              }
+                              {item.googleRating && 
+                              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                              <FontAwesome5 name='star' size={14} color={colors.gold} />
+                              <Text style={[styles.additionalText, {color: colors.gold}]}> {item.googleRating}</Text>
+                              </View>
+                              }
                         </View>
-                      }
-                      {!item.price && 
-                        <Pressable style={[styles.smallBox, {borderBottomWidth: 0 ,}]} onPress={() => handleEditPress()}>
-                          <Text style={{paddingRight: spacing.s, fontSize: 14, fontWeight: '300', color: colors.darkGray}}>Add More Details like Price and Date Eaten</Text>
-                          <FontAwesome5 name='plus' size={15} color={colors.gray} />
-                        </Pressable>
-                      }
-                    </View>
+                        {item.wouldHaveAgain ?
+                        <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
+                            <MaterialCommunityIcons name='repeat' size={28} color={colors.green} />
+                          </Pressable> 
+                          :
+                          <View style={{padding: spacing.xs}}>
+                          <MaterialCommunityIcons name='repeat' size={28} color={colors.gray} />
+                          </View>
+                        }
+                  </View>
+                </View>
+
+                <View style={styles.additionalBox}>
                     <Pressable onPress={handleEditPress}>
-                      <Text style={[styles.comment, item.comment ? {} : {color: colors.gray}]}>{item.comment ? item.comment : "Add a comment..."}</Text>
+                      <Text style={[styles.whiteBox, {color: item.comment ? colors.primary : colors.lightGray}]}>{item.comment ? item.comment : "Add a comment..."}</Text>
                     </Pressable>
                     
-                    <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 15}}>
+                    <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 5}}>
                         {item.tags && item.tags !== [] ?
                           <Tags tags={item.tags} bColor={colors.blue} fColor={colors.white} handleTagPress={handleTagPress} wrap={false}/>
                         :
@@ -181,8 +179,22 @@ const RestaurantDetailsScreen = ({ route }) => {
                           </View>
                         }
                     </View>
-                    <View>
-                        <Text>TODO: ADD MAP LOCATION</Text>
+                    <View style={styles.mapBox}>
+                      {/* TODO Add Static Map */}
+                    {/* <MapView
+                        provider={PROVIDER_GOOGLE}
+                        style={styles.map}
+                        region={{
+                          latitude: item.coordinate.latitude,
+                          longitude: item.coordinate.longitude,
+                          latitudeDelta: 0.150,
+                          longitudeDelta: 0.150,
+                        }}
+                        showsPointsOfInterest={false}
+                        showsBuildings={false}
+                      >
+                    </MapView> */}
+                    <Image source={MapPlaceholder} resizeMethod='resize' resizeMode='center' style={{height: 200, width: '100%'}}/>
                     </View>
                             {item.category == 1 &&
                             <Pressable style={[styles.categoryBox,{backgroundColor: colors.green} ]} onPress={() => {}} >
@@ -214,7 +226,8 @@ const RestaurantDetailsScreen = ({ route }) => {
                       }
                       
               </View>
-              <BackButton iconColor={colors.white}/>
+              <BackButton iconColor={colors.darkBlue}/>
+              <DeleteButton iconColor={colors.darkBlue} item={item}/>
 
     </SafeAreaView>
 
@@ -228,15 +241,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-
+    marginBottom: 10,
+    justifyContent: 'space-around'
   },
   categoryBox: {
     backgroundColor: colors.brown,
     height: 40,
     borderRadius: 15,
     flexDirection: 'row',
-    justifyContent: 'center'
-
+    justifyContent: 'center',
+    marginBottom: 5
   },
   categoryText: {
     paddingLeft: 20,
@@ -253,8 +267,7 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xs,
     marginBottom: spacing.s,
     justifyContent: 'space-between'
-  }
-  ,
+  },
   editIcon: {
     paddingLeft: spacing.s
   },
@@ -268,25 +281,16 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover'
   },
-  detailsBox : {
-    top: 55,
+  googleContainer: {
     paddingHorizontal: 10,
-    paddingTop: 10,
-    flex: 2,
     width: sizes.width,
+    marginVertical: spacing.m
   },
-  additionalBox: {
-    paddingTop: spacing.s,
-    paddingHorizontal: 10,
-    flex: 4,
-    width: sizes.width,
-    justifyContent: 'space-around',
+  googleAdditionalBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
-
-  rating: {
-    fontSize: sizes.h3
-  },
-  comment: {
+  whiteBox: {
     backgroundColor: colors.white,
     margin: 3,
     padding: 10,
@@ -295,6 +299,22 @@ const styles = StyleSheet.create({
     maxHeight: 120,
     elevation: 2
   },
+  detailsBox : {
+    paddingHorizontal: 10,
+    paddingTop: 20,
+    marginTop: 10,
+    width: sizes.width,
+  },
+  additionalBox: {
+    paddingTop: spacing.s,
+    paddingHorizontal: 10,
+    width: sizes.width,
+    justifyContent: 'space-around',
+  },
+
+  rating: {
+    fontSize: sizes.h3
+  },
   smallBox: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -302,5 +322,13 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
     borderBottomWidth: 1,
     borderColor: colors.blue 
+  },
+  mapBox: {
+    borderWidth: 2,
+    borderColor: colors.gray,
+    marginVertical: 10,
+    borderRadius: 15,
+    overflow: 'hidden',
+    elevation: 2
   },
 })
