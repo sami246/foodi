@@ -9,7 +9,6 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { markers, TagsData } from '../data';

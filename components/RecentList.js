@@ -30,7 +30,7 @@ const RecentList = ({list}) => {
     <ScrollView horizontal  snapToInterval={CARD_WIDTH_SPACING} decelerationRate="fast" style={styles.container} showsHorizontalScrollIndicator={false}>
       {list?.map((item, index) => {
         return (
-          <TouchableOpacity key={item.id} onPress={() => {navigation.navigate('Post Detail', {dish: item})}} style={[styles.cardContainer, {marginLeft: index === 0 ? spacing.m : 0,
+          <TouchableOpacity key={item.id} onPress={() => {navigation.navigate('Dish Details', {dish: item})}} style={[styles.cardContainer, {marginLeft: index === 0 ? spacing.m : 0,
             marginRight: spacing.m,
           }]}>
             <View style={[styles.card, shadow.light]} >

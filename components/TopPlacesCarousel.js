@@ -40,7 +40,7 @@ const TopPlacesCarousel = ({list}) => {
         if(item?.dishName){
           return (
             <TouchableOpacity
-              onPress={() => {navigation.navigate('Post Detail', {dish: item})}}
+              onPress={() => {navigation.navigate('Dish Details', {dish: item})}}
               style={[styles.cardContainer, {
                 marginLeft: index === 0 ? spacing.l : 0,
                 marginRight: spacing.l,

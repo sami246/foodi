@@ -11,6 +11,7 @@ const CARD_WIDTH = sizes.width - 40
 const CARD_HEIGHT = 100
 
 export default function RandomPlace() {
+    const navigation = useNavigation();
     const item =  {
         id: 1212331,
         address: "9 Davenant St, London E1 5NB, UK",
@@ -20,7 +21,9 @@ export default function RandomPlace() {
         priceLevel: 2,
         rating: 4.3,
         url: "https://maps.google.com/?cid=5901126532914094047",
-        website: "https://urbanchocolatier.com/"
+        website: "https://urbanchocolatier.com/",
+        category: 3,
+        userRating: 4
     }
 
     const handlePriceLevel = (level) => {
@@ -33,7 +36,7 @@ export default function RandomPlace() {
 
   return (
     // TODO Add Link
-    <TouchableOpacity key={item.id} onPress={() => {}} style={styles.cardContainer}>
+    <TouchableOpacity key={item.id} onPress={() => {navigation.navigate('Restaurant Details', {restaurant: item})}} style={styles.cardContainer}>
         <View style={[styles.card, shadow.light]} >
             <View style={styles.titleBox}>
               <Text numberOfLines={1} style={styles.title}>{item.name}</Text>

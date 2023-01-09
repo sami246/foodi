@@ -12,8 +12,7 @@ const AddOverlayButton = ({dish, buttonColor}) => {
         navigation.navigate('Add Dish')
       }
       else{
-        // TODO Navigate to Add Restaurant
-        navigation.navigate('Settings')
+        navigation.navigate('Add Restaurant')
       }
        
     }
