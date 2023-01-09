@@ -187,6 +187,7 @@ const AddDishScreen = ({ navigation, route }) => {
         if(route.params){
           console.log("Updating Doc");
           // TODO: Add delete for if image changed/deleted to save storage
+          console.log({price})
           const docRef = await setDoc(doc(firestoreDB, "dishs", route.params?.dish?.id), {
             userId: user.uid,
             restaurant: restaurant,
@@ -200,7 +201,7 @@ const AddDishScreen = ({ navigation, route }) => {
             updatedTime: new Date(),
             date: dateText != null ? date : null,
             dateText: dateText,
-            price: Number(price).toFixed(2),
+            price: price == null || price == "" ? null : Number(Number(price).toFixed(2)),
             tags: tags,
             wouldHaveAgain: wouldHaveAgain,
           });

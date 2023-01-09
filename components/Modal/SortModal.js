@@ -104,6 +104,37 @@ const SortModal = ({modalVisible, setModalVisible, sortFilter, setSortFilter}) =
             </Pressable>
 
             {/* TODO Add Sort Price */}
+            
+            <Pressable style={[styles.filterButton, 
+                {backgroundColor: sortFilter?.name == 'price' && sortFilter?.direction == 'asc' ? colors.blue : colors.white,
+                borderColor: sortFilter?.name == 'price' && sortFilter?.direction == 'asc' ? colors.white : null,
+                borderWidth: sortFilter?.name == 'price' && sortFilter?.direction == 'asc' ? 3 : 0,
+                elevation: sortFilter?.name == 'price' && sortFilter?.direction == 'asc' ? 2 : 0
+            }]}
+                onPress={() => {handleClick('price', 'asc')}}
+                >
+                    <FontAwesome5 name='sort-amount-up' size={26} color={sortFilter?.name == 'price' && sortFilter?.direction == 'asc' ? colors.white : colors.primary} style={{padding: 5}}/>
+                    <Text style={[styles.filterText, {
+                    color: sortFilter?.name == 'price' && sortFilter?.direction == 'asc' ? colors.white : colors.primary,
+                    fontWeight: sortFilter?.name == 'price' && sortFilter?.direction == 'asc' ? '600' : 'normal',
+                    }]}> Price Asc</Text>
+            </Pressable>
+
+
+            <Pressable style={[styles.filterButton, 
+                {backgroundColor: sortFilter?.name == 'price' && sortFilter?.direction == 'desc' ? colors.blue : colors.white,
+                borderColor: sortFilter?.name == 'price' && sortFilter?.direction == 'desc' ? colors.white : null,
+                borderWidth: sortFilter?.name == 'price' && sortFilter?.direction == 'desc' ? 3 : 0,
+                elevation: sortFilter?.name == 'price' && sortFilter?.direction == 'desc' ? 2 : 0
+            }]}
+                onPress={() => {handleClick('price', 'desc')}}
+                >
+                    <FontAwesome5 name='sort-amount-down' size={26} color={sortFilter?.name == 'price' && sortFilter?.direction == 'desc' ? colors.white : colors.primary} style={{padding: 5}}/>
+                    <Text style={[styles.filterText, {
+                    color: sortFilter?.name == 'price' && sortFilter?.direction == 'desc' ? colors.white : colors.primary,
+                    fontWeight: sortFilter?.name == 'price' && sortFilter?.direction == 'desc' ? '600' : 'normal',
+                    }]}> Price Desc</Text>
+            </Pressable>
         
         </View>
         <View style= {{height: 55, width: 150, alignSelf: 'center', marginBottom: spacing.xs}}>

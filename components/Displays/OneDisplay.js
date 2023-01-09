@@ -18,7 +18,7 @@ const IMAGE_HEIGHT = 160;
 
 const OneDisplay = ({item, setFilterTags, filterTags}) => {
 
-  const {handlePlaceholder, tagsFilter} = useContext(DataContext);
+  const {handlePlaceholder, tagsFilter, sortFilter} = useContext(DataContext);
   
   const handleTagPress = (tag) => {
       setFilterTags([tag])
@@ -63,14 +63,14 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
 
             {item.dateText && 
             <View style={[styles.halfBox,, {flex: 2}]}>
-            <FontAwesome5 name='calendar' size={13} color={colors.primary} />
-            <Text numberOfLines={1} allowFontScaling={true} minimumFontScale={0.8} style={styles.halfBoxText}>{item.dateText}</Text>
+            <FontAwesome5 name='calendar' size={13} color={sortFilter?.name === "date" ? colors.blue : colors.primary} />
+            <Text numberOfLines={1} allowFontScaling={true} minimumFontScale={0.8} style={[styles.halfBoxText, {color: sortFilter?.name === "date" ? colors.blue : colors.primary }]}>{item.dateText}</Text>
             </View>
             }
             {item.price &&                     
             <View style={[styles.halfBox,, {flex: 1}]}>
-              <FontAwesome5 name='pound-sign' size={13} color={colors.primary} />
-              <Text numberOfLines={1} allowFontScaling={true} minimumFontScale={0.8} style={styles.halfBoxText}>{item.price}</Text>
+              <FontAwesome5 name='pound-sign' size={13} color={sortFilter?.name === "price" ? colors.blue : colors.primary} />
+              <Text numberOfLines={1} allowFontScaling={true} style={[styles.halfBoxText, {color: sortFilter?.name === "price" ? colors.blue : colors.primary }]}>{item.price}</Text>
             </View>
             }
           </View>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
       },
       halfBoxText: {
         flex: 2,
-        paddingLeft: spacing.s,
+        paddingLeft: spacing.xs,
         textAlignVertical: 'center',
         fontSize: 13,
         fontWeight: '500'
