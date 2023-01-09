@@ -187,12 +187,12 @@ const AddDishScreen = ({ navigation, route }) => {
         if(route.params){
           console.log("Updating Doc");
           // TODO: Add delete for if image changed/deleted to save storage
-          console.log({price})
+          console.log({restaurantAdditonal})
           const docRef = await setDoc(doc(firestoreDB, "dishs", route.params?.dish?.id), {
             userId: user.uid,
             restaurant: restaurant,
             restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
-            url: restaurantAdditonal ? restaurantAdditonal.url : null,
+            googleUrl: restaurantAdditonal ? restaurantAdditonal.url : null,
             dishName: dishName,
             comment: comment,
             rating: rating,
@@ -212,7 +212,7 @@ const AddDishScreen = ({ navigation, route }) => {
             userId: user.uid,
             restaurant: restaurant,
             restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
-            url: restaurantAdditonal ? restaurantAdditonal.url : null,
+            googleUrl: restaurantAdditonal ? restaurantAdditonal.url : null,
             dishName: dishName,
             comment: comment,
             rating: rating,
@@ -233,14 +233,14 @@ const AddDishScreen = ({ navigation, route }) => {
           const docRef2 = await setDoc(doc(firestoreDB, "users", user.uid, "restaurants", restaurantAdditonal.place_id), {
             name: restaurant,
             address: restaurantAdditonal.address ? restaurantAdditonal.address : null,
-            url: restaurantAdditonal.url ? restaurantAdditonal.url : null,
+            googleUrl: restaurantAdditonal.url ? restaurantAdditonal.url : null,
             coordinate: {
               latitude: restaurantAdditonal.lat ? restaurantAdditonal.lat : null,
               longitude: restaurantAdditonal.lng ? restaurantAdditonal.lng : null,
             },
-            priceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
-            website: restaurantAdditonal.website ? restaurantAdditonal.website : null,
-            rating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
+            googlePriceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
+            googleWebsite: restaurantAdditonal.website ? restaurantAdditonal.website : null,
+            googleRating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
             updatedDate: new Date(),
           }, { merge: true });
           console.log("Restaurant Added");

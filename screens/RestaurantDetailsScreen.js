@@ -36,7 +36,7 @@ const RestaurantDetailsScreen = ({ route }) => {
     
 
     const handleTagPress = (tag) => {
-      navigation.navigate("Dishes", {tag: [tag]})
+      navigation.navigate("Map", {tag: [tag]})
     }
 
     const handleDaysAgo = () => {
@@ -107,9 +107,9 @@ const RestaurantDetailsScreen = ({ route }) => {
                 </View>
                 
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: spacing.s, alignItems: 'center', width: '95%', alignSelf: 'center'}} >
-                      {item.url ?
+                      {item.googleUrl ?
                       <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
-                       onPress={() => { Linking.openURL(item.url);}}>
+                       onPress={() => { Linking.openURL(item.googleUrl);}}>
                       {/* onPress={() => { console.log(googlePlace);}}> */}
                         <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
                       </Pressable>
@@ -133,7 +133,6 @@ const RestaurantDetailsScreen = ({ route }) => {
                       }
                     
                 </View>
-                {/* <Text>{googlePlace.address}</Text> */}
                 {item.userRating ?
                   <View style={{backgroundColor: handleRatingColour(), borderRadius: 15, marginVertical: spacing.s}}>
                     <Rating rating={item.userRating} fontSize={sizes.h3} iconSize={30} fontColor={colors.white} showText={true} iconColor={item.userRating == 9 || item.userRating ==10 ? colors.white : colors.gold}/>
@@ -171,7 +170,7 @@ const RestaurantDetailsScreen = ({ route }) => {
                     
                     <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 15}}>
                         {item.tags && item.tags !== [] ?
-                          <Tags tags={item.tags} bColor={colors.lightOrange} fColor={colors.white} handleTagPress={handleTagPress} wrap={false}/>
+                          <Tags tags={item.tags} bColor={colors.blue} fColor={colors.white} handleTagPress={handleTagPress} wrap={false}/>
                         :
                           <View style={{alignItems: 'center', width: 120, height: 50, textAlignVertical: 'center'}}>
                             <AppButton backgroundColor={colors.gray} color={colors.white} title={'ADD TAGS'} height={100} width={120}

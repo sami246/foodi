@@ -18,12 +18,14 @@ export default function RandomPlace() {
         lat: 51.5184071,
         lng: -0.0656871,
         name: "The Urban Chocolatier Whitechapel",
-        priceLevel: 2,
-        rating: 4.3,
-        url: "https://maps.google.com/?cid=5901126532914094047",
-        website: "https://urbanchocolatier.com/",
+        googlePriceLevel: 2,
+        googleRating: 4.3,
+        googleUrl: "https://maps.google.com/?cid=5901126532914094047",
+        googleWebsite: "https://urbanchocolatier.com/",
         category: 3,
-        userRating: 4
+        userRating: 4,
+        tags: ['Dessert'],
+        links: ['https://www.instagram.com/reel/CldjP5DjITc/?igshid=YmMyMTA2M2Y=']
     }
 
     const handlePriceLevel = (level) => {
@@ -43,15 +45,15 @@ export default function RandomPlace() {
               <Text numberOfLines={1} style={styles.address}>{item.address}</Text>
             </View>
             <View style={styles.additionalBox}>
-                {item.priceLevel && 
+                {item.googlePriceLevel && 
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    {handlePriceLevel(item?.priceLevel)}
+                    {handlePriceLevel(item?.googlePriceLevel)}
                 </View>
                 }
-                {item.rating && 
+                {item.googleRating && 
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <FontAwesome5 name='star' size={13} color={colors.gold} />
-                <Text style={[styles.additionalText, {color: colors.gold}]}> {item.rating}</Text>
+                <Text style={[styles.additionalText, {color: colors.gold}]}> {item.googleRating}</Text>
                 </View>
                 }
                 

@@ -118,7 +118,7 @@ const DishDetailsScreen = ({ route }) => {
                 onPress={handleEditPress}>
                       {dish.restaurantPlaceId ?
                       <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
-                       onPress={() => { Linking.openURL(dish.url);}}>
+                       onPress={() => { Linking.openURL(dish.googleUrl);}}>
                       {/* onPress={() => { console.log(googlePlace);}}> */}
                         <MaterialCommunityIcons name='google-maps' size={30} color={colors.green}/>
                       </Pressable>

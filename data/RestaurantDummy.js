@@ -5,9 +5,9 @@ export const restaurantdummydata = [
         lng: -0.0656871,
         name: "The Urban Chocolatier Whitechapel",
         priceLevel: 2,
-        rating: 4.3,
-        url: "https://maps.google.com/?cid=5901126532914094047",
-        website: "https://urbanchocolatier.com/"
+        googleRating: 4.3,
+        googleUrl: "https://maps.google.com/?cid=5901126532914094047",
+        googleWebsite: "https://urbanchocolatier.com/"
     },
     {
         address: "Cabot Place, Canary Wharf, London E14 4QT, UK",
@@ -15,8 +15,8 @@ export const restaurantdummydata = [
         lng: -0.0201099,
         name: "Gallio",
         priceLevel: null,
-        rating: 4.5,
-        url: "https://maps.google.com/?cid=11917156359268853438",
-        website: "https://www.gallio.uk/"
+        googleRating: 4.5,
+        googleUrl: "https://maps.google.com/?cid=11917156359268853438",
+        googleWebsite: "https://www.gallio.uk/"
     }
 ]

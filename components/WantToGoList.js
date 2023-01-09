@@ -38,15 +38,15 @@ const WantToGoList = ({list}) => {
                   <Text numberOfLines={1} style={styles.address}>{item.address}</Text>
                 </View>
                 <View style={styles.additionalBox}>
-                    {item.priceLevel && 
+                    {item.googlePriceLevel && 
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      {handlePriceLevel(item?.priceLevel)}
+                      {handlePriceLevel(item?.googlePriceLevel)}
                     </View>
                     }
-                    {item.rating && 
+                    {item.googleRating && 
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <FontAwesome5 name='star' size={14} color={colors.gold} />
-                    <Text style={[styles.additionalText, {color: colors.gold}]}> {item.rating}</Text>
+                    <Text style={[styles.additionalText, {color: colors.gold}]}> {item.googleRating}</Text>
                     </View>
                     }
                     

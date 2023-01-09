@@ -42,6 +42,7 @@ import {
     const [restaurant, setRestaurant] = useState(route.params?.dish?.restaurant || null);
     const [restaurantAdditonal, setRestaurantAdditional] = useState(route.params?.dish?.restaurantAdditonal || null);
     const [rating, setRating] = useState(route.params?.dish?.rating || null);
+    const [links, setLinks] = useState(route.params?.dish?.rating || null);
     const [comment, setComment] = useState(route.params?.dish?.comment || null);
     const [imagePlaceholder, setImagePlaceholder] = useState(route.params?.dish?.imagePlaceholder || null);
     const [tags, setTags] = useState(route.params?.dish?.tags || []);
@@ -159,7 +160,7 @@ import {
               userId: user.uid,
               restaurant: restaurant,
               restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
-              url: restaurantAdditonal ? restaurantAdditonal.url : null,
+              googleUrl: restaurantAdditonal ? restaurantAdditonal.url : null,
               dishName: dishName,
               comment: comment,
               rating: rating,
@@ -176,7 +177,7 @@ import {
               userId: user.uid,
               restaurant: restaurant,
               restaurantPlaceId: restaurantAdditonal ? restaurantAdditonal.place_id : null,
-              url: restaurantAdditonal ? restaurantAdditonal.url : null,
+              googleUrl: restaurantAdditonal ? restaurantAdditonal.googleUrl : null,
               dishName: dishName,
               comment: comment,
               rating: rating,
@@ -194,14 +195,14 @@ import {
             const docRef2 = await setDoc(doc(firestoreDB, "users", user.uid, "restaurants", restaurantAdditonal.place_id), {
               name: restaurant,
               address: restaurantAdditonal.address ? restaurantAdditonal.address : null,
-              url: restaurantAdditonal.url ? restaurantAdditonal.url : null,
+              googleUrl: restaurantAdditonal.url ? restaurantAdditonal.url : null,
               coordinate: {
                 latitude: restaurantAdditonal.lat ? restaurantAdditonal.lat : null,
                 longitude: restaurantAdditonal.lng ? restaurantAdditonal.lng : null,
               },
-              priceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
-              website: restaurantAdditonal.website ? restaurantAdditonal.website : null,
-              rating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
+              googlePriceLevel: restaurantAdditonal.price_level ? restaurantAdditonal.price_level : null,
+              googleWebsite: restaurantAdditonal.website ? restaurantAdditonal.website : null,
+              googleRating: restaurantAdditonal.rating ? restaurantAdditonal.rating : null,
               updatedDate: new Date(),
             }, { merge: true });
             console.log("Restaurant Added");
@@ -333,6 +334,15 @@ import {
                 onChangeText={(text) => setComment(text)}
                 multiline={true}
                 underlineColorAndroid="transparent"
+              />
+              {/* Links */}
+              {/* LONGTODO: Add possibility for multiple links */}
+              <Text style={styles.label}>Links:</Text>
+              <TextInput
+                placeholder="Add TikToks or Insta Reels to remember"
+                value={links}
+                style={[styles.input, styles.inputShadow]}
+                onChangeText={(text) => setLinks(text)}
               />
               {/* Tags */}
               <Text style={styles.label}>Tags:</Text>

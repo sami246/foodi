@@ -13,14 +13,25 @@ const CARD_WIDTH = sizes.width / 3 - (21);
 const CARD_HEIGHT = sizes.height / 5.2;
 
 const ThreeDisplay = ({item}) => {
-  const {handlePlaceholder, tagsFilter} = useContext(DataContext);
+  const {handlePlaceholder, tagsFilter, sortFilter, wouldHaveAgainFilter} = useContext(DataContext);
   const navigation = useNavigation();
+  let borderCol = colors.orange
+  if(wouldHaveAgainFilter){
+    borderCol = colors.green
+  }
+  else if(sortFilter){
+    borderCol = colors.blue
+  }
+  else if(tagsFilter){
+    borderCol = colors.gold
+  }
+
   if(item.id){
 
 
   return (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Dish Details', {dish: item})}}>
-        <View style={[styles.card, shadow.light, {borderColor: tagsFilter ? colors.gold : colors.orange}]} >
+        <View style={[styles.card, shadow.light, {borderColor: borderCol}]} >
             <View style={styles.imageBox}>
             <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder(item.imagePlaceholder)} />
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, left: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
@@ -43,7 +54,7 @@ const ThreeDisplay = ({item}) => {
   );  }
   else if(item.ad){
     return(
-      <View style={[styles.cardContainer, styles.card, {width: sizes.width - (35), height: 110, alignContent: 'flex-start', alignItems: 'center', alignSelf: 'stretch',}]}>
+      <View style={[styles.cardContainer, styles.card, {width: sizes.width - (35), height: 110, alignContent: 'flex-start', alignItems: 'center', alignSelf: 'stretch', borderColor: borderCol}]}>
         <AppBannerAd height={105} width={sizes.width - (30)}/>
       </View>
     )

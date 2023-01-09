@@ -12,12 +12,22 @@ const CARD_WIDTH = sizes.width / 2 - (32);
 const CARD_HEIGHT = sizes.height / 4 + 16;
 
 const TwoDisplay = ({item}) => {
-  const {handlePlaceholder, tagsFilter} = useContext(DataContext);
+  const {handlePlaceholder, tagsFilter, sortFilter, wouldHaveAgainFilter} = useContext(DataContext);
   const navigation = useNavigation();
+  let borderCol = colors.orange
+  if(wouldHaveAgainFilter){
+    borderCol = colors.green
+  }
+  else if(sortFilter){
+    borderCol = colors.blue
+  }
+  else if(tagsFilter){
+    borderCol = colors.gold
+  }
   if(item.id){
   return (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Dish Details', {dish: item})}}>
-        <View style={[styles.card, shadow.light, {borderColor: tagsFilter ? colors.gold : colors.orange}]} >
+        <View style={[styles.card, shadow.light, {borderColor: borderCol}]} >
             <View style={styles.imageBox}>
             <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder(item.imagePlaceholder)} />
                 <View style={{borderRadius: 8 ,position: 'absolute', bottom: 2, left: 5, backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 3}}>
@@ -40,7 +50,7 @@ const TwoDisplay = ({item}) => {
   )}
   else{
     return(
-      <View style={[styles.cardContainer,styles.card, {overflow: 'hidden', alignItems: 'center'}]}>
+      <View style={[styles.cardContainer,styles.card, {overflow: 'hidden', alignItems: 'center', borderColor: borderCol}]}>
         <AppBannerAd height={CARD_HEIGHT} width={CARD_WIDTH}/>
       </View>
     )

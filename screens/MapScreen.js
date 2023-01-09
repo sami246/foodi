@@ -287,7 +287,7 @@ const _scrollView = useRef(null);
               />
               <View style={styles.textContent}>
                   <Text numberOfLines={1} style={styles.cardtitle}>{marker.name}</Text>
-                  <Rating rating={marker.rating * 2} showText={true} fontColor={colors.gold} iconColor={colors.gold}/>
+                  <Rating rating={marker.googleRating * 2} showText={true} fontColor={colors.gold} iconColor={colors.gold}/>
                   <View style={styles.button}>
                       <TouchableOpacity onPress={() => {}} style={[styles.signIn, {borderColor: '#FF6247', borderWidth: 1}]}>
                         <Text style={[styles.textSign, {color: '#FF6347'}]}>ORDER NOW </Text>

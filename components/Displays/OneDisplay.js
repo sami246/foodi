@@ -18,17 +18,27 @@ const IMAGE_HEIGHT = 160;
 
 const OneDisplay = ({item, setFilterTags, filterTags}) => {
 
-  const {handlePlaceholder, tagsFilter, sortFilter} = useContext(DataContext);
+  const {handlePlaceholder, tagsFilter, sortFilter, wouldHaveAgainFilter} = useContext(DataContext);
   
   const handleTagPress = (tag) => {
       setFilterTags([tag])
   }
   
   const navigation = useNavigation();
+  let borderCol = colors.orange
+  if(wouldHaveAgainFilter){
+    borderCol = colors.green
+  }
+  else if(sortFilter){
+    borderCol = colors.blue
+  }
+  else if(tagsFilter){
+    borderCol = colors.gold
+  }
   if(item.id){
   return (
     <TouchableOpacity style={styles.cardContainer} key={item.id} onPress={() => {navigation.navigate('Dish Details', {dish: item})}}>
-    <View style={[styles.card, shadow.light, {borderColor: tagsFilter ? colors.gold : colors.orange}]} >
+    <View style={[styles.card, shadow.light, {borderColor: borderCol}]} >
       <View style={styles.imageBox}>
         <Image style={styles.image} source={item.image ? {uri: item.image} : handlePlaceholder(item.imagePlaceholder)} />
       </View>
@@ -84,7 +94,7 @@ const OneDisplay = ({item, setFilterTags, filterTags}) => {
   );}
   else{
     return(
-      <View style={[styles.cardContainer, styles.card]}>
+      <View style={[styles.cardContainer, styles.card, {borderColor: borderCol}]}>
         <AppBannerAd height={150} width={CARD_WIDTH}/>
       </View>
     )
