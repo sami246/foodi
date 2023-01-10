@@ -376,7 +376,7 @@ const AddDishScreen = ({ navigation, route }) => {
               style={[
                 styles.input,
                 styles.inputShadow,
-                { textAlignVertical: "top", height: spacing.xl * 3, color: comment === null ? colors.lightGray : colors.gray },
+                { textAlignVertical: "top", height: spacing.xl * 3, color: comment === null || comment == '' ? colors.lightGray : colors.primary },
               ]}
               onChangeText={(text) => setComment(text)}
               multiline={true}
@@ -391,7 +391,7 @@ const AddDishScreen = ({ navigation, route }) => {
               }}
             >
             <View style={{flex:1}}>
-               <Text style={styles.label}>Date:</Text>
+               <Text style={styles.label}>Date Eaten:</Text>
             </View>
             <View style={{flex:1}}>
                <Text style={styles.label}>Price:</Text>

@@ -20,14 +20,15 @@ export default function RandomPlace() {
           longitude: -0.0656871,
         },
         name: "The Urban Chocolatier Whitechapel",
+        comment: 'asvfasdbvloadbloabdlbvalbadval;dbal;djcvl;adj;bv jad;bna;sdfjv;ajd;ajdv;ljadf;va;dlmkv;adlvm;asdbm;adnb;knadv;mad;lkmc;adlv;s;ladjvm;ljasd;vlsdknbllsdknksf;kvnad;xlvmad;lsv;ald;k',
         googlePriceLevel: 2,
         googleRating: 4.3,
-        googleUrl: "https://maps.google.com/?cid=5901126532914094047",
+        // googleUrl: "https://maps.google.com/?cid=5901126532914094047",
         googleWebsite: "https://urbanchocolatier.com/",
         category: 3,
         userRating: 9,
         tags: ['Dessert'],
-        links: ['https://www.instagram.com/reel/CldjP5DjITc/?igshid=YmMyMTA2M2Y='],
+        links: ['sav ', 'https://www.instagram.com/reel/CldjP5DjITc/?igshid=YmMyMTA2M2Y=', 'https://www.tiktok.com/@thesamiianime/video/7119908494085590277?is_from_webapp=1&sender_device=pc&web_id=7184866083232646662'],
         updatedTime: null,
         wouldHaveAgain: false
     }

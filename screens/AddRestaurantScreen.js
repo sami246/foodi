@@ -255,7 +255,7 @@ import {
          setRestaurantAdditional = {setRestaurantAdditional}
          />}
         <ScrollView showsVerticalScrollIndicator={false}>
-          <AppBannerAd height={100} width={sizes.width- 5}/>
+          <AppBannerAd height={100} width={sizes.width}/>
           <View
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
@@ -272,15 +272,6 @@ import {
                 >{restaurant ? restaurant : "Restaurant"}</Text>
                 {restaurantAdditonal && <MaterialCommunityIcons name='google-maps' size={30} color={colors.green} style={{marginLeft:5, textAlignVertical: 'center' }}/>}
               </View>
-  
-              {/* Dish Name */}
-              <Text style={styles.label}>Dish Name:</Text>
-              <TextInput
-                placeholder="Chicken Burger"
-                value={dishName}
-                style={[styles.input, styles.inputShadow]}
-                onChangeText={(text) => setDishName(text)}
-              />
               {/* Rating */}
               <Text style={styles.label}>Rating:</Text>
               <View

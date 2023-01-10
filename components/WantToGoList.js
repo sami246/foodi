@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: sizes.radius,
     borderWidth: 1.5,
-    borderColor: colors.lightGray,
-    elevation: 3,
+    borderColor: colors.green,
+    elevation: 2,
     shadowColor: '#52006A',
 
     // marginHorizontal: 7

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, Linking, Image  } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, Linking, Image, ScrollView } from 'react-native'
 import React, {useContext, useEffect, useState} from 'react'
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import Rating from '../components/Rating';
@@ -12,6 +12,8 @@ import { firestoreDB } from '../firebase';
 import { DataContext } from '../contexts/DataContext';
 import { isEmpty } from '@firebase/util';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import TopPlacesCarousel from '../components/TopPlacesCarousel'
+import { TOP_PLACES } from '../data';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,12 +23,13 @@ import MapPlaceholder from '../assets/place-holders/map-placeholder.png'
 import AppBannerAd from '../components/Ads/AppBannerAd';
 import uuid from "uuid";
 import DeleteButton from '../components/SmallComponents/DeleteButton';
+import RestaurantDishesCarousel from '../components/RestaurantDishesCarousel';
 
 
 const RestaurantDetailsScreen = ({ route }) => {
     const item = route.params.restaurant;
     const navigation = useNavigation();
-    const {fetchRestaurantData, handlePlaceholder, firebaseTimetoString} = useContext(DataContext);
+    const {fetchRestaurantData, handlePlaceholder, firebaseTimetoString, dishesDataByRecent} = useContext(DataContext);
     
     if(isEmpty(item.tags)){
       item.tags = null;
@@ -43,10 +46,19 @@ const RestaurantDetailsScreen = ({ route }) => {
       navigation.navigate("Map", {tag: [tag]})
     }
 
+    const handleLinkIcon = (link) => {
+      if(link?.toLowerCase().indexOf("instagram") > -1 || link?.toLowerCase().indexOf("insta") > -1){
+        return <MaterialCommunityIcons name='instagram' size={14} color={colors.darkGray} />
+      }
+      else{
+        return <MaterialCommunityIcons name='link' size={14} color={colors.darkGray} />
+      }
+    }
+
     const handlePriceLevel = (level) => {
       const rows = [];
       for(let index = 0; index < level; index++) {
-            rows.push(<FontAwesome5 key={uuid.v4()} style={{marginHorizontal: 1}} name='pound-sign' size={13} color={colors.green} />)  
+            rows.push(<FontAwesome5 key={uuid.v4()} style={{marginHorizontal: 1}} name='pound-sign' size={12} color={colors.green} />)  
       }
       return rows
     }
@@ -86,10 +98,8 @@ const RestaurantDetailsScreen = ({ route }) => {
   return (
 
     <SafeAreaView style={styles.container}>
-                <View style={{marginTop: -10}}>
-                <AppBannerAd height={100} width={sizes.width}/>
-                </View>
-                
+              <AppBannerAd height={100} width={sizes.width}/>
+              <View style={styles.contentContainer}>
               <View style={styles.detailsBox}>
                 <View style={styles.titleBox}>
                     <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={0.7} onPress={() => {Alert.alert("Restaurant Name", item.name)}}>{item.name}</Text>
@@ -97,99 +107,116 @@ const RestaurantDetailsScreen = ({ route }) => {
                         <FontAwesome5 name='edit' size={25} color='black' />
                     </TouchableOpacity>
                 </View>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 5}}>
+                    <View style={{alignSelf: 'center'}}>
+                    {item.googleUrl ?
+                      <Pressable style={styles.iconBox}
+                       onPress={() => { Linking.openURL(item.googleUrl);}}>
+
+                        <MaterialCommunityIcons name='google-maps' size={25} color={colors.green}/>
+                      </Pressable>
+                      :
+                      <Pressable style={[styles.iconBox, {color: colors.gray, borderColor: colors.gray}]} onPress={() => {Alert.alert("📍", "If you want to get the information of the restaraunt consider editing the restaurant to be taken from the google search")}}>
+                        <MaterialCommunityIcons name='map-marker' size={25} color={item.restaurant ? colors.primary : colors.gray} />
+                      </Pressable>
+                      }
+                    </View>
                   {item.userRating ?
-                    <View style={{backgroundColor: handleRatingColour(), borderRadius: 10, marginVertical: spacing.s, width: '86%'}}>
-                      <Rating rating={item.userRating} fontSize={sizes.h3} iconSize={30} fontColor={colors.white} showText={true} iconColor={item.userRating == 9 || item.userRating ==10 ? colors.white : colors.gold}/>
+                    <View style={{backgroundColor: handleRatingColour(), borderRadius: 15, marginVertical: spacing.s, width: '75%'}}>
+                      <Rating rating={item.userRating} fontSize={sizes.h3} iconSize={28} fontColor={colors.white} showText={true} iconColor={item.userRating == 9 || item.userRating ==10 ? colors.white : colors.gold}/>
                     </View>
                     : 
-                    <View style={{backgroundColor: colors.lightGray, borderRadius: 10, flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.s, paddingVertical: spacing.xs, alignItems: 'center'}}>
+                    <View style={{backgroundColor: colors.lightGray, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.s, paddingVertical: spacing.xs, alignItems: 'center', width: '75%'}}>
                       <TouchableOpacity onPress={() => handleEditPress()}>
                         <FontAwesome name='star-o' size={25} color={colors.gray} />
                       </TouchableOpacity>
-                      <TouchableOpacity style={{backgroundColor: colors.lightGray, padding: 5, borderRadius: 5}} onPress={() => handleEditPress()}>
+                      <TouchableOpacity style={{backgroundColor: colors.lightGray, padding: 5, borderRadius: 15}} onPress={() => handleEditPress()}>
                         <Text style={{fontSize: sizes.h3, fontWeight: '500'}} >Add Your Own Rating</Text>
                       </TouchableOpacity>
                     </View>
                   }
                     <View style={{alignSelf: 'center'}}>
                         {item.wouldHaveAgain ?
-                          <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 15, borderColor: colors.green, height: 42}} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
-                            <MaterialCommunityIcons name='repeat' size={30} color={colors.green} />
+                          <Pressable style={[styles.iconBox, {paddingTop: 3}]} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
+                            <MaterialCommunityIcons name='repeat' size={27} color={colors.green} />
                           </Pressable>
                           :
-                          <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 15, borderColor: colors.gray, height: 42}} onPress={() => {Alert.alert("Nope! ","You wouldn't have this again")}}>
-                            <MaterialCommunityIcons name='repeat' size={30} color={colors.gray} />
+                          <Pressable style={[styles.iconBox, {color: colors.gray, borderColor: colors.gray, paddingTop: 3}]} onPress={() => {Alert.alert("Nope! ","You wouldn't have this again")}}>
+                            <MaterialCommunityIcons name='repeat' size={27} color={colors.gray} />
                           </Pressable>
                         }
                     </View>
                 </View>
-                
-                {/* <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: spacing.s, alignItems: 'center', width: '95%', alignSelf: 'center'}} >
-                      {item.googleUrl ?
-                      <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green}}
-                       onPress={() => { Linking.openURL(item.googleUrl);}}>
-
-                        <MaterialCommunityIcons name='google-maps' size={25} color={colors.green}/>
-                      </Pressable>
-                      :
-                      <Pressable onPress={() => {Alert.alert("📍", "If you want to get the information of the restaraunt consider editing the restaurant to be taken from the google search")}}>
-                        <MaterialCommunityIcons name='map-marker' size={25} color={item.restaurant ? colors.primary : colors.gray} />
-                      </Pressable>
-                      }
-                    
-                     <Text onPress={() => {Alert.alert("Address", item.address)}} numberOfLines={1}
-                      style={{fontSize: sizes.body, marginHorizontal: 15, maxWidth: '80%', alignSelf: 'center'}}>Address: {item.address}
-                     </Text> 
-                   
-                </View> */}
-                </View>
-                <View style={styles.additionalBox}>
-                    <Pressable onPress={handleEditPress}>
-                      <Text style={[styles.whiteBox, {color: item.comment ? colors.primary : colors.lightGray, maxHeight: 120, height: 80}]}>{item.comment ? item.comment : "Add a comment..."}</Text>
-                    </Pressable>                     
               </View>
+                <View style={styles.additionalBox}>
+                    {/* Comments */}
+                    <ScrollView style={[styles.whiteBox, {height: 120}]}>
+                      <Text style={{paddingBottom: 20, paddingTop: -10, color: item.comment ? colors.primary : colors.lightGray}}>{item.comment ? item.comment : "Add a comment..."}</Text>
+                    </ScrollView>     
+                    <View style={styles.linkContainer}>
+                      {/* TODO Add hold copy to clipboard */}
+                        {item.links ?
+                        
+                        item.links?.map((link, index) => (
+                          <TouchableOpacity style={[styles.whiteBox, styles.linkBox]} onPress={() => {Linking.openURL(link)}}>
+                              {handleLinkIcon(link)}
+                              <Text numberOfLines={1} style={styles.linkText}>{link}</Text>
+                          </TouchableOpacity>
+                        ))
+                        :
+                        <TouchableOpacity style={[styles.whiteBox, styles.linkBox]} onPress={handleEditPress}>
+                               <MaterialCommunityIcons name='link' size={14} color={colors.lightGray} />
+                               <Text numberOfLines={1} style={[styles.linkText, {color:colors.lightGray}]}>Add Link</Text>
+                        </TouchableOpacity>
+                        
+                        
+                      }
+                    </View>   
+
+                    {/* LONGTODO Add Potential Dishes */}
+                    {/* <RestaurantDishesCarousel list={dishesDataByRecent}/>           */}
+                </View>
               <View style={styles.googleContainer}>
                   <View style={styles.whiteBox}>
                         {item?.address && 
-                          <View style={styles.googleLine}>
+                          <TouchableOpacity style={styles.googleLine} onPress={() => {Linking.openURL(item.googleUrl)}}>
                             <Text style={styles.googleLabel}>Address:</Text>
-                            <Text style={{paddingHorizontal: 10}}>{item.address}</Text>
-                          </View>
+                            <Text style={{paddingHorizontal: 10, fontSize: 12}}>{item.address}</Text>
+                          </TouchableOpacity>
                         }
 
                         {item?.googleWebsite && 
-                          <View style={styles.googleLine}>
+                          <TouchableOpacity style={styles.googleLine} onPress={() => {Linking.openURL(item.googleWebsite)}}>
                             <Text style={styles.googleLabel}>Website:</Text>
-                            <Text style={{paddingHorizontal: 10}}>{item.googleWebsite}</Text>
-                          </View>
+                            <Text style={{paddingHorizontal: 10, fontSize: 12}}>{item.googleWebsite}</Text>
+                          </TouchableOpacity>
                         }
 
                     
                           <View style={styles.googleAdditionalBox}>
                                 {item.googlePriceLevel && 
-                                <View style={styles.googleSmallBox}>
-                                  <Text style={styles.googleLabelSmall}>Price Level:</Text>
+                                <TouchableOpacity style={styles.googleSmallBox} onPress={() => {Linking.openURL(item.googleUrl)}}>
+                                  <Text style={styles.googleLabel}>Price Level:</Text>
                                   <View style={styles.googleIconSmall}>
                                   {handlePriceLevel(item?.googlePriceLevel)}
                                   </View>
-                                </View>
+                                </TouchableOpacity>
                                 }
                                 {item.googleRating && 
-                                <View style={styles.googleSmallBox}>
-                                  <Text style={styles.googleLabelSmall}>Google Rating:</Text>
+                                <TouchableOpacity style={styles.googleSmallBox} onPress={() => {Linking.openURL(item.googleUrl)}}>
+                                  <Text style={styles.googleLabel}>Google Rating:</Text>
                                   <View style={styles.googleIconSmall}>
-                                    <FontAwesome5 name='star' size={14} color={colors.gold} />
+                                    <FontAwesome5 name='star' size={15} color={colors.gold} />
                                   </View>
-                                  <Text style={{color: colors.gold}}> {item.googleRating}</Text>
-                                 </View>
+                                  <Text style={{color: colors.gold, fontWeight: '500'}}> {item.googleRating}</Text>
+                                 </TouchableOpacity>
 
                                 }
                           </View>
 
 
                       {item.coordinate && 
-                      <View style={styles.mapBox}>
+                      <TouchableOpacity style={styles.mapBox} onPress={() => {Linking.openURL(item.googleUrl)}}>
                             {/* TODO Add Static Map */}
                             {/* <MapView
                                 provider={PROVIDER_GOOGLE}
@@ -204,13 +231,13 @@ const RestaurantDetailsScreen = ({ route }) => {
                                 showsBuildings={false}
                               >
                             </MapView> */}
-                            <Image source={MapPlaceholder} resizeMethod='resize' resizeMode='cover' style={{height: 200, width: '100%'}}/>
-                      </View>
+                            <Image source={MapPlaceholder} resizeMethod='resize' resizeMode='cover' style={{height: 160, width: '100%'}}/>
+                      </TouchableOpacity>
                       }
 
                   </View>
                 </View>
-                <View style={styles.additionalBox}>
+                <View style={[styles.additionalBox, {}]}>
                     <View style={styles.tagsBox}>
                         {item.tags && item.tags !== [] ?
                           <Tags tags={item.tags} bColor={colors.blue} fColor={colors.white} handleTagPress={handleTagPress} wrap={false}/>
@@ -224,7 +251,7 @@ const RestaurantDetailsScreen = ({ route }) => {
                           </View>
                         }
                     </View>
-                {item.category == 1 &&
+                     {item.category == 1 &&
                       <Pressable style={[styles.categoryBox,{backgroundColor: colors.green} ]} onPress={() => {}} >
                           <AntDesign name='pushpin' size={20} color={colors.white} style={{alignSelf: 'center'}}/>
                           <Text style={styles.categoryText}>Want to Go</Text>
@@ -249,14 +276,17 @@ const RestaurantDetailsScreen = ({ route }) => {
                       }
                 </View>
 
+
+
+
+              </View>
               {item.updatedTime && 
-                <Text style={{position:'relative', bottom: 2, fontSize: 9, fontWeight: '300', color: colors.darkGray, textAlign: 'center'}}>
+                <Text style={{position:'relative', bottom: 0, fontSize: 9, fontWeight: '300', color: colors.darkGray, textAlign: 'center'}}>
                   Last Updated: {firebaseTimetoString(item.updatedTime)}
                 </Text>
               }
               <BackButton iconColor={colors.darkBlue}/>
               <DeleteButton iconColor={colors.darkBlue} item={item}/>
-
     </SafeAreaView>
 
   )
@@ -267,10 +297,15 @@ export default RestaurantDetailsScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    height: sizes.height
+  },
+  contentContainer: {
+    flex: 1,
     alignItems: 'center',
-    marginBottom: 10,
-    justifyContent: 'space-around'
+    paddingHorizontal: 10,
+    width: sizes.width,
+    // justifyContent: 'space-evenly'
+    // justifyContent: 'space-around'
   },
   categoryBox: {
     backgroundColor: colors.brown,
@@ -278,7 +313,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 5
   },
   categoryText: {
     paddingLeft: 20,
@@ -312,7 +346,6 @@ const styles = StyleSheet.create({
   googleContainer: {
     paddingHorizontal: 10,
     width: sizes.width,
-    marginVertical: spacing.m
   },
   googleAdditionalBox: {
     flexDirection: 'row',
@@ -322,15 +355,11 @@ const styles = StyleSheet.create({
   googleLine:{
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingBottom: 8
+    paddingBottom: 1
   },
   googleLabel: {
-    width: 70,
-  },
-  googleLabelSmall: {
-    // fontSize: 12,
-    textAlignVertical: 'center',
-    alignSelf: 'center'
+    fontWeight: '600',
+    fontSize: 12
   },
   googleIconSmall: {
     paddingHorizontal: spacing.s,
@@ -344,31 +373,31 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 15,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignSelf: 'center'
   },
   whiteBox: {
     backgroundColor: colors.white,
     margin: 3,
+    marginVertical: 5,
     padding: 10,
     borderRadius: 10,
     elevation: 2
   },
   detailsBox : {
     paddingHorizontal: 10,
-    paddingTop: 20,
-    marginTop: 10,
+    marginTop: 5,
     width: sizes.width,
   },
   additionalBox: {
-    paddingTop: spacing.s,
     paddingHorizontal: 10,
     width: sizes.width,
   },
   tagsBox: {
     flexDirection: 'row',
-    marginVertical: spacing.xs,
     justifyContent: 'space-evenly',
-    paddingBottom: 5
+    paddingBottom: 5,
+    height: 55
   },
   rating: {
     fontSize: sizes.h3
@@ -380,5 +409,32 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     elevation: 3
+  },
+  iconBox: {
+    elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 15, borderColor: colors.green, height: 36, width: 36,
+    alignItems: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
+    textAlign: 'center',
+    textAlignVertical: 'center'
+  },
+  linkContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    height: 66,
+  },
+  linkBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '48%',
+    padding: 6,
+    marginVertical: 3
+  },
+  linkText: {
+    paddingHorizontal: 6,
+    fontSize: 11,
+    color: colors.darkGray,
+    textAlignVertical: 'center'
   },
 })

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, Linking  } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, Linking, ScrollView  } from 'react-native'
 import React, {useContext, useEffect, useState} from 'react'
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import ImagePreviewer from 'rc-image-previewer';
@@ -119,11 +119,11 @@ const DishDetailsScreen = ({ route }) => {
                      </Pressable>
                      }
                     {dish.wouldHaveAgain ?
-                          <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 15, borderColor: colors.green, height: 42}} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
+                          <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.green, height: 42}} onPress={() => {Alert.alert("Yummy!","You would have again 😋")}}>
                             <MaterialCommunityIcons name='repeat' size={30} color={colors.green} />
                           </Pressable>
                           :
-                          <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 15, borderColor: colors.gray, height: 42}} onPress={() => {Alert.alert("Nope! ","You wouldn't have this again")}}>
+                          <Pressable style={{elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 10, borderColor: colors.gray, height: 42}} onPress={() => {Alert.alert("Nope! ","You wouldn't have this again")}}>
                             <MaterialCommunityIcons name='repeat' size={30} color={colors.gray} />
                           </Pressable>
                     }
@@ -168,9 +168,12 @@ const DishDetailsScreen = ({ route }) => {
                         </Pressable>
                       }
                     </View>
-                    <Pressable onPress={handleEditPress}>
+                    {/* <Pressable onPress={handleEditPress}>
                       <Text style={[styles.comment, dish.comment ? {} : {color: colors.gray}]}>{dish.comment ? dish.comment : "Add a comment..."}</Text>
-                    </Pressable>
+                    </Pressable> */}
+                    <ScrollView style={[styles.comment]}>
+                      <Text style={{paddingBottom: 20, paddingTop: -10, color: dish.comment ? colors.primary : colors.lightGray}}>{dish.comment ? dish.comment : "Add a comment..."}</Text>
+                    </ScrollView>   
                     
                     <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 15}}>
                         {dish.tags && dish.tags !== [] ?
@@ -264,8 +267,8 @@ const styles = StyleSheet.create({
     margin: 3,
     padding: 10,
     borderRadius: 10,
-    height: 120,
-    maxHeight: 120,
+    height: 150,
+    maxHeight: 150,
     elevation: 2
   },
   smallBox: {
