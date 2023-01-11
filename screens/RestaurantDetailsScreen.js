@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert, Linking, Image, ScrollView } from 'react-native'
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState, useRef} from 'react'
 import {colors, shadow, sizes, spacing} from '../constants/theme';
 import Rating from '../components/Rating';
 import { useNavigation } from '@react-navigation/native';
@@ -24,11 +24,20 @@ import AppBannerAd from '../components/Ads/AppBannerAd';
 import uuid from "uuid";
 import DeleteButton from '../components/SmallComponents/DeleteButton';
 import RestaurantDishesCarousel from '../components/RestaurantDishesCarousel';
+import { Gooogle_API_Key } from '../config';
+import AppMapMarker from '../components/AppMapMarker';
+// var GoogleStaticMap = require('react-native-google-static-map');
 
 
 const RestaurantDetailsScreen = ({ route }) => {
     const item = route.params.restaurant;
     const navigation = useNavigation();
+    const region = {
+      latitude: item.coordinate.latitude,
+      longitude: item.coordinate.longitude,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005,
+    }
     const {fetchRestaurantData, handlePlaceholder, firebaseTimetoString, dishesDataByRecent} = useContext(DataContext);
     
     if(isEmpty(item.tags)){
@@ -54,6 +63,7 @@ const RestaurantDetailsScreen = ({ route }) => {
         return <MaterialCommunityIcons name='link' size={14} color={colors.darkGray} />
       }
     }
+    
 
     const handlePriceLevel = (level) => {
       const rows = [];
@@ -67,13 +77,25 @@ const RestaurantDetailsScreen = ({ route }) => {
       navigation.navigate('Add Restaurant', {item: item})
     }
 
-    let region = {
-      latitude: 51.537430,
-      longitude: -0.125250,
-      latitudeDelta: 0.150,
-      longitudeDelta: 0.150,
+    const handleGoogleLink = () => {
+      if(item.googleUrl){
+        console.log("Has URl")
+        Linking.openURL(item.googleUrl);
+      }
+      else{console.log("NO URL")}
     }
-    
+
+    let mapIconColor = colors.brown
+    if (item.category == 2){
+      mapIconColor = colors.darkBlue
+    }
+    else if (item.category === 1){
+      mapIconColor = colors.darkGreen
+    }
+    else if (item.category === 3){
+      mapIconColor = colors.gold
+    }
+
     const handleRatingColour = () => {
       if(item.userRating === 1 || item.userRating === 2){
         return colors.red
@@ -95,6 +117,12 @@ const RestaurantDetailsScreen = ({ route }) => {
       }
     };
 
+  const handleRecenter = () => {
+    _map.current.animateToRegion(region)
+  }
+
+  const _map = useRef(null);
+
   return (
 
     <SafeAreaView style={styles.container}>
@@ -108,10 +136,10 @@ const RestaurantDetailsScreen = ({ route }) => {
                     </TouchableOpacity>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 5}}>
-                    <View style={{alignSelf: 'center'}}>
+                    {/* <View style={{alignSelf: 'center'}}>
                     {item.googleUrl ?
                       <Pressable style={styles.iconBox}
-                       onPress={() => { Linking.openURL(item.googleUrl);}}>
+                      onPress={() => { Linking.openURL(item.googleUrl);}}>
 
                         <MaterialCommunityIcons name='google-maps' size={25} color={colors.green}/>
                       </Pressable>
@@ -120,13 +148,13 @@ const RestaurantDetailsScreen = ({ route }) => {
                         <MaterialCommunityIcons name='map-marker' size={25} color={item.restaurant ? colors.primary : colors.gray} />
                       </Pressable>
                       }
-                    </View>
+                    </View> */}
                   {item.userRating ?
-                    <View style={{backgroundColor: handleRatingColour(), borderRadius: 15, marginVertical: spacing.s, width: '75%'}}>
+                    <View style={{backgroundColor: handleRatingColour(), borderRadius: 15, marginVertical: spacing.s, width: '87%'}}>
                       <Rating rating={item.userRating} fontSize={sizes.h3} iconSize={28} fontColor={colors.white} showText={true} iconColor={item.userRating == 9 || item.userRating ==10 ? colors.white : colors.gold}/>
                     </View>
                     : 
-                    <View style={{backgroundColor: colors.lightGray, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.s, paddingVertical: spacing.xs, alignItems: 'center', width: '75%'}}>
+                    <View style={{backgroundColor: colors.lightGray, borderRadius: 15, flexDirection: 'row', justifyContent: 'space-around', marginVertical: spacing.s, paddingVertical: spacing.xs, alignItems: 'center', width: '87%'}}>
                       <TouchableOpacity onPress={() => handleEditPress()}>
                         <FontAwesome name='star-o' size={25} color={colors.gray} />
                       </TouchableOpacity>
@@ -141,7 +169,7 @@ const RestaurantDetailsScreen = ({ route }) => {
                             <MaterialCommunityIcons name='repeat' size={27} color={colors.green} />
                           </Pressable>
                           :
-                          <Pressable style={[styles.iconBox, {color: colors.gray, borderColor: colors.gray, paddingTop: 3}]} onPress={() => {Alert.alert("Nope! ","You wouldn't have this again")}}>
+                          <Pressable style={[styles.iconBox, {color: colors.gray, borderColor: colors.gray, paddingTop: 3,}]} onPress={() => {Alert.alert("Nope! ","You wouldn't have this again")}}>
                             <MaterialCommunityIcons name='repeat' size={27} color={colors.gray} />
                           </Pressable>
                         }
@@ -150,8 +178,8 @@ const RestaurantDetailsScreen = ({ route }) => {
               </View>
                 <View style={styles.additionalBox}>
                     {/* Comments */}
-                    <ScrollView style={[styles.whiteBox, {height: 120}]}>
-                      <Text style={{paddingBottom: 20, paddingTop: -10, color: item.comment ? colors.primary : colors.lightGray}}>{item.comment ? item.comment : "Add a comment..."}</Text>
+                    <ScrollView style={[styles.whiteBox, {height: 100}]}>
+                      <Text selectable={true} style={{paddingBottom: 20, paddingTop: -10, color: item.comment ? colors.primary : colors.lightGray}}>{item.comment ? item.comment : "Add a comment..."}</Text>
                     </ScrollView>     
                     <View style={styles.linkContainer}>
                       {/* TODO Add hold copy to clipboard */}
@@ -179,7 +207,7 @@ const RestaurantDetailsScreen = ({ route }) => {
               <View style={styles.googleContainer}>
                   <View style={styles.whiteBox}>
                         {item?.address && 
-                          <TouchableOpacity style={styles.googleLine} onPress={() => {Linking.openURL(item.googleUrl)}}>
+                          <TouchableOpacity style={styles.googleLine} onPress={handleGoogleLink}>
                             <Text style={styles.googleLabel}>Address:</Text>
                             <Text style={{paddingHorizontal: 10, fontSize: 12}}>{item.address}</Text>
                           </TouchableOpacity>
@@ -195,7 +223,7 @@ const RestaurantDetailsScreen = ({ route }) => {
                     
                           <View style={styles.googleAdditionalBox}>
                                 {item.googlePriceLevel && 
-                                <TouchableOpacity style={styles.googleSmallBox} onPress={() => {Linking.openURL(item.googleUrl)}}>
+                                <TouchableOpacity style={styles.googleSmallBox} onPress={handleGoogleLink}>
                                   <Text style={styles.googleLabel}>Price Level:</Text>
                                   <View style={styles.googleIconSmall}>
                                   {handlePriceLevel(item?.googlePriceLevel)}
@@ -203,7 +231,7 @@ const RestaurantDetailsScreen = ({ route }) => {
                                 </TouchableOpacity>
                                 }
                                 {item.googleRating && 
-                                <TouchableOpacity style={styles.googleSmallBox} onPress={() => {Linking.openURL(item.googleUrl)}}>
+                                <TouchableOpacity style={styles.googleSmallBox} onPress={handleGoogleLink}>
                                   <Text style={styles.googleLabel}>Google Rating:</Text>
                                   <View style={styles.googleIconSmall}>
                                     <FontAwesome5 name='star' size={15} color={colors.gold} />
@@ -215,23 +243,39 @@ const RestaurantDetailsScreen = ({ route }) => {
                           </View>
 
 
-                      {item.coordinate && 
-                      <TouchableOpacity style={styles.mapBox} onPress={() => {Linking.openURL(item.googleUrl)}}>
+                      {item.coordinate ?
+                      <View style={styles.mapBox} onPress={handleGoogleLink}>
                             {/* TODO Add Static Map */}
-                            {/* <MapView
+
+                            <MapView
                                 provider={PROVIDER_GOOGLE}
                                 style={styles.map}
-                                region={{
-                                  latitude: item.coordinate.latitude,
-                                  longitude: item.coordinate.longitude,
-                                  latitudeDelta: 0.150,
-                                  longitudeDelta: 0.150,
-                                }}
+                                ref={_map}
+                                region={region}
                                 showsPointsOfInterest={false}
                                 showsBuildings={false}
                               >
-                            </MapView> */}
-                            <Image source={MapPlaceholder} resizeMethod='resize' resizeMode='cover' style={{height: 160, width: '100%'}}/>
+                                <AppMapMarker mapIconColor={mapIconColor} item={item} onPress={() => {}} onDeselect={() => {}} />
+
+                            </MapView>
+                            <TouchableOpacity style={[styles.iconBox,
+                            {position: 'absolute' , top: 5, right: 5, height: 35, width: 35, borderColor: colors.darkGray}]}
+                            onPress={handleRecenter}
+                            >
+                                    <MaterialCommunityIcons name='image-filter-center-focus' size={23} color={colors.darkGray}/>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={[styles.iconBox,
+                            {position: 'absolute' , top: 5, left: 5, height: 35, width: 35, borderColor: colors.green}]}
+                            onPress={() => { Linking.openURL(item.googleUrl);}}>
+
+                              <MaterialCommunityIcons name='google-maps' size={25} color={colors.green}/>
+                            </TouchableOpacity>
+
+                      </View>
+                      :
+                      <TouchableOpacity style={styles.mapBox} onPress={handleEditPress}>
+                            <Text>Add Location</Text>
                       </TouchableOpacity>
                       }
 
@@ -307,6 +351,9 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-evenly'
     // justifyContent: 'space-around'
   },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
   categoryBox: {
     backgroundColor: colors.brown,
     height: 40,
@@ -359,7 +406,8 @@ const styles = StyleSheet.create({
   },
   googleLabel: {
     fontWeight: '600',
-    fontSize: 12
+    fontSize: 12,
+    alignSelf: 'center'
   },
   googleIconSmall: {
     paddingHorizontal: spacing.s,
@@ -370,11 +418,12 @@ const styles = StyleSheet.create({
   googleSmallBox: {
     backgroundColor: colors.white,
     elevation: 3,
-    paddingVertical: 5,
+    paddingVertical: 3,
     paddingHorizontal: 10,
     borderRadius: 15,
     flexDirection: 'row',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    borderWidth: 0.1,
   },
   whiteBox: {
     backgroundColor: colors.white,
@@ -382,7 +431,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     padding: 10,
     borderRadius: 10,
-    elevation: 2
+    elevation: 2,
   },
   detailsBox : {
     paddingHorizontal: 10,
@@ -397,7 +446,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     paddingBottom: 5,
-    height: 55
+    height: 55,
+    marginVertical: 5
   },
   rating: {
     fontSize: sizes.h3
@@ -408,7 +458,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
     overflow: 'hidden',
-    elevation: 3
+    elevation: 3,
+    height: 160, width: '100%'
   },
   iconBox: {
     elevation: 3, borderWidth: 1, padding: spacing.xs, backgroundColor: colors.white, borderRadius: 15, borderColor: colors.green, height: 36, width: 36,
@@ -422,6 +473,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     height: 66,
+    marginBottom: 5
   },
   linkBox: {
     flexDirection: 'row',
@@ -429,7 +481,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     width: '48%',
     padding: 6,
-    marginVertical: 3
+    marginVertical: 3,
+    borderWidth: 1,
+    borderColor: colors.blue
   },
   linkText: {
     paddingHorizontal: 6,

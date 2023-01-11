@@ -14,6 +14,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { markers, TagsData } from '../data';
 import { DataContext } from '../contexts/DataContext';
 import AddOverlayButton from '../components/SmallComponents/AddOverlayButton';
+import AppMapMarker from '../components/AppMapMarker';
 
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = sizes.width * 0.8;
@@ -169,26 +170,7 @@ const _scrollView = useRef(null);
           mapIconColor = colors.gold
         }
         return (
-          <Marker
-          key={item.id}
-          onPress={() => {onMarkerPress(item, index)}}
-          onDeselect={() => {setMarkerFocused(null)}}
-          coordinate={{
-            longitude: item.coordinate.longitude,
-            latitude: item.coordinate.latitude
-          }}
-          >
-            <View style={styles.circle}>
-              
-              <View style={[styles.core, {backgroundColor: mapIconColor}]} >
-              {item.category == 1 && <AntDesign name='pushpin' size={11} color={colors.white} style={{alignSelf: 'center'}}/>}
-              {item.category == 2 && <MaterialCommunityIcons name='check-bold' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
-              {item.category == 3 && <FontAwesome name='star' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
-              {item.category == null && <MaterialCommunityIcons name='minus-thick' size={12} color={colors.white} style={{alignSelf: 'center'}}/>}
-              </View>
-              <View style={styles.stroke} />
-            </View>
-          </Marker>
+          <AppMapMarker mapIconColor={mapIconColor} item={item} onPress={() => {onMarkerPress(item, index)}} onDeselect={() => {setMarkerFocused(null)}} />
         )    
       })}
 
@@ -385,9 +367,6 @@ const styles = StyleSheet.create({
     right: 0,
     paddingVertical: 10,
   },
-  endPadding: {
-    paddingRight: sizes.width - CARD_WIDTH,
-  },
   card: {
     // padding: 10,
     elevation: 2,
@@ -422,17 +401,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#444",
   },
-  markerWrap: {
-    alignItems: "center",
-    justifyContent: "center",
-    width:50,
-    height:50,
-  },
-  marker: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain'
-  },
   button: {
     alignItems: 'center',
     marginTop: 5
@@ -448,31 +416,5 @@ const styles = StyleSheet.create({
       fontSize: 14,
       fontWeight: 'bold'
   },
-circle: {
-  width: 22,
-  height: 22,
-  borderRadius: 50
-},
-stroke: {
-  backgroundColor: "#ffffff",
-  borderRadius: 50,
-  width: "100%",
-  height: "100%",
-  zIndex: 1
-},
-core: {
-  backgroundColor: colors.blue,
-  width: 20,
-  height: 20,
-  position: "absolute",
-  top: 1,
-  left: 1,
-  right: 1,
-  bottom: 1,
-  borderRadius: 50,
-  zIndex: 2,
-  justifyContent: 'center'
-}
-
 
 })

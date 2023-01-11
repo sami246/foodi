@@ -24,7 +24,7 @@ export const DataProvider = ({children}) => {
     const [mapFilterTags, setMapFilterTags] = useState(null);
 
     // const useDummyDishes = true
-    const useDummyDishesByRating = true
+    const useDummyDishesByRating = false
     
 
   return (

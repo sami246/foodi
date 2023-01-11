@@ -23,7 +23,7 @@ export default function RandomPlace() {
         comment: 'asvfasdbvloadbloabdlbvalbadval;dbal;djcvl;adj;bv jad;bna;sdfjv;ajd;ajdv;ljadf;va;dlmkv;adlvm;asdbm;adnb;knadv;mad;lkmc;adlv;s;ladjvm;ljasd;vlsdknbllsdknksf;kvnad;xlvmad;lsv;ald;k',
         googlePriceLevel: 2,
         googleRating: 4.3,
-        // googleUrl: "https://maps.google.com/?cid=5901126532914094047",
+        googleUrl: "https://maps.google.com/?cid=5901126532914094047",
         googleWebsite: "https://urbanchocolatier.com/",
         category: 3,
         userRating: 9,
@@ -85,9 +85,6 @@ const styles = StyleSheet.create({
         
         // marginHorizontal: 7
         
-      },
-      map: {
-        ...StyleSheet.absoluteFillObject,
       },
       titleBox: {
         alignItems: 'flex-start',

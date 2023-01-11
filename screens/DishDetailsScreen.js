@@ -172,7 +172,7 @@ const DishDetailsScreen = ({ route }) => {
                       <Text style={[styles.comment, dish.comment ? {} : {color: colors.gray}]}>{dish.comment ? dish.comment : "Add a comment..."}</Text>
                     </Pressable> */}
                     <ScrollView style={[styles.comment]}>
-                      <Text style={{paddingBottom: 20, paddingTop: -10, color: dish.comment ? colors.primary : colors.lightGray}}>{dish.comment ? dish.comment : "Add a comment..."}</Text>
+                      <Text selectable={true} style={{paddingBottom: 20, paddingTop: -10, color: dish.comment ? colors.primary : colors.lightGray}}>{dish.comment ? dish.comment : "Add a comment..."}</Text>
                     </ScrollView>   
                     
                     <View style={{flexDirection: 'row', marginVertical: spacing.s, justifyContent: 'space-evenly', paddingBottom: 15}}>

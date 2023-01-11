@@ -54,7 +54,7 @@ const ThreeDisplay = ({item}) => {
   );  }
   else if(item.ad){
     return(
-      <View style={[styles.cardContainer, styles.card, {width: sizes.width - (35), height: 110, alignContent: 'flex-start', alignItems: 'center', alignSelf: 'stretch', borderColor: borderCol}]}>
+      <View style={[styles.cardContainer, styles.card, {width: sizes.width - (35), height: sizes.height / 5.2, alignContent: 'flex-start', alignItems: 'center', alignSelf: 'stretch', borderColor: borderCol}]}>
         <AppBannerAd height={105} width={sizes.width - (30)}/>
       </View>
     )
